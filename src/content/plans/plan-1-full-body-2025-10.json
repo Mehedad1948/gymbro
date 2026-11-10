@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "id": "plan-1-full-body-2025-10",
+  "name": "Plan 1 · Full-body intro (coach)",
+  "nameFa": "پلن ۱ · شروع ۱۶ مهر ۱۴۰۴",
+  "meta": {
+    "author": "Sajjad Ferdowsi",
+    "source": "coach",
+    "createdAt": "2025-10-08",
+    "startDate": "2025-10-08",
+    "durationWeeks": 6,
+    "daysPerWeek": 3,
+    "split": "Full body ×3",
+    "goal": "Return to training, learn machines, build base.",
+    "provenance": "docs/plans/پلن ۱ شروع ۱۶ مهر .pdf + اصلاحی .pdf",
+    "tags": ["history", "coach"]
+  },
+  "guidelines": [
+    "General warm-up: 5 min treadmill or elliptical + specific warm-up.",
+    "Choose loads so you approach failure at the listed reps (RIR 0–3).",
+    "No long cardio and no long static stretching before lifting.",
+    "Full range of motion and correct technique unless a technique is specified.",
+    "Even with 4–5 sessions/week a desk job counts as sedentary: take NEAT seriously."
+  ],
+  "weeklyTemplate": ["day-1", "rest", "day-2", "rest", "day-3", "rest", "rest"],
+  "sessions": [
+    {
+      "id": "corrective",
+      "name": "Corrective routine",
+      "nameFa": "حرکات اصلاحی",
+      "kind": "corrective",
+      "blocks": [
+        {
+          "type": "circuit",
+          "rounds": 3,
+          "exercises": [
+            { "key": "pelvic-tilt", "name": "Pelvic tilts", "exerciseId": "3147", "sets": 3, "reps": 20, "progression": { "type": "none" } },
+            { "key": "band-bridge", "name": "Glute bridge with band", "nameFa": "پل باسن با کش", "exerciseId": "3013", "sets": 3, "reps": 12, "progression": { "type": "none" } },
+            { "key": "cat-cow", "name": "Cat–cow + thoracic extension", "nameFa": "گربه گاو + کشش ستون فقرات سینه‌ای", "sets": 3, "reps": 12, "progression": { "type": "none" } },
+            { "key": "wall-angels", "name": "Wall angels", "sets": 3, "reps": 10, "progression": { "type": "none" } },
+            { "key": "hip-flexor", "name": "Standing hip flexor stretch (isometric)", "exerciseId": "1564", "sets": 3, "seconds": 15, "perSide": true, "progression": { "type": "none" } },
+            { "key": "wall-sit", "name": "Wall sit, plate under heels (isometric)", "sets": 3, "seconds": 20, "progression": { "type": "none" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "day-1",
+      "name": "Session 1",
+      "nameFa": "جلسه ۱",
+      "blocks": [
+        { "exercises": [{ "key": "hack-squat", "name": "Hack squat", "nameFa": "هک اسکوات ریلی", "exerciseId": "0743", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "leg-extension", "name": "Leg extension", "nameFa": "جلو ران ماشین", "exerciseId": "0585", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "lat-pulldown", "name": "Lat pulldown", "nameFa": "لت سیمکش از جلو", "exerciseId": "2330", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "machine-curl", "name": "Machine biceps curl", "nameFa": "جلو بازو دستگاه", "exerciseId": "1616", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "bench-press", "name": "Barbell bench press", "nameFa": "پرس سینه هالتر", "exerciseId": "0025", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "machine-dip", "name": "Machine triceps dip", "nameFa": "پشت بازو دیپ دستگاه", "exerciseId": "0591", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "treadmill", "name": "Treadmill", "nameFa": "تردمیل", "exerciseId": "3666", "sets": 1, "seconds": 1200, "progression": { "type": "none" } }] }
+      ]
+    },
+    {
+      "id": "day-2",
+      "name": "Session 2",
+      "nameFa": "جلسه ۲",
+      "blocks": [
+        { "exercises": [{ "key": "leg-press", "name": "Leg press", "nameFa": "پرس پا مکانیکی", "exerciseId": "0739", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "leg-curl", "name": "Leg curl machine", "nameFa": "پشت ران ماشین", "exerciseId": "0586", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "db-lateral-raise", "name": "Dumbbell lateral raise", "nameFa": "نشر جانب دمبل", "exerciseId": "0334", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "reverse-fly", "name": "Machine reverse fly", "nameFa": "فلای بک ماشین", "exerciseId": "0602", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "db-shrug", "name": "Standing dumbbell shrug", "nameFa": "شراگ دمبل ایستاده", "exerciseId": "0406", "sets": 3, "reps": 12, "restSec": 60 }] },
+        {
+          "type": "superset",
+          "rounds": 3,
+          "restSec": 60,
+          "exercises": [
+            { "key": "wrist-curl", "name": "Wrist curl", "nameFa": "ساعد زیر", "exerciseId": "0126", "sets": 3, "reps": 15 },
+            { "key": "reverse-wrist-curl", "name": "Reverse wrist curl", "nameFa": "ساعد رو", "exerciseId": "0082", "sets": 3, "reps": 15 }
+          ]
+        },
+        { "exercises": [{ "key": "treadmill", "name": "Treadmill", "nameFa": "تردمیل", "exerciseId": "3666", "sets": 1, "seconds": 1200, "progression": { "type": "none" } }] }
+      ]
+    },
+    {
+      "id": "day-3",
+      "name": "Session 3",
+      "nameFa": "جلسه ۳",
+      "blocks": [
+        { "exercises": [{ "key": "hip-thrust-machine", "name": "Hip thrust machine", "nameFa": "هیپ تراست دستگاه", "exerciseId": "2286", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "hip-abduction", "name": "Seated hip abduction", "nameFa": "خارج ران ماشین", "exerciseId": "0597", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "seated-row", "name": "Cable seated row", "nameFa": "زیر بغل قایقی", "exerciseId": "0861", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "reverse-curl", "name": "Barbell reverse curl", "nameFa": "جلو بازو هالتر مچ عکس", "exerciseId": "0080", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "db-fly", "name": "Dumbbell fly", "nameFa": "فلای سینه دمبل", "exerciseId": "0308", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "pushdown", "name": "Cable pushdown", "nameFa": "پشت بازو سیمکش", "exerciseId": "0201", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "treadmill", "name": "Treadmill", "nameFa": "تردمیل", "exerciseId": "3666", "sets": 1, "seconds": 1200, "progression": { "type": "none" } }] }
+      ]
+    },
+    {
+      "id": "core-menu",
+      "name": "Core menu · pick 1–2 per session",
+      "nameFa": "حرکات تقویت core پیشنهادی",
+      "kind": "menu",
+      "notes": ["3–4 sets close to failure, 1 min rest, rotate across the block."],
+      "blocks": [
+        {
+          "exercises": [
+            { "key": "machine-crunch", "name": "Machine crunch", "nameFa": "کرانچ شکم با دستگاه", "exerciseId": "0212", "sets": 3, "reps": 15 },
+            { "key": "woodchop", "name": "Dumbbell wood chop", "nameFa": "وود چاپر دمبل", "sets": 3, "reps": 12, "perSide": true },
+            { "key": "decline-crunch", "name": "Decline bench crunch", "nameFa": "کرانچ نیمکت شیب‌دار", "exerciseId": "0277", "sets": 3, "reps": 15 },
+            { "key": "cable-crunch", "name": "Cable kneeling rope crunch", "nameFa": "کرانچ سیمکش روی زانو با طناب", "exerciseId": "0175", "sets": 3, "reps": 15 },
+            { "key": "reverse-crunch", "name": "Reverse crunch with pelvic curl", "nameFa": "کرانچ معکوس با چرخش لگن", "exerciseId": "0242", "sets": 3, "reps": 15 },
+            { "key": "suitcase-carry", "name": "Suitcase carry", "nameFa": "حمل چمدان", "exerciseId": "2133", "sets": 3, "seconds": 40 },
+            { "key": "bosu-climber", "name": "Cross-body mountain climber (bosu)", "nameFa": "کوه‌پیمایی کراس بادی بوسوبال", "exerciseId": "2466", "sets": 3, "seconds": 30 },
+            { "key": "bird-dog", "name": "Bird dog", "nameFa": "سگ پرنده", "sets": 3, "reps": 10, "perSide": true },
+            { "key": "bridge-march", "name": "Glute bridge march", "nameFa": "پل باسن حرکتی", "exerciseId": "3561", "sets": 3, "reps": 10, "perSide": true },
+            { "key": "superman-swim", "name": "Swimmer superman", "nameFa": "فیله شناگری", "sets": 3, "reps": 15 }
+          ]
+        }
+      ]
+    }
+  ]
+}

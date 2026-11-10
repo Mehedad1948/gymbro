@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* Design tokens. Dark by default: gyms are bright, phones are dimmed. */
+:root {
+  --background: #0b0f14;
+  --foreground: #e8edf2;
+  --muted: #8b97a5;
+  --surface: #121821;
+  --surface-2: #1a2230;
+  --surface-3: #232d3d;
+  --border: #243040;
+  --accent: #b6f04c;
+  --accent-foreground: #0b0f14;
+  --warn: #f5b942;
+  --danger: #ff6b6b;
+}
+
+:root[data-theme="light"] {
+  --background: #f6f7f9;
+  --foreground: #10161d;
+  --muted: #5b6673;
+  --surface: #ffffff;
+  --surface-2: #eef1f5;
+  --surface-3: #e2e7ee;
+  --border: #d8dee6;
+  --accent: #4f8f00;
+  --accent-foreground: #ffffff;
+  --warn: #b57a00;
+  --danger: #d93025;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --spacing-13: 3.25rem;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+}
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overscroll-behavior-y: none;
+}
+
+/* Numeric inputs: remove spinners, keep them thumb-friendly */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+[dir="rtl"] .fa {
+  font-family: system-ui, "Vazirmatn", sans-serif;
+}

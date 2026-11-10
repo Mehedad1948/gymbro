@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "id": "plan-3-four-day-split-2026-01",
+  "name": "Plan 3 · 4-day body-part split (coach)",
+  "nameFa": "پلن ۳ · شروع ۱۷ دی ۱۴۰۴",
+  "meta": {
+    "author": "Sajjad Ferdowsi",
+    "source": "coach",
+    "createdAt": "2026-01-07",
+    "startDate": "2026-01-07",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "split": "Chest+triceps / Back+biceps / Shoulders+traps / Legs",
+    "provenance": "docs/plans/پلن ۳ شروع ۱۷ دی .pdf + اصلاحی پلن ۳.pdf",
+    "tags": ["history", "coach"]
+  },
+  "guidelines": [
+    "General warm-up: 5 min treadmill or elliptical + specific warm-up.",
+    "Choose loads so you approach failure at the listed reps (RIR 0–3).",
+    "No long cardio or long static stretching before lifting; full ROM and correct technique.",
+    "Take NEAT seriously."
+  ],
+  "weeklyTemplate": ["chest-tri", "back-bi", "rest", "shoulders-traps", "legs", "rest", "rest"],
+  "sessions": [
+    {
+      "id": "corrective",
+      "name": "Corrective routine v3",
+      "nameFa": "حرکات اصلاحی ۳",
+      "kind": "corrective",
+      "blocks": [
+        {
+          "type": "circuit",
+          "rounds": 3,
+          "exercises": [
+            { "key": "dead-bug-ppt", "name": "Dead bug with posterior pelvic tilt", "exerciseId": "0276", "sets": 3, "reps": 20, "progression": { "type": "none" } },
+            { "key": "sl-bridge-hold", "name": "Single-leg glute bridge hold", "exerciseId": "3645", "sets": 3, "seconds": 30, "perSide": true, "progression": { "type": "none" } },
+            { "key": "quadruped-rotation", "name": "Quadruped thoracic rotation", "sets": 3, "reps": 12, "perSide": true, "progression": { "type": "none" } },
+            { "key": "wall-slide-liftoff", "name": "Wall slide + lift off", "sets": 3, "reps": 12, "progression": { "type": "none" } },
+            { "key": "rfe-split-iso", "name": "Rear-foot-elevated split squat isometric (heel elevated)", "exerciseId": "0410", "sets": 3, "seconds": 30, "perSide": true, "progression": { "type": "none" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chest-tri",
+      "name": "Session 1 · Chest, triceps",
+      "nameFa": "جلسه ۱",
+      "blocks": [
+        { "exercises": [{ "key": "bench-press", "name": "Barbell bench press", "nameFa": "پرس سینه هالتر", "exerciseId": "0025", "sets": 4, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "incline-db-fly", "name": "Incline dumbbell fly", "nameFa": "قفسه بالاسینه دمبل", "exerciseId": "0319", "sets": 3, "reps": 10, "restSec": 120 }] },
+        { "exercises": [{ "key": "cable-chest-press", "name": "Cable chest press", "nameFa": "پرس سینه سیمکش", "exerciseId": "2144", "sets": 3, "reps": 14, "restSec": 60 }] },
+        { "exercises": [{ "key": "skull-crusher", "name": "Lying barbell triceps extension", "nameFa": "پشت بازو هالتر خوابیده", "exerciseId": "0061", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "cross-body-ext", "name": "Cross-body rope triceps extension", "nameFa": "پشت بازو کراس بادی ساید اکستنشن با طناب", "exerciseId": "1723", "sets": 3, "reps": 12, "perSide": true, "restSec": 60 }] },
+        { "exercises": [{ "key": "treadmill", "name": "Treadmill", "nameFa": "تردمیل", "exerciseId": "3666", "sets": 1, "seconds": 1200, "progression": { "type": "none" } }] }
+      ]
+    },
+    {
+      "id": "back-bi",
+      "name": "Session 2 · Back, biceps",
+      "nameFa": "جلسه ۲",
+      "blocks": [
+        { "exercises": [{ "key": "alt-lat-pulldown", "name": "Alternating lat pulldown", "nameFa": "لت سیمکش تناوبی", "exerciseId": "0818", "sets": 3, "reps": 15, "restSec": 60 }] },
+        { "exercises": [{ "key": "assisted-pullup", "name": "Assisted wide pull-up", "nameFa": "بارفیکس کمکی دست باز", "exerciseId": "0017", "sets": 4, "reps": 8, "restSec": 60 }] },
+        { "exercises": [{ "key": "high-row", "name": "Lever high row (H machine)", "nameFa": "اچ دستگاه", "exerciseId": "0581", "sets": 3, "reps": 15, "restSec": 60 }] },
+        { "exercises": [{ "key": "wide-seated-row", "name": "Wide-grip seated row", "nameFa": "زیر بغل قایقی دست باز", "exerciseId": "0861", "sets": 3, "reps": 15, "restSec": 60 }] },
+        { "exercises": [{ "key": "cable-curl-d", "name": "Cable curl with D handles", "nameFa": "جلو بازو سیمکش جفت با دستگیره D", "exerciseId": "0190", "sets": 3, "reps": 15, "restSec": 60 }] },
+        { "exercises": [{ "key": "seated-hammer-curl", "name": "Seated dumbbell hammer curl", "nameFa": "جلو بازو دمبل چکشی نشسته", "exerciseId": "1648", "sets": 3, "reps": 15, "restSec": 60 }] },
+        { "exercises": [{ "key": "bike", "name": "Stationary bike", "nameFa": "دوچرخه", "exerciseId": "2138", "sets": 1, "seconds": 1200, "progression": { "type": "none" } }] }
+      ]
+    },
+    {
+      "id": "shoulders-traps",
+      "name": "Session 3 · Shoulders, traps",
+      "nameFa": "جلسه ۳",
+      "blocks": [
+        { "exercises": [{ "key": "y-raise", "name": "Standing Y raise", "nameFa": "نشر Y ایستاده", "exerciseId": "3541", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "lying-lateral-raise", "name": "Lying one-arm lateral raise", "nameFa": "نشر جانب تک خوابیده با دمبل", "exerciseId": "0345", "sets": 4, "reps": 10, "perSide": true, "restSec": 60 }] },
+        { "exercises": [{ "key": "arnold-press", "name": "Arnold press (supinated grip)", "nameFa": "سرشانه پرگاری گیرش سوپینیشن", "exerciseId": "2137", "sets": 3, "reps": 13, "restSec": 60 }] },
+        { "exercises": [{ "key": "barbell-shrug", "name": "Standing barbell shrug", "nameFa": "شراگ هالتر ایستاده", "exerciseId": "0095", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "overhead-shrug", "name": "Overhead barbell shrug", "nameFa": "شراگ هالتر بالای سر", "sets": 4, "reps": 10, "restSec": 30 }] },
+        { "exercises": [{ "key": "treadmill", "name": "Treadmill", "nameFa": "تردمیل", "exerciseId": "3666", "sets": 1, "seconds": 1200, "progression": { "type": "none" } }] }
+      ]
+    },
+    {
+      "id": "legs",
+      "name": "Session 4 · Legs",
+      "nameFa": "جلسه ۴",
+      "blocks": [
+        { "exercises": [{ "key": "bw-bulgarian", "name": "Bodyweight Bulgarian split squat", "nameFa": "لانج بلغاری با وزن بدن", "exerciseId": "0410", "sets": 3, "reps": 12, "perSide": true, "restSec": 60, "progression": { "type": "reps" } }] },
+        { "exercises": [{ "key": "leg-press", "name": "Leg press", "nameFa": "پرس پا مکانیکی", "exerciseId": "0739", "sets": 3, "reps": 10, "restSec": 60 }] },
+        { "exercises": [{ "key": "leg-extension", "name": "Leg extension", "nameFa": "جلو پا ماشین", "exerciseId": "0585", "sets": 3, "reps": 10, "restSec": 60 }] },
+        { "exercises": [{ "key": "swiss-ball-curl", "name": "Swiss-ball hamstring curl", "nameFa": "پشت ران با سوییس بال", "sets": 3, "reps": 16, "restSec": 60, "progression": { "type": "reps" } }] },
+        { "exercises": [{ "key": "single-leg-curl", "name": "Single-leg curl machine", "nameFa": "پشت ران دستگاه تک", "exerciseId": "0586", "sets": 3, "reps": 10, "perSide": true, "restSec": 60 }] },
+        { "exercises": [{ "key": "standing-calf", "name": "Standing calf raise machine", "nameFa": "ساق ایستاده با دستگاه", "exerciseId": "0605", "sets": 3, "reps": 12, "restSec": 60 }] },
+        { "exercises": [{ "key": "seated-calf", "name": "Seated calf raise machine", "nameFa": "ساق نشسته با دستگاه", "exerciseId": "0594", "sets": 3, "reps": 10, "restSec": 60 }] }
+      ]
+    },
+    {
+      "id": "core-menu",
+      "name": "Core menu · pick 1–2 per session",
+      "nameFa": "حرکات تقویت core پیشنهادی",
+      "kind": "menu",
+      "blocks": [
+        {
+          "exercises": [
+            { "key": "machine-crunch", "name": "Machine crunch", "exerciseId": "0212", "sets": 3, "reps": 15 },
+            { "key": "hanging-knee-raise", "name": "Hanging knee raise (dumbbell)", "exerciseId": "0011", "sets": 3, "reps": 12 },
+            { "key": "side-plank-rotation", "name": "Side plank with torso rotation", "exerciseId": "0464", "sets": 3, "reps": 10, "perSide": true },
+            { "key": "kneeling-walkout", "name": "Kneeling ab walkout", "exerciseId": "1471", "sets": 3, "reps": 8 },
+            { "key": "reverse-crunch", "name": "Reverse crunch with pelvic curl", "exerciseId": "0242", "sets": 3, "reps": 15 },
+            { "key": "suitcase-carry", "name": "Suitcase carry", "exerciseId": "2133", "sets": 3, "seconds": 40 },
+            { "key": "wheel-rollout", "name": "Kneeling ab wheel rollout", "exerciseId": "0857", "sets": 3, "reps": 10 },
+            { "key": "bird-dog", "name": "Bird dog", "sets": 3, "reps": 10, "perSide": true },
+            { "key": "bridge-march", "name": "Glute bridge march", "exerciseId": "3561", "sets": 3, "reps": 10, "perSide": true },
+            { "key": "prone-back-ext", "name": "Prone back extension", "exerciseId": "0489", "sets": 3, "reps": 15 }
+          ]
+        }
+      ]
+    }
+  ]
+}
