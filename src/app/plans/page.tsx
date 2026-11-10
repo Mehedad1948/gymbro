@@ -11,9 +11,14 @@ export default function PlansPage() {
         title="برنامه‌ها"
         subtitle="از مربی، هوش مصنوعی یا خودت. هر بار یکی فعال است."
         action={
-          <LinkButton href="/plans/import" variant="secondary" size="sm">
-            وارد کردن
-          </LinkButton>
+          <div className="flex shrink-0 gap-2">
+            <LinkButton href="/plans/guide" variant="ghost" size="sm">
+              راهنما
+            </LinkButton>
+            <LinkButton href="/plans/import" variant="secondary" size="sm">
+              وارد کردن
+            </LinkButton>
+          </div>
         }
       />
       <PlanList />

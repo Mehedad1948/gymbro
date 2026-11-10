@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { parsePlan } from "@/domain/plan";
 import { plansRepo } from "@/infra/db/plans-repo";
+import Link from "next/link";
 import { Button, Card, Textarea } from "@/shared/ui";
 
 /**
@@ -66,8 +67,11 @@ export function ImportPlan() {
         </Button>
       </Card>
       <p className="text-xs text-muted">
-        برنامه باید طبق ساختار <code>docs/plan-schema.md</code> باشد. برای ساختن برنامه با دستیار هوش مصنوعی، فایل‌های{" "}
-        <code>docs/ai/plan-generation-guide.md</code> و <code>docs/ai/athlete-context.md</code> را به آن بده.
+        برنامه باید طبق ساختار <code>docs/plan-schema.md</code> باشد. برای ساختن برنامه با هوش مصنوعی،{" "}
+        <Link href="/plans/guide" className="text-accent">
+          راهنمای ساخت برنامه
+        </Link>{" "}
+        را ببین.
       </p>
     </div>
   );

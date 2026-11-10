@@ -39,7 +39,7 @@ Source of truth: `src/domain/plan/schema.ts` (zod). Validate with `parsePlan()` 
   "cooldown": ["15 min incline walk"], "notes": ["…"]
 }
 ```
-- `corrective`: shown collapsed inside every training workout as the warm-up block.
+- `corrective`: pre-lift activation drills, shown collapsed at the bottom of every running workout (the warm-up card links to it). Held stretches go in a final `straight` block of each training session with `"note": "Corrective, after lifting"` (see `docs/ai/plan-generation-guide.md` §3.8).
 - `menu`: a pick-list (e.g. core menu); has no Start button.
 
 ### Block

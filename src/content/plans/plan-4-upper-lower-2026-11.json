@@ -1,201 +1,111 @@
 {
   "schemaVersion": 1,
   "id": "plan-4-upper-lower-2026-11",
-  "name": "Plan 4 · Upper/Lower Lean-Gain Block",
-  "nameFa": "پلن ۴ · بالاتنه/پایین‌تنه، افزایش عضله خالص",
+  "name": "Plan 4 · 3-Day Full-Body Lean-Gain Block",
+  "nameFa": "پلن ۴ · تمام‌بدن ۳ روز در هفته، افزایش عضله خالص",
   "meta": {
     "author": "Claude (AI) from docs/ai/athlete-context.md",
     "source": "ai",
     "createdAt": "2026-11-10",
     "startDate": "2026-11-14",
     "durationWeeks": 9,
-    "daysPerWeek": 4,
-    "split": "Upper A / Lower A / Upper B / Lower B",
+    "daysPerWeek": 3,
+    "split": "Full A / Full B / Full C",
     "goal": "Add lean mass (SMM 30 → 31+ kg) while holding body fat at ≤ 17 %; fix posture weak links (hip flexors, thoracic spine, upper back).",
     "rationale": [
       "Last scan (2026-08-28): 67.4 kg, 17.2 % BF, SMM 30.0 kg, visceral fat 58 cm², 'standard' body type. Fat has trended down 22.2 → 17.2 % over a year while muscle rose only +1.7 kg: time to bias toward muscle gain with real progressive overload.",
       "Previous blocks (Oct 2025 – Jan 2026) were 3×10–20 machine work with 1-min rests and no load tracking. Stimulus is now familiar; this block moves compounds to 6–10 reps, longer rests, and double progression so every session has a measurable target.",
-      "Three corrective sheets from the coach target anterior pelvic tilt, tight hip flexors and limited thoracic extension / scapular control. They become a mandatory 8-min warm-up in every session instead of a separate list that gets skipped.",
+      "Three corrective sheets from the coach target anterior pelvic tilt, tight hip flexors and limited thoracic extension / scapular control. Low-fatigue activation drills (dead bug, bridge march, thoracic rotation, wall slide) open every session because they set position for the lifts and are not skipped there; the held hip-flexor stretch closes every session, since longer static holds before heavy lifting can reduce force.",
       "Upper-back and posterior-chain volume is raised (rows ≥ presses, RDL + hip thrust) because earlier plans were quad- and press-dominant and the posture issues call for it.",
-      "4 days/week upper/lower gives each muscle 2 hits per week with 12–16 hard sets, within the recovery budget of a sedentary desk job (coach note on NEAT applies: aim for 8k+ steps on off days)."
+      "3 days/week full body hits every major muscle 2–3× per week with ~10–13 hard sets for chest, back, quads, hamstrings and glutes, and 6–8 for delts, arms and calves (plus indirect work from compounds). Each session stays ≤ 75 min with warm-up; a rest day between sessions suits a sedentary desk job (coach note on NEAT applies: aim for 8k+ steps on off days)."
     ],
-    "tags": ["hypertrophy", "upper-lower", "posture", "double-progression"],
-    "provenance": "Generated 2026-11-10 following docs/ai/plan-generation-guide.md"
+    "tags": ["hypertrophy", "full-body", "posture", "double-progression"],
+    "provenance": "Generated 2026-11-10 following docs/ai/plan-generation-guide.md; reworked to 3 days/week the same day at the athlete's request."
   },
   "guidelines": [
-    "Warm-up: 5 min incline walk, then the corrective block, then 1–2 ramp-up sets on the first compound of the day (50 % / 75 % of working load).",
+    "Warm-up: 5 min incline walk, then the 6-min corrective activation, then 1–2 ramp-up sets on the first compound of the day (50 % / 75 % of working load). Hip-flexor stretch at the end.",
     "Pick loads so the LAST rep of each set lands at the RIR shown. Log every working set (weight, reps, RIR). The app suggests the next load.",
     "Double progression: when every set of an exercise reaches the top of its rep range at the target RIR, add the increment next session (upper 2.5 kg, lower 5 kg, dumbbells next pair).",
     "Rest: 2–3 min on the first two compounds, 60–90 s on isolation. Rest is part of the prescription, do not rush it.",
     "Full range of motion, controlled 2–3 s eccentric. No static stretching or long cardio before lifting.",
-    "Conditioning: 15–20 min incline walk after Lower days or on an off day. Keep it easy (can talk).",
+    "Conditioning: 10–15 min easy incline walk after a session or 20–30 min on an off day. Keep it easy (can talk).",
     "Nutrition anchor: ~2 400 kcal (maintenance +150–250), protein 130–145 g/day (≈ 2 g/kg), 3–4 L water. Re-scan body composition at week 5 and week 9.",
     "If a station is busy, use the listed alternative, log it under the same exercise and note the swap."
   ],
-  "weeklyTemplate": ["upper-a", "lower-a", "rest", "upper-b", "lower-b", "rest", "rest"],
+  "weeklyTemplate": ["full-a", "rest", "full-b", "rest", "full-c", "rest", "rest"],
   "weeks": [
-    { "week": 1, "label": "Intro", "instruction": "Find working loads. RIR 3 on everything. No failure.", "rir": 3 },
-    { "week": 2, "label": "Accumulate", "instruction": "RIR 2. Add load where week 1 felt easy.", "rir": 2 },
-    { "week": 3, "label": "Accumulate", "instruction": "RIR 2. Chase the top of every rep range.", "rir": 2 },
-    { "week": 4, "label": "Accumulate", "instruction": "RIR 1–2. Last set of each compound may go to RIR 1.", "rir": [1, 2] },
-    { "week": 5, "label": "Deload", "instruction": "Same loads, 60 % of sets (round down), RIR 3–4. Re-scan body composition this week.", "rir": [3, 4], "setMultiplier": 0.6 },
-    { "week": 6, "label": "Intensify", "instruction": "RIR 2. Resume progression from week 4 loads.", "rir": 2 },
-    { "week": 7, "label": "Intensify", "instruction": "RIR 1–2.", "rir": [1, 2] },
-    { "week": 8, "label": "Peak", "instruction": "RIR 0–1 on the last set of isolation work, RIR 1 on compounds. Best effort week.", "rir": [0, 1] },
-    { "week": 9, "label": "Deload + re-test", "instruction": "60 % of sets at -10 % load, RIR 3–4. Re-scan, then generate the next block from this log.", "rir": [3, 4], "setMultiplier": 0.6, "loadMultiplier": 0.9 }
+    {"week": 1, "label": "Intro", "instruction": "Find working loads. RIR 3 on everything. No failure.", "rir": 3},
+    {"week": 2, "label": "Accumulate", "instruction": "RIR 2. Add load where week 1 felt easy.", "rir": 2},
+    {"week": 3, "label": "Accumulate", "instruction": "RIR 2. Chase the top of every rep range.", "rir": 2},
+    {"week": 4, "label": "Accumulate", "instruction": "RIR 1–2. Last set of each compound may go to RIR 1.", "rir": [1, 2]},
+    {"week": 5, "label": "Deload", "instruction": "Same loads, 60 % of sets (round down), RIR 3–4. Re-scan body composition this week.", "rir": [3, 4], "setMultiplier": 0.6},
+    {"week": 6, "label": "Intensify", "instruction": "RIR 2. Resume progression from week 4 loads.", "rir": 2},
+    {"week": 7, "label": "Intensify", "instruction": "RIR 1–2.", "rir": [1, 2]},
+    {"week": 8, "label": "Peak", "instruction": "RIR 0–1 on the last set of isolation work, RIR 1 on compounds. Best effort week.", "rir": [0, 1]},
+    {"week": 9, "label": "Deload + re-test", "instruction": "60 % of sets at -10 % load, RIR 3–4. Re-scan, then generate the next block from this log.", "rir": [3, 4], "setMultiplier": 0.6, "loadMultiplier": 0.9}
   ],
   "sessions": [
     {
       "id": "corrective",
-      "name": "Corrective warm-up (every session)",
-      "nameFa": "حرکات اصلاحی (شروع هر جلسه)",
+      "name": "Corrective activation (start of every session)",
+      "nameFa": "حرکات اصلاحی فعال‌سازی (شروع هر جلسه)",
       "kind": "corrective",
-      "durationMin": 8,
+      "durationMin": 6,
       "focus": ["anterior pelvic tilt", "hip flexors", "thoracic extension", "scapular control"],
-      "notes": ["Do this after 5 min of incline walking and before the first lift. Quality over speed; breathe out on every rep."],
+      "notes": [
+        "Before lifting, after 5 min of incline walking: low-fatigue drills that set pelvis, ribs and shoulder blades for the lifts. Quality over speed; breathe out on every rep.",
+        "The hip-flexor stretch moved to the end of each session (held stretches before heavy lifting can blunt strength)."
+      ],
       "blocks": [
         {
           "type": "circuit",
           "rounds": 2,
           "restSec": 0,
           "exercises": [
-            { "key": "dead-bug", "name": "Dead bug with posterior pelvic tilt", "nameFa": "دد باگ با تیلت لگن", "exerciseId": "0276", "sets": 2, "reps": 10, "perSide": true, "cue": "Flatten lower back into the floor before each leg lowers; exhale fully.", "progression": { "type": "none" } },
-            { "key": "bridge-march", "name": "Glute bridge march", "nameFa": "پل باسن حرکتی", "exerciseId": "3561", "sets": 2, "reps": 10, "perSide": true, "cue": "Hips level, ribs down; squeeze glutes, not lower back.", "progression": { "type": "none" } },
-            { "key": "cat-cow-thoracic", "name": "Cat–cow + quadruped thoracic rotation", "nameFa": "گربه گاو + چرخش سینه‌ای چهار دست و پا", "sets": 2, "reps": 8, "perSide": true, "cue": "Hand behind head, rotate elbow to ceiling, follow with the eyes.", "progression": { "type": "none" } },
-            { "key": "wall-slide", "name": "Wall slide + lift-off", "nameFa": "وال اسلاید + لیفت آف", "sets": 2, "reps": 8, "cue": "Forearms on the wall, ribs down, slide up, lift hands 2 cm off at the top for 2 s.", "progression": { "type": "none" } },
-            { "key": "hip-flexor-stretch", "name": "Half-kneeling hip flexor stretch (PNF)", "nameFa": "کشش فلکسور هیپ نیمه‌زانو", "exerciseId": "1564", "sets": 2, "seconds": 30, "perSide": true, "cue": "Tuck pelvis, squeeze rear glute 5 s, relax deeper, repeat.", "progression": { "type": "none" } }
+            {"key": "dead-bug", "name": "Dead bug with posterior pelvic tilt", "nameFa": "دد باگ با تیلت لگن", "exerciseId": "0276", "sets": 2, "reps": 10, "perSide": true, "cue": "Flatten lower back into the floor before each leg lowers; exhale fully.", "progression": {"type": "none"}},
+            {"key": "bridge-march", "name": "Glute bridge march", "nameFa": "پل باسن حرکتی", "exerciseId": "3561", "sets": 2, "reps": 10, "perSide": true, "cue": "Hips level, ribs down; squeeze glutes, not lower back.", "progression": {"type": "none"}},
+            {"key": "cat-cow-thoracic", "name": "Cat–cow + quadruped thoracic rotation", "nameFa": "گربه گاو + چرخش سینه‌ای چهار دست و پا", "sets": 2, "reps": 8, "perSide": true, "cue": "Hand behind head, rotate elbow to ceiling, follow with the eyes.", "progression": {"type": "none"}},
+            {"key": "wall-slide", "name": "Wall slide + lift-off", "nameFa": "وال اسلاید + لیفت آف", "sets": 2, "reps": 8, "cue": "Forearms on the wall, ribs down, slide up, lift hands 2 cm off at the top for 2 s.", "progression": {"type": "none"}}
           ]
         }
       ]
     },
     {
-      "id": "upper-a",
-      "name": "Upper A · Press & Row (strength bias)",
-      "nameFa": "بالاتنه A · پرس و رو",
+      "id": "full-a",
+      "name": "Full A · Squat, bench & row",
+      "nameFa": "تمام‌بدن A · اسکوات، پرس سینه و رو",
       "kind": "training",
-      "durationMin": 70,
-      "focus": ["chest", "back", "shoulders", "arms"],
-      "warmup": ["5 min incline walk", "Corrective warm-up", "Bench press ramp: 1×8 @50 %, 1×4 @75 %"],
-      "blocks": [
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "bench-press", "name": "Barbell bench press", "nameFa": "پرس سینه هالتر", "exerciseId": "0025", "alternatives": ["0757", "0576"], "equipment": "barbell", "sets": 4, "reps": [6, 8], "rir": 2, "restSec": 150, "tempo": "3-1-1", "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Shoulder blades pinned, feet driving, bar to lower chest." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "chest-supported-row", "name": "Lever high row (chest supported)", "nameFa": "اچ دستگاه / رو با تکیه سینه", "exerciseId": "0581", "alternatives": ["0606", "0327"], "equipment": "leverage machine", "sets": 4, "reps": [8, 10], "rir": 2, "restSec": 120, "progression": { "type": "double", "incrementKg": 5 }, "cue": "Pull elbows down and back, pause 1 s squeezing shoulder blades." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "db-shoulder-press", "name": "Seated dumbbell shoulder press", "nameFa": "پرس سرشانه دمبل نشسته", "exerciseId": "0405", "alternatives": ["0603"], "equipment": "dumbbell", "sets": 3, "reps": [8, 10], "rir": 2, "restSec": 120, "progression": { "type": "double", "incrementKg": 2 }, "cue": "Ribs down, do not arch; press slightly forward of the ears." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "lat-pulldown", "name": "Cable lat pulldown (full ROM)", "nameFa": "لت سیمکش از جلو", "exerciseId": "2330", "alternatives": ["0579", "0017"], "equipment": "cable", "sets": 3, "reps": [10, 12], "rir": 2, "restSec": 90, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Lean back 15°, bar to upper chest, full stretch at the top." }
-          ]
-        },
-        {
-          "type": "superset",
-          "rounds": 3,
-          "restSec": 75,
-          "note": "Alternate the two, rest after the pair.",
-          "exercises": [
-            { "key": "cable-lateral-raise", "name": "Cable lateral raise", "nameFa": "نشر جانب سیمکش", "exerciseId": "0178", "alternatives": ["0334"], "equipment": "cable", "sets": 3, "reps": [12, 15], "rir": 1, "progression": { "type": "double", "incrementKg": 1.25 }, "cue": "Lead with the elbow, stop at shoulder height." },
-            { "key": "ez-curl", "name": "EZ-bar curl", "nameFa": "جلو بازو هالتر EZ", "exerciseId": "0447", "alternatives": ["0031"], "equipment": "ez barbell", "sets": 3, "reps": [10, 12], "rir": 1, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Elbows pinned to the ribs; control the lowering." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "rope-pushdown", "name": "Cable rope pushdown", "nameFa": "پشت بازو سیمکش طناب", "exerciseId": "0200", "alternatives": ["0241"], "equipment": "cable", "sets": 3, "reps": [10, 12], "rir": 1, "restSec": 60, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Split the rope at the bottom, elbows still." }
-          ]
-        }
+      "durationMin": 72,
+      "focus": ["quads", "chest", "upper back", "hamstrings", "side delts", "triceps", "calves", "abs"],
+      "warmup": [
+        "5 min incline walk",
+        "Corrective activation (6 min)",
+        "Hack squat ramp: 1×8 light, 1×5 @75 %",
+        "Bench ramp: 1×5 @75 %"
       ],
-      "cooldown": ["Optional: 1 core-menu movement, 3 sets"]
-    },
-    {
-      "id": "lower-a",
-      "name": "Lower A · Squat pattern & hinge",
-      "nameFa": "پایین‌تنه A · اسکوات و هینج",
-      "kind": "training",
-      "durationMin": 70,
-      "focus": ["quads", "hamstrings", "glutes", "calves", "core"],
-      "warmup": ["5 min incline walk", "Corrective warm-up", "Hack squat ramp: 1×8 light, 1×5 @75 %"],
       "blocks": [
         {
           "type": "straight",
           "exercises": [
-            { "key": "hack-squat", "name": "Hack squat (sled)", "nameFa": "هک اسکوات", "exerciseId": "0743", "alternatives": ["0755", "1760"], "equipment": "sled machine", "sets": 4, "reps": [6, 8], "rir": 2, "restSec": 180, "tempo": "3-1-1", "progression": { "type": "double", "incrementKg": 5 }, "cue": "Heels down, knees track over toes, full depth without the pelvis tucking." }
+            {"key": "hack-squat", "name": "Hack squat (sled)", "nameFa": "هک اسکوات", "exerciseId": "0743", "alternatives": ["0755", "1760"], "equipment": "sled machine", "sets": 4, "reps": [6, 8], "rir": 2, "restSec": 180, "tempo": "3-1-1", "progression": {"type": "double", "incrementKg": 5}, "cue": "Heels down, knees track over toes, full depth without the pelvis tucking."}
           ]
         },
         {
           "type": "straight",
           "exercises": [
-            { "key": "rdl", "name": "Barbell Romanian deadlift", "nameFa": "ددلیفت رومانیایی هالتر", "exerciseId": "0085", "alternatives": ["1459"], "equipment": "barbell", "sets": 3, "reps": [8, 10], "rir": 2, "restSec": 150, "tempo": "3-1-1", "progression": { "type": "double", "incrementKg": 5 }, "cue": "Hips back, bar on the thighs, neutral spine; feel hamstrings, stop before the back rounds." }
+            {"key": "bench-press", "name": "Barbell bench press", "nameFa": "پرس سینه هالتر", "exerciseId": "0025", "alternatives": ["0757", "0576"], "equipment": "barbell", "sets": 4, "reps": [6, 8], "rir": 2, "restSec": 150, "tempo": "3-1-1", "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Shoulder blades pinned, feet driving, bar to lower chest."}
           ]
         },
         {
           "type": "straight",
           "exercises": [
-            { "key": "leg-press", "name": "45° leg press", "nameFa": "پرس پا", "exerciseId": "0739", "alternatives": ["0760"], "equipment": "sled machine", "sets": 3, "reps": [10, 12], "rir": 2, "restSec": 120, "progression": { "type": "double", "incrementKg": 10 }, "cue": "Feet mid-platform, lower until the hips start to lift, then stop." }
+            {"key": "chest-supported-row", "name": "Lever high row (chest supported)", "nameFa": "اچ دستگاه / رو با تکیه سینه", "exerciseId": "0581", "alternatives": ["0606", "0327"], "equipment": "leverage machine", "sets": 4, "reps": [8, 10], "rir": 2, "restSec": 120, "progression": {"type": "double", "incrementKg": 5}, "cue": "Pull elbows down and back, pause 1 s squeezing shoulder blades."}
           ]
         },
         {
           "type": "straight",
           "exercises": [
-            { "key": "seated-leg-curl", "name": "Seated leg curl", "nameFa": "پشت پا ماشین نشسته", "exerciseId": "0599", "alternatives": ["0586"], "equipment": "leverage machine", "sets": 3, "reps": [10, 12], "rir": 1, "restSec": 90, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Pad above the heels, lean slightly forward to stretch the hamstrings." }
-          ]
-        },
-        {
-          "type": "superset",
-          "rounds": 4,
-          "restSec": 60,
-          "exercises": [
-            { "key": "standing-calf", "name": "Lever standing calf raise", "nameFa": "ساق پا ایستاده دستگاه", "exerciseId": "0605", "alternatives": ["1375"], "equipment": "leverage machine", "sets": 4, "reps": [10, 12], "rir": 1, "tempo": "2-2-1", "progression": { "type": "double", "incrementKg": 5 }, "cue": "2 s pause at the bottom stretch, no bouncing." },
-            { "key": "cable-crunch", "name": "Cable kneeling crunch", "nameFa": "کرانچ سیمکش روی زانو", "exerciseId": "0175", "alternatives": ["0277"], "equipment": "cable", "sets": 4, "reps": [12, 15], "rir": 1, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Curl the spine, hips still, exhale hard at the bottom." }
-          ]
-        }
-      ],
-      "cooldown": ["15–20 min incline walk (easy)"]
-    },
-    {
-      "id": "upper-b",
-      "name": "Upper B · Incline, pull-up & rear delts",
-      "nameFa": "بالاتنه B · بالاسینه، بارفیکس و سرشانه پشتی",
-      "kind": "training",
-      "durationMin": 70,
-      "focus": ["upper chest", "lats", "rear delts", "upper back", "arms"],
-      "warmup": ["5 min incline walk", "Corrective warm-up", "Incline press ramp: 1×10 light, 1×5 @75 %"],
-      "blocks": [
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "incline-db-press", "name": "Incline dumbbell bench press", "nameFa": "پرس بالاسینه دمبل", "exerciseId": "0314", "alternatives": ["0047", "1299"], "equipment": "dumbbell", "sets": 4, "reps": [8, 10], "rir": 2, "restSec": 150, "tempo": "3-0-1", "progression": { "type": "double", "incrementKg": 2 }, "cue": "Bench at 30°, elbows 45° from the torso, deep stretch at the bottom." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "assisted-pullup", "name": "Assisted pull-up (wide)", "nameFa": "بارفیکس کمکی دست باز", "exerciseId": "0017", "alternatives": ["2330"], "equipment": "leverage machine", "sets": 3, "reps": [6, 10], "rir": 2, "restSec": 150, "progression": { "type": "reps", "incrementReps": 1 }, "cue": "Log the ASSISTANCE weight. When all sets hit 10 reps, reduce assistance by 5 kg next time. Chest to the bar, no kipping." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "seated-cable-row", "name": "Cable seated row (neutral grip)", "nameFa": "زیر بغل قایقی سیمکش", "exerciseId": "0861", "alternatives": ["0588"], "equipment": "cable", "sets": 4, "reps": [10, 12], "rir": 2, "restSec": 120, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Chest tall, elbows to the hips, 1 s squeeze, let the shoulder blades glide forward on the stretch." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "pec-deck", "name": "Lever seated fly (pec deck)", "nameFa": "فلای سینه دستگاه", "exerciseId": "0596", "alternatives": ["0188"], "equipment": "leverage machine", "sets": 3, "reps": [12, 15], "rir": 1, "restSec": 75, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Slight elbow bend, squeeze 1 s, open until a mild chest stretch." }
+            {"key": "seated-leg-curl", "name": "Seated leg curl", "nameFa": "پشت پا ماشین نشسته", "exerciseId": "0599", "alternatives": ["0586"], "equipment": "leverage machine", "sets": 3, "reps": [10, 12], "rir": 1, "restSec": 90, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Pad above the heels, lean slightly forward to stretch the hamstrings."}
           ]
         },
         {
@@ -203,56 +113,8 @@
           "rounds": 3,
           "restSec": 75,
           "exercises": [
-            { "key": "face-pull", "name": "Cable rear-delt row with rope (face pull)", "nameFa": "فیس پول با طناب", "exerciseId": "0233", "alternatives": ["0602"], "equipment": "cable", "sets": 3, "reps": [15, 20], "rir": 1, "progression": { "type": "double", "incrementKg": 1.25 }, "cue": "Pull to the nose, thumbs back, elbows high; this is for posture, keep it strict." },
-            { "key": "db-shrug", "name": "Dumbbell shrug", "nameFa": "شراگ دمبل", "exerciseId": "0406", "alternatives": ["0095"], "equipment": "dumbbell", "sets": 3, "reps": [12, 15], "rir": 1, "progression": { "type": "double", "incrementKg": 2 }, "cue": "Straight up, 1 s hold, no rolling." }
-          ]
-        },
-        {
-          "type": "superset",
-          "rounds": 3,
-          "restSec": 60,
-          "exercises": [
-            { "key": "incline-db-curl", "name": "Dumbbell incline biceps curl", "nameFa": "جلو بازو دمبل روی میز شیب‌دار", "exerciseId": "0315", "alternatives": ["0313"], "equipment": "dumbbell", "sets": 3, "reps": [10, 12], "rir": 1, "progression": { "type": "double", "incrementKg": 2 }, "cue": "Arms hang back, supinate at the top, slow lowering." },
-            { "key": "overhead-rope-ext", "name": "Cable overhead triceps extension (rope)", "nameFa": "پشت بازو سیمکش بالای سر با طناب", "exerciseId": "0194", "alternatives": ["0061"], "equipment": "cable", "sets": 3, "reps": [12, 15], "rir": 1, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Elbows by the ears, full stretch, lock out without flaring." }
-          ]
-        }
-      ],
-      "cooldown": ["Optional: 1 core-menu movement, 3 sets"]
-    },
-    {
-      "id": "lower-b",
-      "name": "Lower B · Unilateral & glutes",
-      "nameFa": "پایین‌تنه B · تک‌پا و سرینی",
-      "kind": "training",
-      "durationMin": 65,
-      "focus": ["glutes", "quads", "hamstrings", "abductors", "calves", "core"],
-      "warmup": ["5 min incline walk", "Corrective warm-up", "Bodyweight split squat 1×8/side"],
-      "blocks": [
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "bulgarian-split-squat", "name": "Dumbbell Bulgarian split squat", "nameFa": "لانج بلغاری دمبل", "exerciseId": "0410", "alternatives": ["0768"], "equipment": "dumbbell", "sets": 3, "reps": [8, 10], "perSide": true, "rir": 2, "restSec": 120, "tempo": "3-0-1", "progression": { "type": "double", "incrementKg": 2 }, "cue": "Rear foot on a bench, torso slightly forward, front heel heavy. Start with the weaker (left) leg." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "hip-thrust", "name": "Barbell hip thrust (back on bench)", "nameFa": "هیپ تراست هالتر", "exerciseId": "3562", "alternatives": ["1409", "2286"], "equipment": "barbell", "sets": 4, "reps": [8, 10], "rir": 2, "restSec": 150, "tempo": "2-2-1", "progression": { "type": "double", "incrementKg": 5 }, "cue": "Chin tucked, ribs down, 2 s squeeze at the top; shins vertical at lockout." }
-          ]
-        },
-        {
-          "type": "superset",
-          "rounds": 3,
-          "restSec": 90,
-          "exercises": [
-            { "key": "leg-extension", "name": "Leg extension", "nameFa": "جلو پا ماشین", "exerciseId": "0585", "equipment": "leverage machine", "sets": 3, "reps": [12, 15], "rir": 1, "tempo": "2-1-1", "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "1 s squeeze at the top, control down." },
-            { "key": "lying-leg-curl", "name": "Lying leg curl", "nameFa": "پشت پا ماشین خوابیده", "exerciseId": "0586", "alternatives": ["0599"], "equipment": "leverage machine", "sets": 3, "reps": [10, 12], "rir": 1, "progression": { "type": "double", "incrementKg": 2.5 }, "cue": "Hips pressed into the pad, no lifting the pelvis." }
-          ]
-        },
-        {
-          "type": "straight",
-          "exercises": [
-            { "key": "hip-abduction", "name": "Seated hip abduction", "nameFa": "خارج ران دستگاه نشسته", "exerciseId": "0597", "equipment": "leverage machine", "sets": 3, "reps": [15, 20], "rir": 1, "restSec": 60, "progression": { "type": "double", "incrementKg": 5 }, "cue": "Lean forward slightly, 1 s hold at the widest point." }
+            {"key": "cable-lateral-raise", "name": "Cable lateral raise", "nameFa": "نشر جانب سیمکش", "exerciseId": "0178", "alternatives": ["0334"], "equipment": "cable", "sets": 3, "reps": [12, 15], "rir": 1, "progression": {"type": "double", "incrementKg": 1.25}, "cue": "Lead with the elbow, stop at shoulder height."},
+            {"key": "rope-pushdown", "name": "Cable rope pushdown", "nameFa": "پشت بازو سیمکش طناب", "exerciseId": "0200", "alternatives": ["0241"], "equipment": "cable", "sets": 3, "reps": [10, 12], "rir": 1, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Split the rope at the bottom, elbows still."}
           ]
         },
         {
@@ -260,30 +122,161 @@
           "rounds": 4,
           "restSec": 60,
           "exercises": [
-            { "key": "seated-calf", "name": "Lever seated calf raise", "nameFa": "ساق پا نشسته دستگاه", "exerciseId": "0594", "equipment": "leverage machine", "sets": 4, "reps": [12, 15], "rir": 1, "tempo": "2-2-1", "progression": { "type": "double", "incrementKg": 5 }, "cue": "Full stretch 2 s at the bottom." },
-            { "key": "hanging-knee-raise", "name": "Hanging knee raise", "nameFa": "زیر شکم بارفیکس زانو خم", "exerciseId": "0011", "alternatives": ["0472", "0276"], "equipment": "body weight", "sets": 4, "reps": [10, 15], "rir": 1, "progression": { "type": "reps", "incrementReps": 1 }, "cue": "Tilt the pelvis up at the top (curl, do not swing). Progress to straight legs." }
+            {"key": "standing-calf", "name": "Lever standing calf raise", "nameFa": "ساق پا ایستاده دستگاه", "exerciseId": "0605", "alternatives": ["1375"], "equipment": "leverage machine", "sets": 4, "reps": [10, 12], "rir": 1, "tempo": "2-2-1", "progression": {"type": "double", "incrementKg": 5}, "cue": "2 s pause at the bottom stretch, no bouncing."},
+            {"key": "cable-crunch", "name": "Cable kneeling crunch", "nameFa": "کرانچ سیمکش روی زانو", "exerciseId": "0175", "alternatives": ["0277"], "equipment": "cable", "sets": 4, "reps": [12, 15], "rir": 1, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Curl the spine, hips still, exhale hard at the bottom."}
+          ]
+        },
+        {
+          "type": "straight",
+          "note": "Corrective, after lifting",
+          "exercises": [
+            {"key": "hip-flexor-stretch", "name": "Half-kneeling hip flexor stretch (PNF)", "nameFa": "کشش فلکسور هیپ نیمه‌زانو", "exerciseId": "1564", "sets": 2, "seconds": 45, "perSide": true, "cue": "After lifting: tuck pelvis, squeeze rear glute, hold 45 s per side; breathe slowly.", "progression": {"type": "none"}}
           ]
         }
       ],
-      "cooldown": ["15–20 min incline walk (easy)"]
+      "cooldown": ["Hip-flexor stretch (above)", "Optional: 10–15 min easy incline walk"]
+    },
+    {
+      "id": "full-b",
+      "name": "Full B · Hinge, incline & pull-up",
+      "nameFa": "تمام‌بدن B · ددلیفت رومانیایی، بالاسینه و بارفیکس",
+      "kind": "training",
+      "durationMin": 70,
+      "focus": ["hamstrings", "glutes", "upper chest", "lats", "quads", "rear delts", "biceps", "calves", "abs"],
+      "warmup": ["5 min incline walk", "Corrective activation (6 min)", "RDL ramp: 1×8 empty bar, 1×5 @75 %"],
+      "blocks": [
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "rdl", "name": "Barbell Romanian deadlift", "nameFa": "ددلیفت رومانیایی هالتر", "exerciseId": "0085", "alternatives": ["1459"], "equipment": "barbell", "sets": 3, "reps": [8, 10], "rir": 2, "restSec": 150, "tempo": "3-1-1", "progression": {"type": "double", "incrementKg": 5}, "cue": "Hips back, bar on the thighs, neutral spine; feel hamstrings, stop before the back rounds."}
+          ]
+        },
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "incline-db-press", "name": "Incline dumbbell bench press", "nameFa": "پرس بالاسینه دمبل", "exerciseId": "0314", "alternatives": ["0047", "1299"], "equipment": "dumbbell", "sets": 3, "reps": [8, 10], "rir": 2, "restSec": 150, "tempo": "3-0-1", "progression": {"type": "double", "incrementKg": 2}, "cue": "Bench at 30°, elbows 45° from the torso, deep stretch at the bottom."}
+          ]
+        },
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "assisted-pullup", "name": "Assisted pull-up (wide)", "nameFa": "بارفیکس کمکی دست باز", "exerciseId": "0017", "alternatives": ["2330"], "equipment": "leverage machine", "sets": 3, "reps": [6, 10], "rir": 2, "restSec": 150, "progression": {"type": "reps", "incrementReps": 1}, "cue": "Log the ASSISTANCE weight. When all sets hit 10 reps, reduce assistance by 5 kg next time. Chest to the bar, no kipping."}
+          ]
+        },
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "leg-press", "name": "45° leg press", "nameFa": "پرس پا", "exerciseId": "0739", "alternatives": ["0760"], "equipment": "sled machine", "sets": 3, "reps": [10, 12], "rir": 2, "restSec": 120, "progression": {"type": "double", "incrementKg": 10}, "cue": "Feet mid-platform, lower until the hips start to lift, then stop."}
+          ]
+        },
+        {
+          "type": "superset",
+          "rounds": 3,
+          "restSec": 75,
+          "exercises": [
+            {"key": "face-pull", "name": "Cable rear-delt row with rope (face pull)", "nameFa": "فیس پول با طناب", "exerciseId": "0233", "alternatives": ["0602"], "equipment": "cable", "sets": 3, "reps": [15, 20], "rir": 1, "progression": {"type": "double", "incrementKg": 1.25}, "cue": "Pull to the nose, thumbs back, elbows high; this is for posture, keep it strict."},
+            {"key": "incline-db-curl", "name": "Dumbbell incline biceps curl", "nameFa": "جلو بازو دمبل روی میز شیب‌دار", "exerciseId": "0315", "alternatives": ["0313"], "equipment": "dumbbell", "sets": 3, "reps": [10, 12], "rir": 1, "progression": {"type": "double", "incrementKg": 2}, "cue": "Arms hang back, supinate at the top, slow lowering."}
+          ]
+        },
+        {
+          "type": "superset",
+          "rounds": 4,
+          "restSec": 60,
+          "exercises": [
+            {"key": "seated-calf", "name": "Lever seated calf raise", "nameFa": "ساق پا نشسته دستگاه", "exerciseId": "0594", "equipment": "leverage machine", "sets": 4, "reps": [12, 15], "rir": 1, "tempo": "2-2-1", "progression": {"type": "double", "incrementKg": 5}, "cue": "Full stretch 2 s at the bottom."},
+            {"key": "hanging-knee-raise", "name": "Hanging knee raise", "nameFa": "زیر شکم بارفیکس زانو خم", "exerciseId": "0011", "alternatives": ["0472", "0276"], "equipment": "body weight", "sets": 4, "reps": [10, 15], "rir": 1, "progression": {"type": "reps", "incrementReps": 1}, "cue": "Tilt the pelvis up at the top (curl, do not swing). Progress to straight legs."}
+          ]
+        },
+        {
+          "type": "straight",
+          "note": "Corrective, after lifting",
+          "exercises": [
+            {"key": "hip-flexor-stretch", "name": "Half-kneeling hip flexor stretch (PNF)", "nameFa": "کشش فلکسور هیپ نیمه‌زانو", "exerciseId": "1564", "sets": 2, "seconds": 45, "perSide": true, "cue": "After lifting: tuck pelvis, squeeze rear glute, hold 45 s per side; breathe slowly.", "progression": {"type": "none"}}
+          ]
+        }
+      ],
+      "cooldown": ["Hip-flexor stretch (above)", "Optional: 10–15 min easy incline walk"]
+    },
+    {
+      "id": "full-c",
+      "name": "Full C · Hip thrust, press & unilateral",
+      "nameFa": "تمام‌بدن C · هیپ تراست، پرس سرشانه و تک‌پا",
+      "kind": "training",
+      "durationMin": 72,
+      "focus": ["glutes", "shoulders", "mid back", "quads", "chest", "hamstrings", "arms"],
+      "warmup": ["5 min incline walk", "Corrective activation (6 min)", "Hip thrust ramp: 1×8 bar only, 1×5 @75 %"],
+      "blocks": [
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "hip-thrust", "name": "Barbell hip thrust (back on bench)", "nameFa": "هیپ تراست هالتر", "exerciseId": "3562", "alternatives": ["1409", "2286"], "equipment": "barbell", "sets": 4, "reps": [8, 10], "rir": 2, "restSec": 150, "tempo": "2-2-1", "progression": {"type": "double", "incrementKg": 5}, "cue": "Chin tucked, ribs down, 2 s squeeze at the top; shins vertical at lockout."}
+          ]
+        },
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "db-shoulder-press", "name": "Seated dumbbell shoulder press", "nameFa": "پرس سرشانه دمبل نشسته", "exerciseId": "0405", "alternatives": ["0603"], "equipment": "dumbbell", "sets": 3, "reps": [8, 10], "rir": 2, "restSec": 120, "progression": {"type": "double", "incrementKg": 2}, "cue": "Ribs down, do not arch; press slightly forward of the ears."}
+          ]
+        },
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "seated-cable-row", "name": "Cable seated row (neutral grip)", "nameFa": "زیر بغل قایقی سیمکش", "exerciseId": "0861", "alternatives": ["0588"], "equipment": "cable", "sets": 3, "reps": [10, 12], "rir": 2, "restSec": 120, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Chest tall, elbows to the hips, 1 s squeeze, let the shoulder blades glide forward on the stretch."}
+          ]
+        },
+        {
+          "type": "straight",
+          "exercises": [
+            {"key": "bulgarian-split-squat", "name": "Dumbbell Bulgarian split squat", "nameFa": "لانج بلغاری دمبل", "exerciseId": "0410", "alternatives": ["0768"], "equipment": "dumbbell", "sets": 3, "reps": [8, 10], "perSide": true, "rir": 2, "restSec": 90, "tempo": "3-0-1", "progression": {"type": "double", "incrementKg": 2}, "cue": "Rear foot on a bench, torso slightly forward, front heel heavy. Start with the weaker (left) leg."}
+          ]
+        },
+        {
+          "type": "superset",
+          "rounds": 3,
+          "restSec": 75,
+          "exercises": [
+            {"key": "pec-deck", "name": "Lever seated fly (pec deck)", "nameFa": "فلای سینه دستگاه", "exerciseId": "0596", "alternatives": ["0188"], "equipment": "leverage machine", "sets": 3, "reps": [12, 15], "rir": 1, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Slight elbow bend, squeeze 1 s, open until a mild chest stretch."},
+            {"key": "lying-leg-curl", "name": "Lying leg curl", "nameFa": "پشت پا ماشین خوابیده", "exerciseId": "0586", "alternatives": ["0599"], "equipment": "leverage machine", "sets": 3, "reps": [10, 12], "rir": 1, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Hips pressed into the pad, no lifting the pelvis."}
+          ]
+        },
+        {
+          "type": "circuit",
+          "rounds": 3,
+          "restSec": 60,
+          "note": "Lateral raise → curl → overhead extension, rest after the round.",
+          "exercises": [
+            {"key": "cable-lateral-raise", "name": "Cable lateral raise", "nameFa": "نشر جانب سیمکش", "exerciseId": "0178", "alternatives": ["0334"], "equipment": "cable", "sets": 3, "reps": [12, 15], "rir": 1, "progression": {"type": "double", "incrementKg": 1.25}, "cue": "Lead with the elbow, stop at shoulder height."},
+            {"key": "ez-curl", "name": "EZ-bar curl", "nameFa": "جلو بازو هالتر EZ", "exerciseId": "0447", "alternatives": ["0031"], "equipment": "ez barbell", "sets": 3, "reps": [10, 12], "rir": 1, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Elbows pinned to the ribs; control the lowering."},
+            {"key": "overhead-rope-ext", "name": "Cable overhead triceps extension (rope)", "nameFa": "پشت بازو سیمکش بالای سر با طناب", "exerciseId": "0194", "alternatives": ["0061"], "equipment": "cable", "sets": 3, "reps": [12, 15], "rir": 1, "progression": {"type": "double", "incrementKg": 2.5}, "cue": "Elbows by the ears, full stretch, lock out without flaring."}
+          ]
+        },
+        {
+          "type": "straight",
+          "note": "Corrective, after lifting",
+          "exercises": [
+            {"key": "hip-flexor-stretch", "name": "Half-kneeling hip flexor stretch (PNF)", "nameFa": "کشش فلکسور هیپ نیمه‌زانو", "exerciseId": "1564", "sets": 2, "seconds": 45, "perSide": true, "cue": "After lifting: tuck pelvis, squeeze rear glute, hold 45 s per side; breathe slowly.", "progression": {"type": "none"}}
+          ]
+        }
+      ],
+      "cooldown": ["Hip-flexor stretch (above)", "Optional: 10–15 min easy incline walk"]
     },
     {
       "id": "core-menu",
-      "name": "Core menu · pick 1–2 at the end of an Upper day",
-      "nameFa": "حرکات core پیشنهادی · یک یا دو حرکت انتخاب کنید",
+      "name": "Core menu · pick 1 at the end of Full A or Full C",
+      "nameFa": "حرکات core پیشنهادی · یکی را آخر جلسه A یا C انجام بده",
       "kind": "menu",
       "notes": ["3 sets close to failure, 60 s rest. Rotate movements through the block."],
       "blocks": [
         {
           "type": "straight",
           "exercises": [
-            { "key": "farmers-walk", "name": "Farmer's / suitcase carry", "nameFa": "حمل چمدان", "exerciseId": "2133", "sets": 3, "seconds": 40, "cue": "Heavy, tall, ribs down. Suitcase (one hand) for obliques." },
-            { "key": "side-bridge", "name": "Side bridge", "nameFa": "پلانک پهلو", "exerciseId": "0705", "sets": 3, "seconds": 30, "perSide": true, "progression": { "type": "none" } },
-            { "key": "wheel-rollout", "name": "Ab wheel rollout (kneeling)", "nameFa": "شکم غلطک روی زانو", "exerciseId": "0857", "sets": 3, "reps": [8, 12], "progression": { "type": "reps" } },
-            { "key": "decline-crunch", "name": "Decline crunch", "nameFa": "کرانچ نیمکت شیب‌دار", "exerciseId": "0277", "sets": 3, "reps": [12, 15], "progression": { "type": "reps" } },
-            { "key": "back-extension", "name": "Hyperextension (45°)", "nameFa": "فیله کمر", "exerciseId": "0489", "sets": 3, "reps": [12, 15], "progression": { "type": "reps" }, "cue": "Glute-driven, stop at neutral, no hyper-arching." },
-            { "key": "cross-body-climber", "name": "Cross-body mountain climber", "nameFa": "کوه‌پیمایی کراس بادی", "exerciseId": "2466", "sets": 3, "seconds": 30, "progression": { "type": "none" } },
-            { "key": "bird-dog", "name": "Bird dog", "nameFa": "سگ پرنده", "sets": 3, "reps": 10, "perSide": true, "progression": { "type": "none" } }
+            {"key": "farmers-walk", "name": "Farmer's / suitcase carry", "nameFa": "حمل چمدان", "exerciseId": "2133", "sets": 3, "seconds": 40, "cue": "Heavy, tall, ribs down. Suitcase (one hand) for obliques."},
+            {"key": "side-bridge", "name": "Side bridge", "nameFa": "پلانک پهلو", "exerciseId": "0705", "sets": 3, "seconds": 30, "perSide": true, "progression": {"type": "none"}},
+            {"key": "wheel-rollout", "name": "Ab wheel rollout (kneeling)", "nameFa": "شکم غلطک روی زانو", "exerciseId": "0857", "sets": 3, "reps": [8, 12], "progression": {"type": "reps"}},
+            {"key": "decline-crunch", "name": "Decline crunch", "nameFa": "کرانچ نیمکت شیب‌دار", "exerciseId": "0277", "sets": 3, "reps": [12, 15], "progression": {"type": "reps"}},
+            {"key": "back-extension", "name": "Hyperextension (45°)", "nameFa": "فیله کمر", "exerciseId": "0489", "sets": 3, "reps": [12, 15], "progression": {"type": "reps"}, "cue": "Glute-driven, stop at neutral, no hyper-arching."},
+            {"key": "cross-body-climber", "name": "Cross-body mountain climber", "nameFa": "کوه‌پیمایی کراس بادی", "exerciseId": "2466", "sets": 3, "seconds": 30, "progression": {"type": "none"}},
+            {"key": "bird-dog", "name": "Bird dog", "nameFa": "سگ پرنده", "sets": 3, "reps": 10, "perSide": true, "progression": {"type": "none"}}
           ]
         }
       ]

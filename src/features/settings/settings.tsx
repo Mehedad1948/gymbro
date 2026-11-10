@@ -73,6 +73,9 @@ export function Settings() {
           >
             بازگردانی برنامه‌های پیش‌فرض
           </Button>
+          <LinkButton href="/plans/guide" variant="ghost" size="sm">
+            راهنمای ساخت برنامه بعدی
+          </LinkButton>
         </div>
       </Card>
 

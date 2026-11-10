@@ -33,14 +33,14 @@ Targets for 2026-11 → 2027-01: SMM ≥ 31 kg, PBF ≤ 17 %, weight 68–69 kg.
 | Plan 2 | 2025-11-22 → ~2026-01-05 | Push / Legs / Pull | 3–4 sets, 10–20 reps, first supersets and compound sets, bodyweight squats 4×20 | `plan-2-three-day-split-2025-11.json` |
 | Plan 3 | 2026-01-07 → ~2026-02-20 | Chest-tri / Back-bi / Shoulders-traps / Legs | 4 days, 8–15 reps, assisted pull-ups, Arnold press, Bulgarian split squats (BW) | `plan-3-four-day-split-2026-01.json` |
 | Gap | 2026-02 → 2026-11 | Unknown / unlogged | Scans show weight +2 kg, SMM +1.2 kg, PBF −1.6 % over this period, so training continued in some form. **Ask the athlete and fill in.** | |
-| Plan 4 | 2026-11-14 → 2027-01-16 | Upper/Lower ×4, 9 weeks | First block with RIR targets per week, 6–10 rep compounds, double progression, logged loads | `plan-4-upper-lower-2026-11.json` |
+| Plan 4 | 2026-11-14 → 2027-01-16 | Full body ×3 (A/B/C), 9 weeks | First block with RIR targets per week, 6–10 rep compounds, double progression, logged loads. Planned as Upper/Lower ×4, switched to 3 days/week before it started. Correctives split: activation drills before lifting, hip-flexor stretch after | `plan-4-upper-lower-2026-11.json` |
 
 No set loads were recorded before Plan 4. From Plan 4 on, export the app data (Settings → Export) and attach the best sets per exercise when requesting the next block.
 
 ## Nutrition anchor (used in guidelines, not a diet plan)
-BMR 1515 kcal → maintenance ≈ 2 100–2 300 kcal (sedentary + 4 sessions). Lean-gain target 2 350–2 500 kcal, protein 130–145 g/day, re-scan every 4–5 weeks.
+BMR 1515 kcal → maintenance ≈ 2 100–2 300 kcal (sedentary + 3–4 sessions). Lean-gain target 2 350–2 500 kcal, protein 130–145 g/day, re-scan every 4–5 weeks.
 
 ## Constraints and preferences
-- Session length ≤ 75 min including warm-up. 4 days/week is the maximum that fits the schedule.
+- Session length ≤ 75 min including warm-up. Currently trains 3 days/week (athlete's choice, 2026-11); 4 is the maximum that fits the schedule.
 - Prefers machines/cables for isolation, open to barbell compounds if coached through ramp-up sets.
 - Plans are read on the phone during training: keep cues to one line and names bilingual (`name` + `nameFa`).
