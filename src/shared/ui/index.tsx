@@ -118,3 +118,21 @@ export function Spinner({ label = "در حال بارگذاری…" }: { label?:
     </div>
   );
 }
+
+/** Warmup / cooldown steps, one per line so long mixed-direction text stays readable. */
+export function StepList({ title, items, children }: { title: string; items: string[]; children?: ReactNode }) {
+  return (
+    <div className="rounded-xl bg-surface-2 p-3 text-xs">
+      <p className="mb-2 font-medium text-foreground">{title}</p>
+      <ol className="space-y-1.5 text-muted">
+        {items.map((t, i) => (
+          <li key={i} className="flex items-baseline gap-2 leading-relaxed">
+            <span className="shrink-0 tabular-nums text-muted/70">{(i + 1).toLocaleString("fa-IR")}.</span>
+            <span dir="auto" className="min-w-0">{t}</span>
+          </li>
+        ))}
+      </ol>
+      {children}
+    </div>
+  );
+}

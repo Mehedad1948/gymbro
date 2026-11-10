@@ -6,11 +6,11 @@ import { useState } from "react";
 import type { Block, Plan, PlanExercise, Session } from "@/domain/plan";
 import { formatReps, formatRest } from "@/domain/plan";
 import { plansRepo } from "@/infra/db/plans-repo";
-import { Badge, Button, Card, Empty, PageHeader, Spinner } from "@/shared/ui";
+import { Badge, Button, Card, Empty, PageHeader, Spinner, StepList } from "@/shared/ui";
 import { formatDate } from "@/shared/lib/format";
 import { usePlan, useActivePlanId } from "./use-plans";
 import { StartSessionButton } from "@/features/workout/start-session-button";
-import { blockTypeFa, faName, planSourceFa, sessionKindFa } from "@/shared/i18n/fa";
+import { blockTypeFa, faName, faTerm, planSourceFa, sessionKindFa } from "@/shared/i18n/fa";
 
 export function PlanDetail({ planId }: { planId: string }) {
   const rec = usePlan(planId);
@@ -139,30 +139,29 @@ export function SessionCard({ plan, session, compact }: { plan: Plan; session: S
             {session.durationMin && <span className="text-xs text-muted">حدود {session.durationMin} دقیقه</span>}
           </div>
           <h3 className="mt-1 font-semibold leading-snug">{faName(session)}</h3>
-          <p className="text-xs text-muted">
-            {total} حرکت{session.focus ? ` · ${session.focus.join(", ")}` : ""}
-          </p>
+          <p className="mt-1 text-xs text-muted">{total} حرکت</p>
+          {session.focus && session.focus.length > 0 && (
+            <ul className="mt-2 flex flex-wrap gap-1.5">
+              {session.focus.map((m) => (
+                <li key={m}>
+                  <Badge className="normal-case">{faTerm(m)}</Badge>
+                </li>
+              ))}
+            </ul>
+          )}
         </button>
         {session.kind !== "menu" && <StartSessionButton planId={plan.id} session={session} size="sm" />}
       </div>
 
       {open && (
-        <div className="mt-3 space-y-2 border-t border-border pt-3">
-          {session.warmup && (
-            <p className="text-xs text-muted">
-              <span className="font-medium text-foreground">گرم کردن:</span> <span dir="auto">{session.warmup.join(" → ")}</span>
-            </p>
-          )}
+        <div className="mt-3 space-y-3 border-t border-border pt-3">
+          {session.warmup && <StepList title="گرم کردن" items={session.warmup} />}
           {session.blocks.map((b, i) => (
             <BlockRow key={i} block={b} />
           ))}
-          {session.cooldown && (
-            <p className="text-xs text-muted">
-              <span className="font-medium text-foreground">پایان:</span> <span dir="auto">{session.cooldown.join(" · ")}</span>
-            </p>
-          )}
+          {session.cooldown && <StepList title="پایان" items={session.cooldown} />}
           {session.notes?.map((n, i) => (
-            <p key={i} dir="auto" className="text-xs text-muted">{n}</p>
+            <p key={i} dir="auto" className="text-xs leading-relaxed text-muted">{n}</p>
           ))}
         </div>
       )}

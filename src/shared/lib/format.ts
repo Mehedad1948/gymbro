@@ -20,3 +20,8 @@ export function kg(n: number | undefined): string {
   if (n === undefined) return "–";
   return Number.isInteger(n) ? `${n}` : n.toFixed(2).replace(/\.?0+$/, "");
 }
+
+/** Catalog names are lowercase ("dumbbell goblet squat"); logs and headers use title case. */
+export function titleCase(s: string): string {
+  return s.replace(/(^|[\s(\-/])(\p{L})/gu, (_, sep: string, c: string) => sep + c.toUpperCase());
+}

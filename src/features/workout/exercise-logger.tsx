@@ -2,16 +2,21 @@
 
 import Link from "next/link";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import type { PlanExercise } from "@/domain/plan";
 import { expandSets, formatReps, formatRest, type SetTarget } from "@/domain/plan";
 import { suggestNext } from "@/domain/progression/suggest";
 import { exerciseKeyOf, type SetLog } from "@/domain/workout/types";
+import { applySwap, resolveSwap, swapOptions } from "@/domain/workout/swap";
+import { getCatalogSync } from "@/infra/catalog/catalog";
+import { useCatalog } from "@/infra/catalog/use-catalog";
+import { swapsRepo } from "@/infra/db/swaps-repo";
 import { db } from "@/infra/db/database";
 import { setLogsRepo } from "@/infra/db/workouts-repo";
 import { Badge } from "@/shared/ui";
-import { cn, kg } from "@/shared/lib/format";
+import { cn, kg, titleCase } from "@/shared/lib/format";
 import { faName } from "@/shared/i18n/fa";
+import { ExerciseSwap } from "./exercise-swap";
 
 type Props = {
   workoutId: string;
@@ -20,12 +25,30 @@ type Props = {
   ex: PlanExercise;
   defaultRestSec?: number;
   onSetDone: (restSec: number | undefined) => void;
+  /** Alternative chosen for this workout, else the plan default (catalog id). */
+  chosenId?: string;
+  /** Plan-wide default alternative for this exercise. */
+  defaultId?: string;
+  /** Show the alternatives picker (active workouts only). */
+  canSwap?: boolean;
 };
 
 /** One exercise card inside a running workout: targets, previous, inputs. */
-export function ExerciseLogger({ workoutId, planId, sessionId, ex, defaultRestSec, onSetDone }: Props) {
+export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defaultRestSec, onSetDone, chosenId, defaultId, canSwap }: Props) {
+  // The catalog gives names, media and equipment for alternatives.
+  const catalogReady = useCatalog().status === "ready";
+  const catalog = catalogReady ? getCatalogSync() : undefined;
+  const options = swapOptions(planEx);
+  const performedId = resolveSwap(planEx, chosenId);
+  const alt = performedId && performedId !== planEx.exerciseId ? catalog?.get(performedId) : undefined;
+  const ex = applySwap(planEx, alt && { id: alt.id, name: titleCase(alt.name), equipment: alt.equipment });
+  const swapped = ex !== planEx;
+  const [swapOpen, setSwapOpen] = useState(false);
+  const [swapSeen, setSwapSeen] = useState(false);
+  const swapPanelId = useId();
+
   const key = exerciseKeyOf(ex);
-  const targets = useMemo(() => expandSets(ex), [ex]);
+  const targets = expandSets(ex);
 
   const logs = useLiveQuery(
     () => db().setLogs.where("[workoutId+exerciseKey]").equals([workoutId, key]).sortBy("setIndex"),
@@ -44,21 +67,47 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex, defaultRestSe
     <section className="rounded-2xl border border-border bg-surface p-4">
       <header className="mb-3">
         <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
+          <div key={key} className="min-w-0 animate-fade-in">
             <h3 className="font-semibold leading-snug">
               {ex.exerciseId ? (
                 <Link href={`/exercises/${ex.exerciseId}`} className="underline-offset-4 hover:underline">
-                  {faName(ex)}
+                  <bdi>{faName(ex)}</bdi>
                 </Link>
               ) : (
                 faName(ex)
               )}
             </h3>
-            {ex.nameFa && <p dir="ltr" className="text-end text-xs text-muted">{ex.name}</p>}
+            {swapped ? (
+              <p className="text-xs text-accent">⇄ به‌جای {faName(planEx)}</p>
+            ) : (
+              ex.nameFa && <p dir="ltr" className="text-end text-xs text-muted">{ex.name}</p>
+            )}
           </div>
-          <Badge tone={doneCount >= ex.sets ? "accent" : "neutral"}>
-            {doneCount}/{ex.sets}
-          </Badge>
+          <div className="flex shrink-0 items-center gap-1.5">
+            {canSwap && options.length > 1 && (
+              <button
+                type="button"
+                aria-expanded={swapOpen}
+                aria-controls={swapPanelId}
+                onClick={() => {
+                  setSwapSeen(true);
+                  setSwapOpen((o) => !o);
+                }}
+                className={cn(
+                  "inline-flex h-7 items-center gap-1 rounded-full border px-2.5 text-[11px] font-medium transition-colors duration-200",
+                  swapOpen || swapped ? "border-accent/50 bg-accent/10 text-accent" : "border-border text-muted hover:text-foreground",
+                )}
+              >
+                <span aria-hidden className={cn("inline-block transition-transform duration-300", swapOpen && "rotate-180")}>
+                  ⇄
+                </span>
+                جایگزین
+              </button>
+            )}
+            <Badge tone={doneCount >= ex.sets ? "accent" : "neutral"}>
+              {doneCount}/{ex.sets}
+            </Badge>
+          </div>
         </div>
         <p className="mt-1 text-xs text-muted">
           {formatReps(ex)}
@@ -73,6 +122,33 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex, defaultRestSe
             {suggestion.reason}
           </p>
         )}
+        {canSwap && options.length > 1 && planEx.exerciseId && performedId && (
+          <ExerciseSwap
+            id={swapPanelId}
+            open={swapOpen}
+            everOpened={swapSeen}
+            originalId={planEx.exerciseId}
+            chosenId={performedId}
+            defaultId={defaultId}
+            options={options.map((id) => {
+              const c = catalog?.get(id);
+              return { id, catalog: c, title: id === planEx.exerciseId ? faName(planEx) : c ? titleCase(c.name) : id };
+            })}
+            onChoose={async (id) => {
+              const c = catalog?.get(id);
+              await swapsRepo.choose({
+                workoutId,
+                key: planEx.key,
+                fromKey: key,
+                toId: id,
+                toName: id === planEx.exerciseId ? planEx.name : c ? titleCase(c.name) : id,
+              });
+              // Let the check mark land before the panel folds away.
+              setTimeout(() => setSwapOpen(false), 320);
+            }}
+            onSetDefault={(id) => swapsRepo.setDefault(planId, planEx.key, id)}
+          />
+        )}
       </header>
 
       <div className="grid grid-cols-[2rem_1fr_4.5rem_4.5rem_3.5rem_2.75rem] items-center gap-x-2 gap-y-1 text-xs text-muted">
@@ -84,7 +160,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex, defaultRestSe
         <span />
         {targets.map((t) => (
           <SetRow
-            key={t.index}
+            key={`${key}-${t.index}`}
             target={t}
             prev={previous?.find((p) => p.setIndex === t.index)}
             log={logs?.find((l) => l.setIndex === t.index)}

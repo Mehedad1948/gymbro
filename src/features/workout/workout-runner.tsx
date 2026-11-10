@@ -6,17 +6,19 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { formatRest } from "@/domain/plan";
 import { db } from "@/infra/db/database";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
-import { Button, Card, Empty, Spinner } from "@/shared/ui";
+import { Button, Card, Empty, Spinner, StepList } from "@/shared/ui";
 import { formatDuration, LOCALE } from "@/shared/lib/format";
 import { blockTypeFa, faName } from "@/shared/i18n/fa";
 import { ExerciseLogger } from "./exercise-logger";
 import { RestTimer } from "./rest-timer";
+import { usePlanSwapDefaults } from "./use-swaps";
 
 export function WorkoutRunner({ workoutId }: { workoutId: string }) {
   const router = useRouter();
   const workout = useLiveQuery(() => db().workouts.get(workoutId), [workoutId]);
   const plan = useLiveQuery(() => (workout ? db().plans.get(workout.planId) : undefined), [workout?.planId]);
   const [rest, setRest] = useState<{ sec: number; key: number } | null>(null);
+  const swapDefaults = usePlanSwapDefaults(workout?.planId);
 
   if (workout === undefined || plan === undefined) return <Spinner />;
   if (!workout || !plan) return <Empty title="تمرین پیدا نشد" />;
@@ -53,17 +55,15 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
       </header>
 
       {session.warmup && (
-        <Card className="mb-3 text-xs text-muted">
-          <span className="font-medium text-foreground">گرم کردن:</span> <span dir="auto">{session.warmup.join(" → ")}</span>
-          {corrective && (
-            <>
-              {" "}
-              <button className="text-accent" onClick={() => document.getElementById("corrective")?.scrollIntoView({ behavior: "smooth" })}>
-                (حرکات اصلاحی پایین صفحه)
+        <div className="mb-3">
+          <StepList title="گرم کردن" items={session.warmup}>
+            {corrective && (
+              <button className="mt-2 text-accent" onClick={() => document.getElementById("corrective")?.scrollIntoView({ behavior: "smooth" })}>
+                حرکات اصلاحی پایین صفحه ↓
               </button>
-            </>
-          )}
-        </Card>
+            )}
+          </StepList>
+        </div>
       )}
 
       <div className="space-y-3">
@@ -87,6 +87,9 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
                   ex={e}
                   defaultRestSec={b.restSec}
                   onSetDone={(sec) => !readOnly && sec && setRest({ sec, key: Date.now() })}
+                  chosenId={workout.swaps?.[e.key] ?? swapDefaults[e.key]}
+                  defaultId={swapDefaults[e.key]}
+                  canSwap={!readOnly}
                 />
               ))}
             </div>

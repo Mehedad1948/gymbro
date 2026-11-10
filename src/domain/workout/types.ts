@@ -12,6 +12,8 @@ export type Workout = {
   finishedAt?: number;
   status: WorkoutStatus;
   notes?: string;
+  /** Exercise key → catalog id actually performed instead of the prescribed one. */
+  swaps?: Record<string, string>;
 };
 
 export type SetLog = {
