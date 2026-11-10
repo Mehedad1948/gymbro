@@ -8,7 +8,7 @@
  *
  * Bump VERSION to drop old caches after a breaking change.
  */
-const VERSION = "v1";
+const VERSION = "v2";
 const SHELL = `gymbro-shell-${VERSION}`;
 const STATIC = `gymbro-static-${VERSION}`;
 const DATA = `gymbro-data-${VERSION}`;

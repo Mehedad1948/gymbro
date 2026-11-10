@@ -42,10 +42,10 @@ export function expandSets(ex: PlanExercise): SetTarget[] {
 }
 
 export function formatReps(ex: PlanExercise): string {
-  const side = ex.perSide ? "/side" : "";
-  if (ex.seconds) return `${ex.sets} × ${ex.seconds}s${side}`;
+  const side = ex.perSide ? " هر طرف" : "";
+  if (ex.seconds) return `${ex.sets} × ${ex.seconds} ثانیه${side}`;
   const r = ex.reps;
-  if (r === undefined) return `${ex.sets} sets`;
+  if (r === undefined) return `${ex.sets} ست`;
   if (typeof r === "number") return `${ex.sets} × ${r}${side}`;
   if (isRange(r)) return `${ex.sets} × ${r[0]}–${r[1]}${side}`;
   return r.join("-");
@@ -53,8 +53,8 @@ export function formatReps(ex: PlanExercise): string {
 
 export function formatRest(sec: number | undefined): string | undefined {
   if (sec === undefined) return undefined;
-  if (sec < 60) return `${sec}s`;
+  if (sec < 60) return `${sec} ثانیه`;
   const m = Math.floor(sec / 60);
   const s = sec % 60;
-  return s ? `${m}m${s}s` : `${m} min`;
+  return s ? `${m}:${String(s).padStart(2, "0")} دقیقه` : `${m} دقیقه`;
 }

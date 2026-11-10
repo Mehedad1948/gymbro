@@ -6,13 +6,14 @@ import { db } from "@/infra/db/database";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
 import { Badge, Button, Card, Empty, Spinner } from "@/shared/ui";
 import { formatDate, formatDuration, kg } from "@/shared/lib/format";
+import { workoutStatusFa } from "@/shared/i18n/fa";
 
 export function History() {
   const workouts = useLiveQuery(() => db().workouts.orderBy("startedAt").reverse().limit(100).toArray(), []);
   const logs = useLiveQuery(() => db().setLogs.toArray(), []);
 
   if (!workouts || !logs) return <Spinner />;
-  if (workouts.length === 0) return <Empty title="No workouts yet" hint="Start a session from Today; every logged set lands here." />;
+  if (workouts.length === 0) return <Empty title="هنوز تمرینی ثبت نشده" hint="یک جلسه را از صفحه امروز شروع کن؛ هر ستی که ثبت کنی اینجا می‌آید." />;
 
   const byWorkout = new Map<string, typeof logs>();
   for (const l of logs) {
@@ -35,11 +36,11 @@ export function History() {
                 <Link href={`/workout/${w.id}`} className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-xs text-muted">{formatDate(w.startedAt, { weekday: "short", year: "numeric" })}</span>
-                    {w.status !== "done" && <Badge tone={w.status === "active" ? "accent" : "warn"}>{w.status}</Badge>}
+                    {w.status !== "done" && <Badge tone={w.status === "active" ? "accent" : "warn"}>{workoutStatusFa[w.status]}</Badge>}
                   </div>
                   <h3 className="mt-1 font-semibold">{w.sessionName}</h3>
                   <p className="text-xs text-muted">
-                    {sets.length} sets · {kg(Math.round(volume))} kg volume
+                    {sets.length} ست · حجم {kg(Math.round(volume))} کیلو
                     {w.finishedAt ? ` · ${formatDuration(w.finishedAt - w.startedAt)}` : ""}
                   </p>
                   {exercises.length > 0 && <p className="mt-1 line-clamp-2 text-xs text-muted">{exercises.join(" · ")}</p>}
@@ -47,8 +48,8 @@ export function History() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  aria-label="Delete workout"
-                  onClick={() => confirm("Delete this workout and its sets?") && workoutsRepo.remove(w.id)}
+                  aria-label="حذف تمرین"
+                  onClick={() => confirm("این تمرین و ست‌هایش حذف شوند؟") && workoutsRepo.remove(w.id)}
                 >
                   ✕
                 </Button>

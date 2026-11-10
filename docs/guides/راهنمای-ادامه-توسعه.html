@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>راهنمای ادامه‌ی توسعه‌ی Gymbro</title>
+<style>
+  @font-face { font-family: "Vazirmatn"; src: url("Vazirmatn.ttf"); font-weight: 400; }
+  @font-face { font-family: "Vazirmatn"; src: url("Vazirmatn-Bold.ttf"); font-weight: 700; }
+  @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Vazirmatn", sans-serif; font-size: 12.5pt; line-height: 2; color: #1b2430; margin: 0; }
+  h1 { font-size: 24pt; margin: 0 0 4pt; color: #0b0f14; }
+  .sub { color: #5b6673; margin: 0 0 18pt; font-size: 11pt; }
+  h2 { font-size: 16pt; margin: 22pt 0 8pt; padding-bottom: 4pt; border-bottom: 2px solid #b6f04c; color: #0b0f14; page-break-after: avoid; }
+  h3 { font-size: 13pt; margin: 14pt 0 4pt; color: #2c3e50; page-break-after: avoid; }
+  ol, ul { margin: 0; padding-right: 22pt; }
+  li { margin-bottom: 7pt; }
+  li::marker { font-weight: 700; color: #4f8f00; }
+  code, pre { font-family: "Consolas", "Courier New", monospace; direction: ltr; unicode-bidi: embed; font-size: 10.5pt; }
+  code { background: #eef1f5; padding: 1pt 5pt; border-radius: 4pt; }
+  pre { background: #121821; color: #e8edf2; padding: 10pt 12pt; border-radius: 8pt; text-align: left; line-height: 1.6; margin: 6pt 0 10pt; white-space: pre-wrap; }
+  .box { background: #f6f7f9; border: 1px solid #d8dee6; border-right: 5px solid #b6f04c; border-radius: 8pt; padding: 10pt 14pt; margin: 10pt 0 14pt; }
+  .warn { border-right-color: #f5b942; }
+  table { width: 100%; border-collapse: collapse; margin: 8pt 0 14pt; font-size: 11.5pt; }
+  th, td { border: 1px solid #d8dee6; padding: 6pt 8pt; vertical-align: top; }
+  th { background: #eef1f5; }
+  .step { display: flex; gap: 10pt; align-items: flex-start; margin-bottom: 10pt; page-break-inside: avoid; }
+  .n { flex: 0 0 26pt; height: 26pt; border-radius: 50%; background: #0b0f14; color: #b6f04c; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 12pt; margin-top: 4pt; }
+  .step p { margin: 0; }
+  .muted { color: #5b6673; font-size: 11pt; }
+  footer { margin-top: 24pt; color: #8b97a5; font-size: 10pt; text-align: center; }
+</style>
+</head>
+<body>
+
+<h1>راهنمای ادامه‌ی توسعه‌ی Gymbro</h1>
+<p class="sub">نسخه‌ی ۱ · ۱۹ آبان ۱۴۰۵ (۱۰ نوامبر ۲۰۲۶) · برای مهرداد</p>
+
+<div class="box">
+<strong>خلاصه در یک جمله:</strong> کد فعلی را کامیت کن، اپ را روی گوشی نصب کن و دو هفته واقعاً با آن تمرین کن؛ بعد هر کار بعدی را دقیقاً از روی فایل <code>docs/roadmap.md</code> و با یک جلسه‌ی کوتاه ایجنت انجام بده.
+</div>
+
+<h2>وضعیت فعلی (چه چیزی آماده است)</h2>
+<ul>
+  <li>اپ PWA با Next.js 16 که کاملاً آفلاین روی گوشی کار می‌کند؛ همه‌ی داده‌ها در IndexedDB خود گوشی ذخیره می‌شوند.</li>
+  <li>برنامه‌ها به شکل JSON با یک اسکیمای واحد (برای مربی، هوش مصنوعی و خودت). سه برنامه‌ی قبلی مربی و برنامه‌ی جدید <strong>پلن ۴</strong> از قبل داخل اپ هستند.</li>
+  <li>ثبت وزنه و تکرار هر ست، نمایش رکورد جلسه‌ی قبل، پیشنهاد افزایش وزنه، تایمر استراحت و بلوک حرکات اصلاحی در هر جلسه.</li>
+  <li>راهنمای ۱۳۰۰ حرکت با انیمیشن (از دیتاست <code>exercises-dataset</code>).</li>
+  <li>مستندات کامل برای ایجنت‌ها: <code>CLAUDE.md</code>، <code>docs/architecture.md</code>، <code>docs/plan-schema.md</code>، <code>docs/roadmap.md</code> و راهنمای تولید پلن با هوش مصنوعی در <code>docs/ai/</code>.</li>
+</ul>
+
+<h2>مرحله‌ی ۱ · همین هفته: اپ را واقعی کن</h2>
+
+<div class="step"><div class="n">۱</div><p><strong>کامیت و merge.</strong> همه‌ی تغییرات فعلی را روی یک برنچ کامیت کن و به <code>main</code> ببر تا هر تغییر بعدی یک diff قابل بررسی باشد.</p></div>
+<pre>git checkout -b scaffold
+git add -A
+git commit -m "Scaffold gymbro: local-first PWA, plan schema, docs"
+git checkout main
+git merge scaffold</pre>
+<p class="muted">اگر برنچ <code>main</code> وجود ندارد، قبل از آن: <code>git branch -m master main</code></p>
+
+<div class="step"><div class="n">۲</div><p><strong>دیپلوی.</strong> یک بار اپ را آنلاین کن تا گوشی بتواند آن را نصب کند. ساده‌ترین راه Vercel است (پروژه را به ریپوی GitHub وصل کن؛ تنظیم خاصی لازم نیست). فقط از برنچ <code>main</code> دیپلوی کن.</p></div>
+
+<div class="step"><div class="n">۳</div><p><strong>نصب روی گوشی و تست واقعی</strong> (کار شماره‌ی ۱ در roadmap): در اندروید از منوی مرورگر «Install app»، در آیفون از Share → «Add to Home Screen». یک جلسه شروع کن، سه ست ثبت کن، اپ را ببند، اینترنت را قطع کن و دوباره باز کن. داده‌ها و GIF حرکتی که دیده بودی باید سر جایشان باشند.</p></div>
+
+<div class="step"><div class="n">۴</div><p><strong>نتیجه‌ی تست را بنویس.</strong> هر چیزی که خراب بود را در جدول «Next» فایل <code>docs/roadmap.md</code> اضافه کن. استفاده‌ی واقعی باگ‌های مهم را سریع‌تر از هر برنامه‌ریزی نشان می‌دهد.</p></div>
+
+<div class="step"><div class="n">۵</div><p><strong>دو جای خالی را در <code>docs/ai/athlete-context.md</code> پر کن:</strong> (الف) بین بهمن ۱۴۰۴ تا آبان ۱۴۰۵ چه تمرینی کرده‌ای؛ (ب) لیست تجهیزات را به چیزی که واقعاً در باشگاهت هست محدود کن. این فایل تنها چیزی است که هوش مصنوعی درباره‌ی تو می‌داند.</p></div>
+
+<h2>مرحله‌ی ۲ · روش انجام هر کار توسعه (با ایجنت‌های سبک)</h2>
+<div class="box">
+<p><strong>قاعده‌ی طلایی:</strong> هر جلسه‌ی ایجنت فقط <u>یک ردیف</u> از <code>docs/roadmap.md</code> را انجام می‌دهد. معیار پذیرش هر کار همان‌جا نوشته شده است.</p>
+</div>
+<p>متن پیشنهادی برای شروع هر جلسه:</p>
+<pre>Do task N in docs/roadmap.md. Follow CLAUDE.md.
+Finish with `npm run check` and `npm run build` both green,
+then update the status column in docs/roadmap.md.</pre>
+<ul>
+  <li><strong>ساختار لایه‌ها را ثابت نگه دار:</strong> <code>app → features → infra / domain / shared</code>. فایل <code>domain/</code> فقط TypeScript خالص است و تست دارد.</li>
+  <li><strong>اسکیمای پلن را نشکن:</strong> اگر کاری به فیلد جدید نیاز دارد، آن را اختیاری اضافه کن و در <code>docs/plan-schema.md</code> مستند کن.</li>
+  <li><strong>diff را بررسی کن، نه گزارش را:</strong> اگر ایجنت گفت همه‌چیز سبز است، خودت قبل از merge دستور <code>npm run check</code> را بزن.</li>
+  <li><strong>هر کار = یک برنچ = یک merge.</strong> این باعث می‌شود برگشت از اشتباه ارزان باشد.</li>
+</ul>
+
+<h2>مرحله‌ی ۳ · ترتیب پیشنهادی ماه اول</h2>
+<table>
+  <tr><th style="width:8%">#</th><th style="width:32%">کار</th><th>چرا الان</th></tr>
+  <tr><td>۲</td><td>اعمال خودکار هفته‌ها (RIR، دیلود)</td><td>هفته‌ی ۵ و ۹ پلن ۴ دیلود هستند؛ اپ باید خودش تعداد ست و وزنه را کم کند.</td></tr>
+  <tr><td>۳</td><td>نمای پیشرفت + تخمین 1RM</td><td>حلقه‌ی انگیزشی؛ می‌بینی هر حرکت هفته‌به‌هفته چقدر بالا رفته.</td></tr>
+  <tr><td>۴</td><td>ویرایشگر ساده‌ی پلن</td><td>وقتی دستگاهی خراب است، حرکت را از داخل اپ عوض کنی نه از JSON.</td></tr>
+  <tr><td>۵</td><td>قانون lint برای مرز لایه‌ها</td><td>ارزان است و نمی‌گذارد ایجنت‌ها ساختار را خراب کنند.</td></tr>
+</table>
+
+<h2>مرحله‌ی ۴ · پایان پلن ۴ (اواسط دی ۱۴۰۵): تولید پلن بعدی</h2>
+<div class="step"><div class="n">۱</div><p>آنالیز بدن جدید بگیر و اعداد را به جدول <code>docs/ai/athlete-context.md</code> اضافه کن.</p></div>
+<div class="step"><div class="n">۲</div><p>در اپ: Settings → <strong>Export all data</strong>. فایل خروجی را نگه دار (هم بکاپ است، هم ورودی هوش مصنوعی).</p></div>
+<div class="step"><div class="n">۳</div><p>به یک هوش مصنوعی سه فایل بده: <code>docs/ai/plan-generation-guide.md</code>، <code>docs/ai/athlete-context.md</code>، <code>docs/plan-schema.md</code> به‌علاوه‌ی فایل export. خروجی باید فقط یک JSON باشد.</p></div>
+<div class="step"><div class="n">۴</div><p>JSON را یا در <code>src/content/plans/</code> ذخیره کن و به <code>index.ts</code> اضافه کن (تست‌ها اعتبارش را چک می‌کنند)، یا مستقیم در گوشی از Plans → <strong>Import</strong> وارد کن.</p></div>
+<div class="box">این حلقه (تمرین ← ثبت ← اسکن ← تولید پلن جدید) <strong>محصول اصلی</strong> است. هر قابلیت جدید را با این سؤال بسنج: «آیا این حلقه را آسان‌تر می‌کند؟»</div>
+
+<h2>مرحله‌ی ۵ · بعداً: حالت مربی و چندکاربره</h2>
+<p class="muted">فقط وقتی که حداقل یک دوره‌ی کامل با نسخه‌ی تک‌کاربره تمرین کرده باشی.</p>
+<ol>
+  <li><strong>هویت:</strong> فیلد <code>ownerId</code> به همه‌ی رکوردها (نسخه‌ی ۲ دیتابیس Dexie با <code>upgrade</code>).</li>
+  <li><strong>همگام‌سازی:</strong> پوشه‌ی <code>infra/sync/</code> با push/pull ردیف‌های تغییر‌کرده بر اساس <code>updatedAt</code>. انتخاب بک‌اند (Postgres/Neon یا BaaS) را اول در یک ADR بنویس.</li>
+  <li><strong>آپلود پلن توسط مربی:</strong> مربی همان JSON را با شناسه‌ی ورزشکار می‌سازد؛ اپ آن را با <code>origin: "coach"</code> می‌کشد و لاگ‌ها برای مربی برمی‌گردند.</li>
+  <li><strong>دسترسی‌ها:</strong> مربی فقط پلن می‌نویسد و لاگ می‌خواند؛ بقیه مال ورزشکار است.</li>
+</ol>
+
+<h2>دستورهای پرکاربرد</h2>
+<pre>npm run dev            # اجرای محلی روی http://localhost:3000
+npm run check          # typecheck + lint + تست‌ها (قبل از هر merge)
+npm run build          # باید همیشه سبز بماند
+npm run catalog:build  # بازسازی کاتالوگ حرکات
+npm run icons:build    # ساخت دوباره‌ی آیکون‌های PWA</pre>
+
+<div class="box warn">
+<strong>یادآوری مهم:</strong> همه‌ی داده‌ها داخل مرورگر گوشی است. هر چند هفته یک بار از Settings خروجی بگیر و جایی امن نگه دار؛ قبل از عوض کردن گوشی حتماً.
+</div>
+
+<footer>Gymbro · مستندات کامل در پوشه‌ی docs/ و فایل CLAUDE.md</footer>
+</body>
+</html>

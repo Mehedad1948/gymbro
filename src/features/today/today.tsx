@@ -7,6 +7,7 @@ import { SessionCard } from "@/features/plans/plan-detail";
 import { db } from "@/infra/db/database";
 import { Badge, Card, Empty, LinkButton, Spinner } from "@/shared/ui";
 import { formatDate } from "@/shared/lib/format";
+import { faName } from "@/shared/i18n/fa";
 
 /**
  * Home: the active plan, the open workout if any, and the next session to do
@@ -21,7 +22,7 @@ export function Today() {
 
   if (rec === undefined || recent === undefined) return <Spinner />;
   if (!rec)
-    return <Empty title="No active plan" hint="Pick a plan or import one." action={<LinkButton href="/plans">Open plans</LinkButton>} />;
+    return <Empty title="برنامه فعالی نداری" hint="یک برنامه انتخاب کن یا وارد کن." action={<LinkButton href="/plans">برنامه‌ها</LinkButton>} />;
 
   const plan = rec.doc;
   const open = recent.find((w) => w.status === "active");
@@ -43,28 +44,28 @@ export function Today() {
       <Card className="bg-gradient-to-br from-surface to-surface-2">
         <div className="flex items-center justify-between gap-2">
           <Link href={`/plans/${plan.id}`} className="min-w-0">
-            <p className="text-[11px] uppercase tracking-wide text-muted">Active plan</p>
-            <h2 className="truncate font-semibold">{plan.name}</h2>
+            <p className="text-[11px] text-muted">برنامه فعال</p>
+            <h2 className="truncate font-semibold">{faName(plan)}</h2>
           </Link>
-          {week && <Badge tone="accent">Week {week}{plan.meta.durationWeeks ? `/${plan.meta.durationWeeks}` : ""}</Badge>}
+          {week && <Badge tone="accent">هفته {week}{plan.meta.durationWeeks ? ` از ${plan.meta.durationWeeks}` : ""}</Badge>}
         </div>
         {weekInfo && (
           <p className="mt-2 text-sm text-muted">
-            <span className="font-medium text-foreground">{weekInfo.label ?? `Week ${weekInfo.week}`}:</span> {weekInfo.instruction}
+            <span className="font-medium text-foreground">{weekInfo.label ?? `هفته ${weekInfo.week}`}:</span> <span dir="auto">{weekInfo.instruction}</span>
           </p>
         )}
       </Card>
 
       {open && (
         <Card className="border-accent/50">
-          <p className="text-[11px] uppercase tracking-wide text-accent">In progress</p>
+          <p className="text-[11px] text-accent">در حال انجام</p>
           <div className="mt-1 flex items-center justify-between gap-3">
             <div>
               <p className="font-semibold">{open.sessionName}</p>
-              <p className="text-xs text-muted">started {formatDate(open.startedAt, { hour: "2-digit", minute: "2-digit" })}</p>
+              <p className="text-xs text-muted">شروع {formatDate(open.startedAt, { hour: "2-digit", minute: "2-digit" })}</p>
             </div>
             <LinkButton href={`/workout/${open.id}`} size="sm">
-              Resume
+              ادامه
             </LinkButton>
           </div>
         </Card>
@@ -72,13 +73,13 @@ export function Today() {
 
       {next && (
         <section>
-          <h3 className="mb-2 text-sm font-medium text-muted">Up next</h3>
+          <h3 className="mb-2 text-sm font-medium text-muted">جلسه بعدی</h3>
           <SessionCard plan={plan} session={next} />
         </section>
       )}
 
       <section>
-        <h3 className="mb-2 text-sm font-medium text-muted">All sessions</h3>
+        <h3 className="mb-2 text-sm font-medium text-muted">همه جلسه‌ها</h3>
         <div className="space-y-2">
           {plan.sessions
             .filter((s) => s.id !== next?.id)

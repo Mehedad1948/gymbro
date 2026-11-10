@@ -1,5 +1,5 @@
 import { Empty, LinkButton } from "@/shared/ui";
 
 export default function NotFound() {
-  return <Empty title="Page not found" action={<LinkButton href="/">Go to Today</LinkButton>} />;
+  return <Empty title="صفحه پیدا نشد" action={<LinkButton href="/">برو به امروز</LinkButton>} />;
 }

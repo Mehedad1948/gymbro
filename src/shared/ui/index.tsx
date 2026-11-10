@@ -44,7 +44,7 @@ export function Badge({ className, tone = "neutral", ...props }: ComponentProps<
   };
   return (
     <span
-      className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide", tones[tone], className)}
+      className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium uppercase", tones[tone], className)}
       {...props}
     />
   );
@@ -89,7 +89,7 @@ export function PageHeader({ title, subtitle, action, back }: { title: ReactNode
       <div className="min-w-0">
         {back && (
           <Link href={back} className="mb-1 inline-flex items-center gap-1 text-sm text-muted hover:text-foreground">
-            <span aria-hidden>←</span> Back
+            <span aria-hidden>→</span> بازگشت
           </Link>
         )}
         <h1 className="truncate text-2xl font-semibold tracking-tight">{title}</h1>
@@ -110,7 +110,7 @@ export function Empty({ title, hint, action }: { title: string; hint?: string; a
   );
 }
 
-export function Spinner({ label = "Loading…" }: { label?: string }) {
+export function Spinner({ label = "در حال بارگذاری…" }: { label?: string }) {
   return (
     <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted" role="status">
       <span className="size-4 animate-spin rounded-full border-2 border-muted/40 border-t-accent" />

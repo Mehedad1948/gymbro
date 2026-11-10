@@ -37,14 +37,14 @@ export function RestTimer({ seconds, onDone }: { seconds: number; onDone: () => 
           <span className="absolute inset-0 flex items-center justify-center font-mono text-sm">{left}</span>
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium">{left === 0 ? "Go!" : "Rest"}</p>
-          <p className="text-xs text-muted">{seconds}s prescribed</p>
+          <p className="text-sm font-medium">{left === 0 ? "برو!" : "استراحت"}</p>
+          <p className="text-xs text-muted">{seconds} ثانیه طبق برنامه</p>
         </div>
         <Button variant="secondary" size="sm" onClick={() => { endAt.current += 30_000; setLeft((l) => l + 30); }}>
-          +30s
+          ۳۰+ ثانیه
         </Button>
         <Button size="sm" onClick={onDone}>
-          Skip
+          رد کردن
         </Button>
       </div>
     </div>

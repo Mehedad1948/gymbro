@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import { LinkButton, PageHeader } from "@/shared/ui";
 import { PlanList } from "@/features/plans/plan-list";
 
-export const metadata: Metadata = { title: "Plans" };
+export const metadata: Metadata = { title: "برنامه‌ها" };
 
 export default function PlansPage() {
   return (
     <>
       <PageHeader
-        title="Plans"
-        subtitle="Coach, AI or your own. One is active at a time."
+        title="برنامه‌ها"
+        subtitle="از مربی، هوش مصنوعی یا خودت. هر بار یکی فعال است."
         action={
           <LinkButton href="/plans/import" variant="secondary" size="sm">
-            Import
+            وارد کردن
           </LinkButton>
         }
       />

@@ -17,7 +17,7 @@ Each task is sized for a short agent session. Acceptance = `npm run check` and `
 | 3 | Progress view | `/history/exercise/[exerciseKey]`: table + simple SVG line of best set and e1RM per workout (`domain/progression/e1rm.ts`, Epley, tested). Link from the exercise guide and the runner header. | todo |
 | 4 | Plan editor (minimal) | Edit exercise sets/reps/rest/rir and swap `exerciseId` from the catalog inside Plan detail; saves via `plansRepo.upsertImported` and marks `userEdited`. Keep schema validation on save. | todo |
 | 5 | Import lint for ESLint boundaries | Add `eslint-plugin-boundaries` or `no-restricted-imports` rules matching `docs/architecture.md`; CI script `npm run check` fails on violations. | todo |
-| 6 | Catalog i18n | `scripts/build-exercise-catalog.mjs` option to include a second language's steps (`fa` is not in the dataset; `en` only for now), UI language toggle stored in settings. | later |
+| 6 | Catalog i18n | `scripts/build-exercise-catalog.mjs` option to include a second language's steps (`fa` is not in the dataset; `en` only for now), UI language toggle stored in settings (UI is Persian-only since 2026-11-10, see architecture "Localization"). | later |
 | 7 | Body-scan log | Settings → "Body scans": date, weight, SMM, PBF, visceral fat; table + sparkline; included in the backup export and in a "Copy context for AI" button that renders `athlete-context.md` sections from data. | later |
 | 8 | Plan generation helper | Settings → "Generate next plan": builds a prompt bundle (guide + context + best sets JSON) to copy into any AI chat; later, optional direct API call behind a user-supplied key. | later |
 

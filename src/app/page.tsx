@@ -4,7 +4,7 @@ import { Today } from "@/features/today/today";
 export default function HomePage() {
   return (
     <>
-      <PageHeader title="Today" subtitle="Pick up where you left off." />
+      <PageHeader title="امروز" subtitle="از همان‌جا که مانده بودی ادامه بده." />
       <Today />
     </>
   );

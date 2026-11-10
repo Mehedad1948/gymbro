@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/shared/lib/format";
 
 const tabs = [
-  { href: "/", label: "Today", icon: "◎" },
-  { href: "/plans", label: "Plans", icon: "▤" },
-  { href: "/exercises", label: "Guide", icon: "▶" },
-  { href: "/history", label: "History", icon: "⟲" },
-  { href: "/settings", label: "More", icon: "⋯" },
+  { href: "/", label: "امروز", icon: "◎" },
+  { href: "/plans", label: "برنامه‌ها", icon: "▤" },
+  { href: "/exercises", label: "راهنما", icon: "▶" },
+  { href: "/history", label: "تاریخچه", icon: "⟲" },
+  { href: "/settings", label: "بیشتر", icon: "⋯" },
 ] as const;
 
 export function BottomNav() {
@@ -19,7 +19,7 @@ export function BottomNav() {
     <nav
       className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-      aria-label="Primary"
+      aria-label="منوی اصلی"
     >
       <ul className="mx-auto flex max-w-lg justify-around">
         {tabs.map((t) => {

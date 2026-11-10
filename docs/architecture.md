@@ -51,7 +51,7 @@ All routes are static shells (Cache Components). Client components read IndexedD
 - **Sync / coach upload**: repos are the seam. Add `infra/sync/` that pushes/pulls `plans`, `workouts`, `setLogs` with `updatedAt` + device id; UI stays unchanged. Plans already carry `meta.source` and `meta.author`.
 - **Multi-user**: add `ownerId` to records in Dexie v2 and scope queries; auth lives in `app/(auth)` with a server adapter.
 - **Plan editing in-app**: plan JSON is the model; an editor is a form over `PlanSchema`.
-- **Localization**: strings are English with optional `nameFa` fields in plans; UI i18n via a `shared/i18n` dictionary when needed.
+- **Localization**: the UI is Persian and RTL (`<html lang="fa" dir="rtl">`, Vazirmatn font, Jalali dates with Latin digits via `LOCALE` in `shared/lib/format.ts`). UI strings are inline; closed vocabularies (catalog body parts/equipment/muscles, session kinds, block types, plan sources, workout status) are mapped in `shared/i18n/fa.ts`. Plan names use `nameFa` when present (`faName()`); free plan text and the exercise catalog stay English and render with `dir="auto"`/`dir="ltr"`. An English toggle would move the inline strings into a `shared/i18n` dictionary.
 
 ## Conventions
 - Files kebab-case; components PascalCase exports; hooks `use-*.ts`.

@@ -30,7 +30,7 @@ export function ImportPlan() {
       return;
     }
     const existing = await plansRepo.get(res.plan.id);
-    if (existing && !confirm(`A plan with id "${res.plan.id}" exists. Replace it?`)) {
+    if (existing && !confirm(`برنامه‌ای با شناسه «${res.plan.id}» وجود دارد. جایگزین شود؟`)) {
       setBusy(false);
       return;
     }
@@ -43,31 +43,31 @@ export function ImportPlan() {
     <div className="space-y-4">
       <Card className="space-y-3">
         <label className="block text-sm text-muted">
-          Pick a <code>.json</code> file
+          یک فایل <code>.json</code> انتخاب کن
           <input
             type="file"
             accept="application/json,.json"
-            className="mt-1 block w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-surface-3 file:px-3 file:py-2 file:text-foreground"
+            className="mt-1 block w-full text-sm file:me-3 file:rounded-lg file:border-0 file:bg-surface-3 file:px-3 file:py-2 file:text-foreground"
             onChange={(e) => onFile(e.target.files?.[0])}
           />
         </label>
-        <p className="text-center text-xs text-muted">or paste</p>
-        <Textarea rows={12} value={text} onChange={(e) => setText(e.target.value)} placeholder='{"schemaVersion":1,"id":"my-plan", …}' />
+        <p className="text-center text-xs text-muted">یا متن را اینجا بچسبان</p>
+        <Textarea dir="ltr" rows={12} value={text} onChange={(e) => setText(e.target.value)} placeholder='{"schemaVersion":1,"id":"my-plan", …}' />
         {errors.length > 0 && (
-          <ul className="rounded-xl bg-danger/10 p-3 text-xs text-danger">
+          <ul dir="ltr" className="rounded-xl bg-danger/10 p-3 text-xs text-danger">
             {errors.slice(0, 12).map((e, i) => (
               <li key={i}>{e}</li>
             ))}
-            {errors.length > 12 && <li>… {errors.length - 12} more</li>}
+            {errors.length > 12 && <li>… و {errors.length - 12} خطای دیگر</li>}
           </ul>
         )}
         <Button className="w-full" disabled={!text.trim() || busy} onClick={submit}>
-          Validate & import
+          بررسی و وارد کردن
         </Button>
       </Card>
       <p className="text-xs text-muted">
-        Plans must follow the schema in <code>docs/plan-schema.md</code>. To generate one with an AI assistant, hand it{" "}
-        <code>docs/ai/plan-generation-guide.md</code> and <code>docs/ai/athlete-context.md</code>.
+        برنامه باید طبق ساختار <code>docs/plan-schema.md</code> باشد. برای ساختن برنامه با دستیار هوش مصنوعی، فایل‌های{" "}
+        <code>docs/ai/plan-generation-guide.md</code> و <code>docs/ai/athlete-context.md</code> را به آن بده.
       </p>
     </div>
   );

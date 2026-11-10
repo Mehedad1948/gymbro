@@ -16,16 +16,16 @@ export type Suggestion = {
  */
 export function suggestNext(ex: PlanExercise, lastSets: SetLog[]): Suggestion {
   const done = lastSets.filter((s) => s.done && s.weightKg !== undefined);
-  if (done.length === 0) return { direction: "none", reason: "No history yet" };
+  if (done.length === 0) return { direction: "none", reason: "هنوز سابقه‌ای ثبت نشده" };
 
   const lastWeight = Math.max(...done.map((s) => s.weightKg ?? 0));
   const prog = ex.progression ?? { type: "double" as const, incrementKg: 2.5 };
-  if (prog.type === "none") return { weightKg: lastWeight, direction: "hold", reason: "No progression rule" };
+  if (prog.type === "none") return { weightKg: lastWeight, direction: "hold", reason: "قانون پیشرفت ندارد" };
   if (prog.type === "reps")
-    return { weightKg: lastWeight, direction: "hold", reason: `Add ${prog.incrementReps} rep(s)` };
+    return { weightKg: lastWeight, direction: "hold", reason: `${prog.incrementReps} تکرار اضافه کن` };
 
   const range = repRangeOf(ex.reps);
-  if (!range) return { weightKg: lastWeight, direction: "hold", reason: "Time-based" };
+  if (!range) return { weightKg: lastWeight, direction: "hold", reason: "زمانی" };
   const top = range[1];
   const targetRir = rirMax(ex.rir);
 
@@ -38,10 +38,10 @@ export function suggestNext(ex: PlanExercise, lastSets: SetLog[]): Suggestion {
     return {
       weightKg: roundQuarter(lastWeight + prog.incrementKg),
       direction: "up",
-      reason: `All ${ex.sets} sets hit ${top} reps → +${prog.incrementKg} kg`,
+      reason: `هر ${ex.sets} ست به ${top} تکرار رسید ← ${prog.incrementKg}+ کیلو`,
     };
   }
-  return { weightKg: lastWeight, direction: "hold", reason: `Repeat ${lastWeight} kg, aim for ${top} reps` };
+  return { weightKg: lastWeight, direction: "hold", reason: `همان ${lastWeight} کیلو، هدف ${top} تکرار` };
 }
 
 function roundQuarter(n: number): number {

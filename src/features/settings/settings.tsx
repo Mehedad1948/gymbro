@@ -49,54 +49,54 @@ export function Settings() {
     if (!f) return;
     try {
       await importBackup(JSON.parse(await f.text()));
-      setMsg("Backup restored.");
+      setMsg("پشتیبان بازیابی شد.");
     } catch (e) {
-      setMsg(`Import failed: ${(e as Error).message}`);
+      setMsg(`بازیابی ناموفق بود: ${(e as Error).message}`);
     }
   }
 
   return (
     <div className="space-y-4">
       <Card className="space-y-3">
-        <h2 className="font-semibold">Plans</h2>
+        <h2 className="font-semibold">برنامه‌ها</h2>
         <div className="flex flex-wrap gap-2">
           <LinkButton href="/plans/import" variant="secondary" size="sm">
-            Import plan JSON
+            وارد کردن فایل JSON برنامه
           </LinkButton>
           <Button
             variant="secondary"
             size="sm"
             onClick={async () => {
               await plansRepo.seedBundled(bundledPlans);
-              setMsg("Bundled plans refreshed (your edited copies were kept).");
+              setMsg("برنامه‌های پیش‌فرض به‌روز شدند (نسخه‌های ویرایش‌شده شما حفظ شد).");
             }}
           >
-            Restore bundled plans
+            بازگردانی برنامه‌های پیش‌فرض
           </Button>
         </div>
       </Card>
 
       <Card className="space-y-3">
-        <h2 className="font-semibold">Backup</h2>
-        <p className="text-sm text-muted">Everything lives in this browser&apos;s storage. Export regularly, or before changing phones.</p>
+        <h2 className="font-semibold">پشتیبان‌گیری</h2>
+        <p className="text-sm text-muted">همه داده‌ها در حافظه همین مرورگر است. مرتب خروجی بگیر، مخصوصاً قبل از عوض کردن گوشی.</p>
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="secondary" size="sm" onClick={doExport}>
-            Export all data
+            خروجی همه داده‌ها
           </Button>
           <label className="inline-flex h-9 cursor-pointer items-center rounded-xl border border-border bg-surface-2 px-3 text-sm">
-            Restore backup
+            بازیابی پشتیبان
             <input type="file" accept="application/json,.json" className="hidden" onChange={(e) => doImport(e.target.files?.[0])} />
           </label>
         </div>
       </Card>
 
       <Card className="space-y-3">
-        <h2 className="font-semibold">Appearance</h2>
+        <h2 className="font-semibold">ظاهر</h2>
         <div className="flex gap-2">
           {[
-            ["", "System / dark"],
-            ["dark", "Dark"],
-            ["light", "Light"],
+            ["", "سیستم / تیره"],
+            ["dark", "تیره"],
+            ["light", "روشن"],
           ].map(([v, label]) => (
             <Button key={v} size="sm" variant={theme === v ? "primary" : "secondary"} onClick={() => applyTheme(v)}>
               {label}
@@ -106,30 +106,30 @@ export function Settings() {
       </Card>
 
       <Card className="space-y-3">
-        <h2 className="font-semibold">Install</h2>
+        <h2 className="font-semibold">نصب</h2>
         <p className="text-sm text-muted">
-          iPhone: Share → <em>Add to Home Screen</em>. Android: browser menu → <em>Install app</em>. Movement GIFs are cached after the first view, so they work offline too.
+          آیفون: Share ← <em>Add to Home Screen</em>. اندروید: منوی مرورگر ← <em>Install app</em>. انیمیشن حرکات بعد از اولین بار دیدن ذخیره می‌شوند و آفلاین هم کار می‌کنند.
         </p>
       </Card>
 
       <Card className="space-y-3 border-danger/30">
-        <h2 className="font-semibold text-danger">Danger zone</h2>
+        <h2 className="font-semibold text-danger">منطقه خطر</h2>
         <Button
           variant="danger"
           size="sm"
           onClick={async () => {
-            if (!confirm("Delete ALL plans, workouts and logs on this device?")) return;
+            if (!confirm("همه برنامه‌ها، تمرین‌ها و ست‌های ثبت‌شده روی این دستگاه پاک شوند؟")) return;
             await wipeAll();
             location.reload();
           }}
         >
-          Wipe local data
+          پاک کردن داده‌های محلی
         </Button>
       </Card>
 
       {msg && <p className="text-center text-sm text-muted">{msg}</p>}
       <p className="text-center text-[11px] text-muted">
-        Exercise data: hasaneyldrm/exercises-dataset (MIT) · media © Gym visual
+        داده حرکات: hasaneyldrm/exercises-dataset (MIT) · media © Gym visual
       </p>
     </div>
   );

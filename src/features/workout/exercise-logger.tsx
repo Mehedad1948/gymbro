@@ -11,6 +11,7 @@ import { db } from "@/infra/db/database";
 import { setLogsRepo } from "@/infra/db/workouts-repo";
 import { Badge } from "@/shared/ui";
 import { cn, kg } from "@/shared/lib/format";
+import { faName } from "@/shared/i18n/fa";
 
 type Props = {
   workoutId: string;
@@ -47,25 +48,25 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex, defaultRestSe
             <h3 className="font-semibold leading-snug">
               {ex.exerciseId ? (
                 <Link href={`/exercises/${ex.exerciseId}`} className="underline-offset-4 hover:underline">
-                  {ex.name}
+                  {faName(ex)}
                 </Link>
               ) : (
-                ex.name
+                faName(ex)
               )}
             </h3>
-            {ex.nameFa && <p className="fa text-xs text-muted">{ex.nameFa}</p>}
+            {ex.nameFa && <p dir="ltr" className="text-end text-xs text-muted">{ex.name}</p>}
           </div>
           <Badge tone={doneCount >= ex.sets ? "accent" : "neutral"}>
             {doneCount}/{ex.sets}
           </Badge>
         </div>
-        <p className="mt-1 font-mono text-xs text-muted">
+        <p className="mt-1 text-xs text-muted">
           {formatReps(ex)}
-          {ex.rir !== undefined && ` · RIR ${Array.isArray(ex.rir) ? ex.rir.join("–") : ex.rir}`}
-          {restSec ? ` · rest ${formatRest(restSec)}` : ""}
-          {ex.tempo ? ` · tempo ${ex.tempo}` : ""}
+          {ex.rir !== undefined && <> · <bdi>RIR {Array.isArray(ex.rir) ? ex.rir.join("–") : ex.rir}</bdi></>}
+          {restSec ? ` · استراحت ${formatRest(restSec)}` : ""}
+          {ex.tempo ? ` · تمپو ${ex.tempo}` : ""}
         </p>
-        {ex.cue && <p className="mt-1 text-xs text-muted">{ex.cue}</p>}
+        {ex.cue && <p dir="auto" className="mt-1 text-xs text-muted">{ex.cue}</p>}
         {suggestion && suggestion.direction !== "none" && (
           <p className={cn("mt-2 text-xs", suggestion.direction === "up" ? "text-accent" : "text-muted")}>
             {suggestion.direction === "up" ? "▲ " : "• "}
@@ -75,10 +76,10 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex, defaultRestSe
       </header>
 
       <div className="grid grid-cols-[2rem_1fr_4.5rem_4.5rem_3.5rem_2.75rem] items-center gap-x-2 gap-y-1 text-xs text-muted">
-        <span>Set</span>
-        <span>Previous</span>
-        <span className="text-center">{ex.seconds ? "kg" : "kg"}</span>
-        <span className="text-center">{ex.seconds ? "sec" : "reps"}</span>
+        <span>ست</span>
+        <span>قبلی</span>
+        <span className="text-center">کیلو</span>
+        <span className="text-center">{ex.seconds ? "ثانیه" : "تکرار"}</span>
         <span className="text-center">RIR</span>
         <span />
         {targets.map((t) => (
@@ -162,14 +163,14 @@ function SetRow({
   return (
     <>
       <span className="font-mono text-sm text-foreground">{target.index + 1}</span>
-      <span className="truncate font-mono text-[11px]">
+      <span dir="ltr" className="truncate text-end font-mono text-[11px]">
         {prev ? `${kg(prev.weightKg)} × ${timeBased ? `${prev.seconds}s` : prev.reps}${prev.rir !== undefined ? ` @${prev.rir}` : ""}` : target.repRange ? `${target.repRange[0]}–${target.repRange[1]}` : "—"}
       </span>
       <input type="number" inputMode="decimal" step="0.5" className={cell} placeholder={placeholderW} value={w} disabled={done} onChange={(e) => setW(e.target.value)} />
       <input type="number" inputMode="numeric" className={cell} placeholder={placeholderR} value={r} disabled={done} onChange={(e) => setR(e.target.value)} />
       <input type="number" inputMode="numeric" min={0} max={10} className={cell} placeholder={target.rir?.toString() ?? ""} value={rir} disabled={done} onChange={(e) => setRir(e.target.value)} />
       <button
-        aria-label={done ? "Undo set" : "Complete set"}
+        aria-label={done ? "لغو ست" : "ثبت ست"}
         onClick={toggle}
         className={cn(
           "h-10 w-full rounded-lg border text-lg font-bold transition",

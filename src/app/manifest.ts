@@ -4,7 +4,9 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Gymbro",
     short_name: "Gymbro",
-    description: "Your training plans, set logs and movement guides. Offline, on your phone.",
+    description: "برنامه‌های تمرینی، ثبت ست‌ها و راهنمای حرکات. آفلاین، روی گوشی شما.",
+    lang: "fa",
+    dir: "rtl",
     id: "/",
     start_url: "/",
     scope: "/",
