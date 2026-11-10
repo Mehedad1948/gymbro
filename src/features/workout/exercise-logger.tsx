@@ -113,7 +113,8 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
           {formatReps(ex)}
           {ex.rir !== undefined && <> · <bdi>RIR {Array.isArray(ex.rir) ? ex.rir.join("–") : ex.rir}</bdi></>}
           {restSec ? ` · استراحت ${formatRest(restSec)}` : ""}
-          {ex.tempo ? ` · تمپو ${ex.tempo}` : ""}
+          {/* Tempo digits are ordered (eccentric-pause-concentric); keep them left-to-right in RTL. */}
+          {ex.tempo && <> · تمپو <bdi dir="ltr">{ex.tempo}</bdi></>}
         </p>
         {ex.cue && <p dir="auto" className="mt-1 text-xs text-muted">{ex.cue}</p>}
         {suggestion && suggestion.direction !== "none" && (

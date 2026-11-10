@@ -55,7 +55,7 @@ For `straight`, put exactly one exercise per block. `rounds`/`restSec` on the bl
   "key": "bench-press",            // slug, unique within the session
   "name": "Barbell bench press", "nameFa": "پرس سینه هالتر",
   "exerciseId": "0025",            // 4-digit catalog id → movement guide + cross-plan history. Omit for custom drills.
-  "alternatives": ["0757"],        // catalog ids to swap when the station is busy
+  "alternatives": ["0757"],        // catalog ids offered by the "⇄ جایگزین" picker in the workout (busy station / missing machine)
   "equipment": "barbell",
   "sets": 4,
   "reps": 8 | [6, 8] | [12, 10, 8, 8],   // fixed | ascending range | per-set ladder

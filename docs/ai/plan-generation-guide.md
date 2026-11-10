@@ -59,7 +59,8 @@ With 3 full-body days, give each day a different main pattern so no lift repeats
 7. **Corrective finisher block** (held stretches; see 3.8).
 
 ### 3.6 Exercise selection
-- Only equipment listed in the context. Every training exercise has an `exerciseId` and at least one `alternatives` id, all verified in `public/data/exercises.json` (the test suite fails on unknown ids). Custom corrective drills may omit `exerciseId`.
+- Only equipment listed in the context. Every training exercise has an `exerciseId` and **two** `alternatives` ids (at least one), all verified in `public/data/exercises.json` (the test suite fails on unknown ids). Custom corrective drills may omit `exerciseId`.
+- Alternatives are real substitutes: same movement pattern and primary muscle, different equipment where possible (machine → free weight / cable / Smith), so a missing or busy machine always has a fallback. The athlete picks them in the workout ("⇄ جایگزین"); the prescription (sets, reps, RIR, rest, tempo, progression) carries over unchanged, and `startLoadKg` and `cue` are dropped for the alternative, so do not write alternative-specific numbers anywhere.
 - Prefer ids the athlete already has history for, so progression stays visible.
 - Reuse existing `key`s for the same movement (`bench-press`, `rdl`, `hack-squat`, …).
 - Unilateral work starts with the weaker (left) side; say so in the `cue`.
