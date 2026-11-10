@@ -8,7 +8,7 @@
  *
  * Bump VERSION to drop old caches after a breaking change.
  */
-const VERSION = "v3";
+const VERSION = "v4";
 const SHELL = `gymbro-shell-${VERSION}`;
 const STATIC = `gymbro-static-${VERSION}`;
 const DATA = `gymbro-data-${VERSION}`;
@@ -104,3 +104,14 @@ async function trim(cache, limit) {
   if (keys.length <= limit) return;
   for (const key of keys.slice(0, keys.length - limit)) await cache.delete(key);
 }
+
+// Tapping the rest-timer notification brings the workout back to the front.
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      const win = list.find((c) => "focus" in c);
+      return win ? win.focus() : self.clients.openWindow("/");
+    }),
+  );
+});

@@ -10,14 +10,15 @@ import { Accordion, Badge, Button, Card, Empty, Spinner, StepList } from "@/shar
 import { formatDuration, LOCALE } from "@/shared/lib/format";
 import { blockTypeFa, faName, faText } from "@/shared/i18n/fa";
 import { ExerciseLogger } from "./exercise-logger";
-import { RestTimer } from "./rest-timer";
+import { RestTimerFab } from "./rest-timer";
 import { usePlanSwapDefaults } from "./use-swaps";
 
 export function WorkoutRunner({ workoutId }: { workoutId: string }) {
   const router = useRouter();
   const workout = useLiveQuery(() => db().workouts.get(workoutId), [workoutId]);
   const plan = useLiveQuery(() => (workout ? db().plans.get(workout.planId) : undefined), [workout?.planId]);
-  const [rest, setRest] = useState<{ sec: number; key: number } | null>(null);
+  // Rest of the last ticked set; the floating timer starts it on tap.
+  const [restSec, setRestSec] = useState<number>();
   const swapDefaults = usePlanSwapDefaults(workout?.planId);
 
   if (workout === undefined || plan === undefined) return <Spinner />;
@@ -94,7 +95,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
                   sessionId={session.id}
                   ex={e}
                   defaultRestSec={b.restSec}
-                  onSetDone={(sec) => !readOnly && sec && setRest({ sec, key: Date.now() })}
+                  onSetDone={(sec) => !readOnly && sec && setRestSec(sec)}
                   chosenId={workout.swaps?.[e.key] ?? swapDefaults[e.key]}
                   defaultId={swapDefaults[e.key]}
                   canSwap={!readOnly}
@@ -161,7 +162,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
         </div>
       )}
 
-      {rest && <RestTimer key={rest.key} seconds={rest.sec} onDone={() => setRest(null)} />}
+      {!readOnly && <RestTimerFab armedSec={restSec} />}
     </>
   );
 }
