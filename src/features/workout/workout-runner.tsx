@@ -27,6 +27,9 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
   if (!session) return <Empty title="این جلسه دیگر در برنامه وجود ندارد" />;
   const corrective = plan.doc.sessions.find((s) => s.kind === "corrective" && s.id !== session.id);
   const readOnly = workout.status !== "active";
+  // The quick-logging hint sits on the first weighted exercise only.
+  const firstBlock = session.blocks.findIndex((b) => b.exercises.some((e) => !e.seconds));
+  const firstLogged = { block: firstBlock, key: session.blocks[firstBlock]?.exercises.find((e) => !e.seconds)?.key };
 
   return (
     <>
@@ -56,7 +59,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
 
       {session.warmup && (
         <div className="mb-3">
-          <StepList title="گرم کردن" items={session.warmup}>
+          <StepList title="گرم کردن" items={faText(session.warmup, session.warmupFa)}>
             {corrective && (
               <button className="mt-2 text-accent" onClick={() => {
                   const el = document.getElementById("corrective") as HTMLDetailsElement | null;
@@ -95,6 +98,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
                   chosenId={workout.swaps?.[e.key] ?? swapDefaults[e.key]}
                   defaultId={swapDefaults[e.key]}
                   canSwap={!readOnly}
+                  showHint={!readOnly && bi === firstLogged.block && e.key === firstLogged.key}
                 />
               ))}
             </div>
@@ -130,7 +134,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
 
       {session.cooldown && (
         <Card className="mt-4 text-xs text-muted">
-          <span className="font-medium text-foreground">در پایان:</span> <span dir="auto">{session.cooldown.join(" · ")}</span>
+          <span className="font-medium text-foreground">در پایان:</span> <span dir="auto">{faText(session.cooldown, session.cooldownFa).join(" · ")}</span>
         </Card>
       )}
 

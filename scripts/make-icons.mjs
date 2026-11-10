@@ -1,65 +1,78 @@
 #!/usr/bin/env node
 /**
- * Generates public/icons/icon-192.png and icon-512.png without any image
- * library: a rounded dark tile with a lime dumbbell, drawn pixel by pixel and
- * encoded as PNG with zlib. Replace with real artwork whenever you like.
+ * Rasterises public/logo.svg into the PWA icons and the favicon:
+ *   public/icons/icon-192.png, icon-512.png   logo on the app background
+ *   public/icons/icon-maskable-512.png        logo shrunk into the maskable safe zone
+ *   src/app/favicon.ico                       16/32/48 px, PNG-in-ICO
+ *
+ * Uses sharp, which Next.js already installs for image optimisation; nothing
+ * extra goes into package.json. Re-run after editing the logo.
  */
-import { deflateSync } from "node:zlib";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
-const BG = [0x0b, 0x0f, 0x14];
-const FG = [0xb6, 0xf0, 0x4c];
-
-function crc32(buf) {
-  let c, crc = 0xffffffff;
-  for (let n = 0; n < buf.length; n++) {
-    c = (crc ^ buf[n]) & 0xff;
-    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-    crc = (crc >>> 8) ^ c;
-  }
-  return (crc ^ 0xffffffff) >>> 0;
-}
-function chunk(type, data) {
-  const len = Buffer.alloc(4); len.writeUInt32BE(data.length);
-  const td = Buffer.concat([Buffer.from(type), data]);
-  const crc = Buffer.alloc(4); crc.writeUInt32BE(crc32(td));
-  return Buffer.concat([len, td, crc]);
+const require = createRequire(import.meta.url);
+let sharp;
+try {
+  sharp = require("sharp");
+} catch {
+  console.error("sharp not found (it ships with next). Run `npm install` and retry.");
+  process.exit(1);
 }
 
-function render(size) {
-  const px = Buffer.alloc(size * size * 4);
-  const r = size * 0.22; // corner radius
-  const inRounded = (x, y) => {
-    const cx = Math.min(Math.max(x, r), size - r), cy = Math.min(Math.max(y, r), size - r);
-    return (x - cx) ** 2 + (y - cy) ** 2 <= r * r;
-  };
-  // dumbbell geometry in unit coordinates
-  const bar = { x0: 0.22, x1: 0.78, y0: 0.465, y1: 0.535 };
-  const plates = [
-    { x0: 0.15, x1: 0.24, y0: 0.30, y1: 0.70 },
-    { x0: 0.24, x1: 0.31, y0: 0.36, y1: 0.64 },
-    { x0: 0.69, x1: 0.76, y0: 0.36, y1: 0.64 },
-    { x0: 0.76, x1: 0.85, y0: 0.30, y1: 0.70 },
-  ];
-  const inRect = (u, v, q) => u >= q.x0 && u <= q.x1 && v >= q.y0 && v <= q.y1;
-  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const i = (y * size + x) * 4;
-    if (!inRounded(x + 0.5, y + 0.5)) { px[i + 3] = 0; continue; }
-    const u = (x + 0.5) / size, v = (y + 0.5) / size;
-    const on = inRect(u, v, bar) || plates.some((p) => inRect(u, v, p));
-    const [R, G, B] = on ? FG : BG;
-    px[i] = R; px[i + 1] = G; px[i + 2] = B; px[i + 3] = 255;
-  }
-  const raw = Buffer.alloc((size * 4 + 1) * size);
-  for (let y = 0; y < size; y++) { raw[y * (size * 4 + 1)] = 0; px.copy(raw, y * (size * 4 + 1) + 1, y * size * 4, (y + 1) * size * 4); }
-  const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(size, 0); ihdr.writeUInt32BE(size, 4); ihdr[8] = 8; ihdr[9] = 6; ihdr[10] = 0; ihdr[11] = 0; ihdr[12] = 0;
-  return Buffer.concat([
-    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
-    chunk("IHDR", ihdr), chunk("IDAT", deflateSync(raw)), chunk("IEND", Buffer.alloc(0)),
-  ]);
+const BG = "#0b0f14";
+const logo = readFileSync("public/logo.svg");
+
+/** Logo centred on a square of `bg` (or transparent), occupying `fill` of the side. */
+async function render(size, fill, bg) {
+  const inner = Math.round(size * fill);
+  const mark = await sharp(logo, { density: 72 * Math.max(1, inner / 162) })
+    .resize(inner, inner)
+    .png()
+    .toBuffer();
+  const canvas = bg
+    ? { r: parseInt(bg.slice(1, 3), 16), g: parseInt(bg.slice(3, 5), 16), b: parseInt(bg.slice(5, 7), 16), alpha: 1 }
+    : { r: 0, g: 0, b: 0, alpha: 0 };
+  return sharp({ create: { width: size, height: size, channels: 4, background: canvas } })
+    .composite([{ input: mark, gravity: "center" }])
+    .png()
+    .toBuffer();
+}
+
+/** ICO container holding PNG images (supported by every current browser). */
+function ico(images) {
+  const header = Buffer.alloc(6 + 16 * images.length);
+  header.writeUInt16LE(0, 0);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(images.length, 4);
+  let offset = header.length;
+  images.forEach(({ size, png }, i) => {
+    const e = 6 + 16 * i;
+    header[e] = size >= 256 ? 0 : size;
+    header[e + 1] = size >= 256 ? 0 : size;
+    header.writeUInt16LE(1, e + 4); // colour planes
+    header.writeUInt16LE(32, e + 6); // bits per pixel
+    header.writeUInt32LE(png.length, e + 8);
+    header.writeUInt32LE(offset, e + 12);
+    offset += png.length;
+  });
+  return Buffer.concat([header, ...images.map((i) => i.png)]);
 }
 
 mkdirSync("public/icons", { recursive: true });
-for (const s of [192, 512]) writeFileSync(`public/icons/icon-${s}.png`, render(s));
-console.log("icons written to public/icons/");
+for (const s of [192, 512]) writeFileSync(`public/icons/icon-${s}.png`, await render(s, 0.92, BG));
+// Maskable icons may be cropped to a circle of 80% diameter; keep the badge inside it.
+writeFileSync("public/icons/icon-maskable-512.png", await render(512, 0.76, BG));
+
+// Favicon: the badge's own dark disc carries it, so the corners stay transparent.
+const disc = Buffer.from(
+  logo
+    .toString("utf8")
+    .replace(/(<svg[^>]*>)/, `$1<circle cx="80.721" cy="80.723" r="80.6" fill="${BG}"/>`),
+);
+const favicon = await Promise.all(
+  [16, 32, 48].map(async (size) => ({ size, png: await sharp(disc, { density: 300 }).resize(size, size).png().toBuffer() })),
+);
+writeFileSync("src/app/favicon.ico", ico(favicon));
+
+console.log("icons written to public/icons/ and src/app/favicon.ico");

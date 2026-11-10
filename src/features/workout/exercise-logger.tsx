@@ -31,10 +31,12 @@ type Props = {
   defaultId?: string;
   /** Show the alternatives picker (active workouts only). */
   canSwap?: boolean;
+  /** Explain the quick-logging flow until the first set is ticked. */
+  showHint?: boolean;
 };
 
 /** One exercise card inside a running workout: targets, previous, inputs. */
-export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defaultRestSec, onSetDone, chosenId, defaultId, canSwap }: Props) {
+export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defaultRestSec, onSetDone, chosenId, defaultId, canSwap, showHint }: Props) {
   // The catalog gives names, media and equipment for alternatives.
   const catalogReady = useCatalog().status === "ready";
   const catalog = catalogReady ? getCatalogSync() : undefined;
@@ -62,6 +64,9 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
   const suggestion = previous ? suggestNext(ex, previous) : undefined;
   const doneCount = logs?.filter((l) => l.done).length ?? 0;
   const restSec = ex.restSec ?? defaultRestSec;
+  // A weight typed earlier in this workout beats the suggestion: type it once, tick the rest.
+  const seedWeight = logs?.findLast((l) => l.weightKg !== undefined)?.weightKg ?? suggestion?.weightKg ?? ex.startLoadKg;
+  const lastIndex = targets.length - 1;
 
   return (
     <section className="rounded-2xl border border-border bg-surface p-4">
@@ -152,6 +157,13 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
         )}
       </header>
 
+      {showHint && doneCount === 0 && (
+        <p className="mb-3 rounded-lg bg-surface-2 px-3 py-2 text-xs leading-relaxed text-muted">
+          وزنه را یک بار بنویس و برای بقیهٔ ست‌ها فقط ✓ بزن؛ اگر تکرار فرق کرد عددش را عوض کن.
+          {ex.rir !== undefined && " RIR را فقط در ست آخر بنویس."}
+        </p>
+      )}
+
       <div className="grid grid-cols-[2rem_1fr_4.5rem_4.5rem_3.5rem_2.75rem] items-center gap-x-2 gap-y-1 text-xs text-muted">
         <span>ست</span>
         <span>قبلی</span>
@@ -165,8 +177,9 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
             target={t}
             prev={previous?.find((p) => p.setIndex === t.index)}
             log={logs?.find((l) => l.setIndex === t.index)}
-            seedWeight={suggestion?.weightKg ?? ex.startLoadKg ?? logs?.findLast((l) => l.weightKg !== undefined)?.weightKg}
+            seedWeight={seedWeight}
             timeBased={Boolean(ex.seconds)}
+            askRir={t.index === lastIndex && ex.rir !== undefined}
             onSave={async (patch) => {
               await setLogsRepo.upsertSet({
                 workoutId,
@@ -194,6 +207,7 @@ function SetRow({
   log,
   seedWeight,
   timeBased,
+  askRir,
   onSave,
 }: {
   target: SetTarget;
@@ -201,12 +215,16 @@ function SetRow({
   log?: SetLog;
   seedWeight?: number;
   timeBased: boolean;
+  /** Only the last set asks for RIR; earlier sets save the target. */
+  askRir: boolean;
   onSave: (p: Patch) => Promise<void>;
 }) {
   // Drafts while editing; once a set is done the saved log is the source of truth.
   const [draftW, setW] = useState<string>("");
   const [draftR, setR] = useState<string>("");
   const [draftRir, setRir] = useState<string>("");
+  // Earlier sets save the target RIR unless the athlete taps to override it.
+  const [rirOpen, setRirOpen] = useState(false);
 
   const done = log?.done ?? false;
   const w = done ? str(log?.weightKg) : draftW;
@@ -241,11 +259,24 @@ function SetRow({
     <>
       <span className="font-mono text-sm text-foreground">{target.index + 1}</span>
       <span dir="ltr" className="truncate text-end font-mono text-xs">
-        {prev ? `${kg(prev.weightKg)} × ${timeBased ? `${prev.seconds}s` : prev.reps}${prev.rir !== undefined ? ` @${prev.rir}` : ""}` : target.repRange ? `${target.repRange[0]}–${target.repRange[1]}` : "—"}
+        {prev ? `${kg(prev.weightKg)} × ${timeBased ? `${prev.seconds}s` : prev.reps}${prev.rir !== undefined ? ` @${prev.rir}` : ""}` : "—"}
       </span>
-      <input type="number" inputMode="decimal" step="0.5" className={cell} placeholder={placeholderW} value={w} disabled={done} onChange={(e) => setW(e.target.value)} />
-      <input type="number" inputMode="numeric" className={cell} placeholder={placeholderR} value={r} disabled={done} onChange={(e) => setR(e.target.value)} />
-      <input type="number" inputMode="numeric" min={0} max={10} className={cell} placeholder={target.rir?.toString() ?? ""} value={rir} disabled={done} onChange={(e) => setRir(e.target.value)} />
+      <input type="number" inputMode="decimal" step="0.5" aria-label={`کیلو ست ${target.index + 1}`} className={cell} placeholder={placeholderW} value={w} disabled={done} onChange={(e) => setW(e.target.value)} />
+      <input type="number" inputMode="numeric" aria-label={`${timeBased ? "ثانیه" : "تکرار"} ست ${target.index + 1}`} className={cell} placeholder={placeholderR} value={r} disabled={done} onChange={(e) => setR(e.target.value)} />
+      {askRir || (rirOpen && !done) ? (
+        <input type="number" inputMode="numeric" min={0} max={10} aria-label={`RIR ست ${target.index + 1}`} autoFocus={!askRir} className={cell} placeholder={target.rir?.toString() ?? ""} value={rir} disabled={done} onChange={(e) => setRir(e.target.value)} />
+      ) : done || target.rir === undefined ? (
+        <span className="text-center font-mono text-sm text-muted/70">{done ? str(log?.rir) || "–" : "–"}</span>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setRirOpen(true)}
+          className="h-10 w-full rounded-lg border border-dashed border-transparent text-center font-mono text-sm text-muted/70 hover:border-border"
+          aria-label={`RIR ست ${target.index + 1}: ${rir || target.rir}، خودکار. برای تغییر بزن`}
+        >
+          {rir || target.rir}
+        </button>
+      )}
       <button
         aria-label={done ? "لغو ست" : "ثبت ست"}
         onClick={toggle}

@@ -1,9 +1,14 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE_NAME, SITE_TAGLINE_EN } from "./site";
 
 export const alt = `${SITE_NAME} — local-first gym PWA`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Read once at module scope so the route still prerenders (no request-time IO).
+const logoSrc = `data:image/svg+xml;base64,${await readFile(join(process.cwd(), "public/logo.svg"), "base64")}`;
 
 // Latin-only text on purpose: the OG renderer (satori) does not shape Arabic script.
 export default function Image() {
@@ -23,14 +28,8 @@ export default function Image() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          {/* Dumbbell mark */}
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ width: 26, height: 70, borderRadius: 8, background: "#7dd3fc" }} />
-            <div style={{ width: 26, height: 100, borderRadius: 8, background: "#38bdf8", marginLeft: 6 }} />
-            <div style={{ width: 90, height: 24, background: "#38bdf8", marginLeft: 4, marginRight: 4 }} />
-            <div style={{ width: 26, height: 100, borderRadius: 8, background: "#38bdf8", marginRight: 6 }} />
-            <div style={{ width: 26, height: 70, borderRadius: 8, background: "#7dd3fc" }} />
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element -- satori renders plain <img> only */}
+          <img src={logoSrc} width={150} height={150} alt="" />
           <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: -2 }}>{SITE_NAME}</div>
         </div>
 
