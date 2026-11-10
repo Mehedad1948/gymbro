@@ -8,6 +8,7 @@ Each task is sized for a short agent session. Acceptance = `npm run check` and `
 - Bundled plans: 3 historical coach plans digitized + Plan 4 (new AI block).
 - Today, Plans (list/detail/import/export/archive), Workout runner (previous sets, suggestion, rest timer, corrective block), History, Exercise guide (search, GIF, steps, personal history), Settings.
 - PWA: manifest, icons, hand-written service worker, catalog build script.
+- SEO/sharing: Open Graph + Twitter tags with a generated `/opengraph-image`; `robots.txt` and `noindex` until `NEXT_PUBLIC_ALLOW_INDEXING=true` (`src/app/site.ts`).
 
 ## Next (ordered)
 | # | Task | Acceptance criteria | Status |

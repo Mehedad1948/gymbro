@@ -5,17 +5,37 @@ import "./globals.css";
 import { BottomNav } from "@/shared/ui/bottom-nav";
 import { RegisterServiceWorker } from "@/infra/pwa/register-sw";
 import { AppBootstrap } from "@/features/bootstrap/app-bootstrap";
+import { NOINDEX, SITE_NAME, SITE_TAGLINE_FA, siteUrl } from "./site";
 
 const vazirmatn = Vazirmatn({ variable: "--font-vazirmatn", subsets: ["arabic", "latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "Gymbro", template: "%s · Gymbro" },
-  description: "برنامه‌های تمرینی، ثبت ست‌ها و راهنمای حرکات. آفلاین، روی گوشی شما.",
-  applicationName: "Gymbro",
-  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: "Gymbro" },
+  metadataBase: siteUrl(),
+  title: { default: SITE_NAME, template: `%s · ${SITE_NAME}` },
+  description: SITE_TAGLINE_FA,
+  applicationName: SITE_NAME,
+  appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: SITE_NAME },
   formatDetection: { telephone: false },
   icons: { apple: "/icons/icon-192.png" },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_TAGLINE_FA,
+    url: "/",
+    locale: "fa_IR",
+    // image comes from src/app/opengraph-image.tsx (file convention)
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_TAGLINE_FA,
+  },
+  // Pre-release: block indexing until NEXT_PUBLIC_ALLOW_INDEXING=true (see src/app/site.ts, robots.ts).
+  robots: NOINDEX
+    ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } }
+    : { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
