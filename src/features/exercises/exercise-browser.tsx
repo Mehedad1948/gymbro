@@ -51,7 +51,7 @@ export function ExerciseBrowser() {
               <Link href={`/exercises/${e.id}`}>
                 <Card className="flex items-center gap-3 p-2">
                   {/* eslint-disable-next-line @next/next/no-img-element -- remote dataset media, cached by the SW */}
-                  <img src={thumbUrl(e)} alt="" width={56} height={56} loading="lazy" className="size-14 shrink-0 rounded-lg bg-white object-cover" />
+                  <img src={thumbUrl(e)} alt="" width={56} height={56} loading="lazy" crossOrigin="anonymous" className="size-14 shrink-0 rounded-lg bg-white object-cover" />
                   <div className="min-w-0">
                     <p dir="ltr" className="truncate text-end font-medium capitalize">{e.name}</p>
                     <p className="truncate text-xs text-muted">

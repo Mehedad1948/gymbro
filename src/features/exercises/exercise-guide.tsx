@@ -7,6 +7,7 @@ import { db } from "@/infra/db/database";
 import { Badge, Card, Empty, PageHeader, Spinner } from "@/shared/ui";
 import { formatDate, kg } from "@/shared/lib/format";
 import { faTerm } from "@/shared/i18n/fa";
+import { GifPlayer } from "@/shared/ui/gif-player";
 
 export function ExerciseGuide({ exerciseId }: { exerciseId: string }) {
   const state = useCatalog();
@@ -36,8 +37,9 @@ export function ExerciseGuide({ exerciseId }: { exerciseId: string }) {
     <>
       <PageHeader back="/exercises" title={<span dir="ltr" className="capitalize">{ex.name}</span>} subtitle={`${faTerm(ex.target)} · ${faTerm(ex.bodyPart)} · ${faTerm(ex.equipment)}`} />
       <Card className="overflow-hidden p-0">
-        {/* eslint-disable-next-line @next/next/no-img-element -- remote dataset media, cached by the SW */}
-        <img src={gifUrl(ex)} alt={`انیمیشن ${ex.name}`} className="mx-auto aspect-square w-full max-w-sm bg-white object-contain" />
+        <div className="bg-white">
+          <GifPlayer key={ex.id} src={gifUrl(ex)} alt={`انیمیشن ${ex.name}`} controls className="mx-auto aspect-square w-full max-w-sm" />
+        </div>
         <p className="px-3 py-2 text-center text-[11px] text-muted">{MEDIA_ATTRIBUTION}</p>
       </Card>
 

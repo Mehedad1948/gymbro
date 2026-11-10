@@ -8,7 +8,7 @@
  *
  * Bump VERSION to drop old caches after a breaking change.
  */
-const VERSION = "v2";
+const VERSION = "v3";
 const SHELL = `gymbro-shell-${VERSION}`;
 const STATIC = `gymbro-static-${VERSION}`;
 const DATA = `gymbro-data-${VERSION}`;
@@ -55,16 +55,25 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
+/*
+ * Media is requested with CORS (crossOrigin="anonymous" / fetch mode "cors"),
+ * so responses are readable and only real 200s are cached. Opaque responses
+ * are never stored: browsers pad each one to several MB of quota, and running
+ * out of quota can get the whole origin evicted, workout logs included.
+ */
 async function cacheFirst(name, req, limit) {
   const cache = await caches.open(name);
-  const hit = await cache.match(req);
+  const hit = await cache.match(req, { ignoreVary: true });
   if (hit) return hit;
-  const res = await fetch(req);
-  if (res.ok || res.type === "opaque") {
-    cache.put(req, res.clone());
-    if (limit) trim(cache, limit);
+  try {
+    const res = await fetch(req);
+    if (res.ok) {
+      cache.put(req, res.clone()).then(() => limit && trim(cache, limit)).catch(() => undefined);
+    }
+    return res;
+  } catch {
+    return Response.error();
   }
-  return res;
 }
 
 async function staleWhileRevalidate(name, req) {

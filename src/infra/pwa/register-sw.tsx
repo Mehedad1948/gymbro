@@ -13,6 +13,8 @@ export function RegisterServiceWorker() {
     navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" }).catch(() => {
       /* offline support is progressive; ignore registration failures */
     });
+    // Workout logs live only on this device: ask the browser not to evict them under storage pressure.
+    navigator.storage?.persist?.().catch(() => undefined);
   }, []);
   return null;
 }

@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { useState } from "react";
 import type { CatalogExercise } from "@/domain/exercise/types";
-import { thumbUrl } from "@/infra/catalog/media";
+import { MEDIA_ATTRIBUTION, thumbUrl } from "@/infra/catalog/media";
+import { ExercisePreviewSheet } from "@/features/exercises/exercise-preview-sheet";
 import { cn } from "@/shared/lib/format";
 import { faTerm } from "@/shared/i18n/fa";
 
@@ -28,7 +29,8 @@ const EASE = "ease-[cubic-bezier(0.22,1,0.36,1)]";
  * Inline panel under an exercise header: the prescribed movement plus its
  * alternatives. Expands with a height + fade transition, options slide in
  * staggered. Collapsed content is inert so it is skipped by focus and screen
- * readers.
+ * readers. Tapping a thumbnail (or ⤢) opens a large animated preview sheet
+ * with a "choose" action; tapping the row chooses directly.
  */
 export function ExerciseSwap({ id, open, everOpened, options, originalId, chosenId, defaultId, onChoose, onSetDefault }: Props) {
   const chosenIsOriginal = chosenId === originalId;
@@ -36,7 +38,17 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
   const showSwitch = !chosenIsOriginal || defaultId !== undefined;
   const switchOn = chosenIsOriginal ? defaultId === undefined : defaultId === chosenId;
 
+  // Preview sheet: keep the last option while the exit animation runs.
+  const [preview, setPreview] = useState<Option | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [broken, setBroken] = useState<Set<string>>(new Set());
+  const openPreview = (o: Option) => {
+    setPreview(o);
+    setPreviewOpen(true);
+  };
+
   return (
+    <>
     <div
       id={id}
       inert={!open}
@@ -70,16 +82,36 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
                   >
                     <button
                       type="button"
+                      onClick={() => openPreview(o)}
+                      aria-label={`دیدن بزرگ‌تر ${o.title}`}
+                      className="group relative size-16 shrink-0 overflow-hidden rounded-lg bg-white transition-transform active:scale-95"
+                    >
+                      {everOpened && o.catalog && !broken.has(o.id) ? (
+                        // Not lazy: lazy images inside a collapsed panel may never load on iOS Safari.
+                        // eslint-disable-next-line @next/next/no-img-element -- remote dataset media, cached by the SW
+                        <img
+                          src={thumbUrl(o.catalog)}
+                          alt=""
+                          width={64}
+                          height={64}
+                          crossOrigin="anonymous"
+                          decoding="async"
+                          onError={() => setBroken((s) => new Set(s).add(o.id))}
+                          className="size-16 object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <span className="grid size-full place-items-center text-[10px] text-black/40">{everOpened ? "پیش‌نمایش" : ""}</span>
+                      )}
+                      <span aria-hidden className="absolute bottom-1 inset-e-1 grid size-5 place-items-center rounded-md bg-black/55 text-[10px] text-white">
+                        ⤢
+                      </span>
+                    </button>
+                    <button
+                      type="button"
                       aria-pressed={selected}
                       onClick={() => onChoose(o.id)}
                       className="flex min-w-0 flex-1 items-center gap-3 rounded-lg text-start active:scale-[0.99] transition-transform"
                     >
-                      <span className="size-12 shrink-0 overflow-hidden rounded-lg bg-white">
-                        {everOpened && o.catalog && (
-                          // eslint-disable-next-line @next/next/no-img-element -- remote dataset media, cached by the SW
-                          <img src={thumbUrl(o.catalog)} alt="" width={48} height={48} loading="lazy" className="size-12 object-cover" />
-                        )}
-                      </span>
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-sm font-medium capitalize">
                           <bdi>{o.title}</bdi>
@@ -108,18 +140,13 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
                         ✓
                       </span>
                     </button>
-                    <Link
-                      href={`/exercises/${o.id}`}
-                      aria-label="راهنمای حرکت"
-                      className="grid size-9 shrink-0 place-items-center rounded-lg text-xs text-muted transition-colors hover:bg-surface-3 hover:text-foreground"
-                    >
-                      ▶
-                    </Link>
+
                   </div>
                 </li>
               );
             })}
           </ul>
+          <p className="px-1 pt-1.5 text-[10px] text-muted">برای دیدن انیمیشن روی تصویر بزن · {MEDIA_ATTRIBUTION}</p>
 
           {showSwitch && (
             <div
@@ -151,7 +178,7 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
               >
                 <span
                   className={cn(
-                    "absolute top-0.5 start-0.5 size-[18px] rounded-full shadow transition-transform duration-300",
+                    "absolute top-0.5 inset-s-0.5 size-[18px] rounded-full shadow transition-transform duration-300",
                     EASE,
                     switchOn ? "bg-accent-foreground ltr:translate-x-4 rtl:-translate-x-4" : "bg-foreground/80",
                   )}
@@ -162,5 +189,17 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
         </div>
       </div>
     </div>
+    <ExercisePreviewSheet
+      exercise={preview?.catalog}
+      title={preview?.title ?? ""}
+      open={previewOpen}
+      selected={preview?.id === chosenId}
+      onClose={() => setPreviewOpen(false)}
+      onChoose={() => {
+        if (preview) onChoose(preview.id);
+        setPreviewOpen(false);
+      }}
+    />
+    </>
   );
 }
