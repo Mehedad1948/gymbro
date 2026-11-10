@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLiveQuery } from "dexie-react-hooks";
+import { TrashBinMinimalisticIcon } from "@solar-icons/react/linear";
 import { db } from "@/infra/db/database";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
 import { Badge, Button, Card, Empty, Spinner } from "@/shared/ui";
@@ -51,7 +52,7 @@ export function History() {
                   aria-label="حذف تمرین"
                   onClick={() => confirm("این تمرین و ست‌هایش حذف شوند؟") && workoutsRepo.remove(w.id)}
                 >
-                  ✕
+                  <TrashBinMinimalisticIcon size={18} />
                 </Button>
               </div>
             </Card>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CheckIcon } from "@solar-icons/react/linear";
 import type { CatalogExercise } from "@/domain/exercise/types";
 import { MEDIA_ATTRIBUTION, thumbUrl } from "@/infra/catalog/media";
 import { ExercisePreviewSheet } from "@/features/exercises/exercise-preview-sheet";
@@ -133,11 +134,11 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
                       <span
                         aria-hidden
                         className={cn(
-                          "grid size-6 shrink-0 place-items-center rounded-full border text-xs font-bold transition-all duration-200",
+                          "grid size-6 shrink-0 place-items-center rounded-full border transition-all duration-200",
                           selected ? "scale-100 border-accent bg-accent text-accent-foreground" : "scale-90 border-border text-transparent",
                         )}
                       >
-                        ✓
+                        <CheckIcon size={14} strokeWidth={2.6} />
                       </span>
                     </button>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { PauseIcon, PlayIcon } from "@solar-icons/react/bold";
 import { decodeGif, type DecodedGif } from "@/shared/lib/gif";
 import { cn } from "@/shared/lib/format";
 
@@ -105,7 +106,7 @@ export function GifPlayer({ src, alt, className, controls = false }: Props) {
             aria-label={playing ? "توقف" : "پخش"}
             className="grid h-8 min-w-8 place-items-center rounded-full bg-black/60 px-2 text-sm text-white backdrop-blur transition active:scale-95"
           >
-            {playing ? "❚❚" : "▶"}
+            {playing ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
           </button>
           <button
             type="button"

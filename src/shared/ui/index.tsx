@@ -1,8 +1,9 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
+import { AltArrowDownIcon, AltArrowLeftIcon, ArrowRightIcon, CheckIcon as SolarCheckIcon } from "@solar-icons/react/linear";
 import { cn } from "@/shared/lib/format";
 
-/* Small, dependency-free primitives. Styling lives in globals.css tokens. */
+/* Small primitives; icons come from Solar. Styling lives in globals.css tokens. */
 
 type ButtonProps = ComponentProps<"button"> & {
   variant?: "primary" | "secondary" | "ghost" | "danger";
@@ -100,7 +101,7 @@ export function PageHeader({
     <header className="mb-5">
       {back && (
         <Link href={back} className="-ms-2 mb-1 inline-flex min-h-11 items-center gap-1 rounded-lg px-2 text-sm text-muted hover:text-foreground">
-          <span aria-hidden>→</span> {backLabel}
+          <ArrowRightIcon size={18} /> {backLabel}
         </Link>
       )}
       <div className="flex items-start justify-between gap-3">
@@ -171,19 +172,12 @@ export function Accordion({
 
 export function Chevron({ className, dir = "down" }: { className?: string; dir?: "down" | "back" }) {
   // "back" points left: the inline end in this RTL app, i.e. the "go into" arrow.
-  return (
-    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden className={cn(dir === "back" && "rotate-90", className)}>
-      <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  const Icon = dir === "back" ? AltArrowLeftIcon : AltArrowDownIcon;
+  return <Icon size={20} strokeWidth={2} className={className} />;
 }
 
 export function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden className={className}>
-      <path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+  return <SolarCheckIcon size={16} strokeWidth={2.4} className={className} />;
 }
 
 /** Small "label: value" pill for prescriptions (sets × reps, RIR, rest). */

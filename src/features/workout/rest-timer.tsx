@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { StopwatchIcon } from "@solar-icons/react/linear";
 import { chime, unlockAudio } from "@/shared/lib/beep";
 import { cn } from "@/shared/lib/format";
 import { clearRestNotification, requestRestNotifications, showRestDone, showRestRunning } from "@/infra/pwa/rest-notification";
@@ -131,10 +132,7 @@ export function RestTimerFab({ armedSec }: { armedSec?: number }) {
           ) : (
             <>
               {!running && (
-                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden className="mb-1 text-accent">
-                  <circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
-                  <path d="M12 9v4l2.5 2M9.5 2.5h5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
+                <StopwatchIcon size={18} strokeWidth={2} className="mb-1 text-accent" />
               )}
               <span dir="ltr" className={cn("font-mono tabular-nums", running ? "text-base font-semibold" : "text-xs")}>
                 {clock(shown)}

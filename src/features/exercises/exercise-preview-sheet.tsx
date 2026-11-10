@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useId } from "react";
+import { AltArrowLeftIcon, CheckIcon, CloseIcon } from "@solar-icons/react/linear";
 import type { CatalogExercise } from "@/domain/exercise/types";
 import { gifUrl, MEDIA_ATTRIBUTION } from "@/infra/catalog/media";
 import { Badge, Button, LinkButton } from "@/shared/ui";
@@ -30,7 +31,13 @@ export function ExercisePreviewSheet({ exercise: ex, title, open, selected, onCl
       footer={
         <div className="flex gap-2">
           <Button className="flex-1" size="lg" disabled={selected} onClick={onChoose}>
-            {selected ? "انتخاب‌شده ✓" : "انتخاب این حرکت"}
+            {selected ? (
+              <>
+                <CheckIcon size={18} strokeWidth={2.2} /> انتخاب‌شده
+              </>
+            ) : (
+              "انتخاب این حرکت"
+            )}
           </Button>
           <Button variant="secondary" size="lg" onClick={onClose}>
             بستن
@@ -55,7 +62,7 @@ export function ExercisePreviewSheet({ exercise: ex, title, open, selected, onCl
               aria-label="بستن"
               className="grid size-9 shrink-0 place-items-center rounded-full bg-surface-2 text-muted transition-colors hover:text-foreground"
             >
-              ✕
+              <CloseIcon size={18} />
             </button>
           </div>
 
@@ -84,13 +91,13 @@ export function ExercisePreviewSheet({ exercise: ex, title, open, selected, onCl
                 ))}
               </ol>
               <LinkButton href={`/exercises/${ex.id}`} variant="ghost" size="sm" className="mt-2 -ms-3">
-                راهنمای کامل و سابقه ←
+                راهنمای کامل و سابقه <AltArrowLeftIcon size={16} />
               </LinkButton>
             </div>
           )}
           {ex.steps.length === 0 && (
-            <Link href={`/exercises/${ex.id}`} className="mt-3 inline-block text-sm text-accent">
-              راهنمای کامل ←
+            <Link href={`/exercises/${ex.id}`} className="mt-3 inline-flex items-center gap-1 text-sm text-accent">
+              راهنمای کامل <AltArrowLeftIcon size={16} />
             </Link>
           )}
         </>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
+import { ArrowDownIcon, ArrowRightIcon } from "@solar-icons/react/linear";
 import { formatRest } from "@/domain/plan";
 import { db } from "@/infra/db/database";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
@@ -36,8 +37,8 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
     <>
       <header className="mb-4 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <button className="-ms-2 inline-flex min-h-11 items-center rounded-lg px-2 text-sm text-muted" onClick={() => router.push("/")}>
-            → امروز
+          <button className="-ms-2 inline-flex min-h-11 items-center gap-1 rounded-lg px-2 text-sm text-muted" onClick={() => router.push("/")}>
+            <ArrowRightIcon size={18} /> امروز
           </button>
           <h1 className="text-xl leading-snug font-semibold text-balance">{faName(session)}</h1>
           <p className="text-xs text-muted">
@@ -62,13 +63,13 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
         <div className="mb-3">
           <StepList title="گرم کردن" items={faText(session.warmup, session.warmupFa)}>
             {corrective && (
-              <button className="mt-2 text-accent" onClick={() => {
+              <button className="mt-2 inline-flex items-center gap-1 text-accent" onClick={() => {
                   const el = document.getElementById("corrective") as HTMLDetailsElement | null;
                   if (!el) return;
                   el.open = true;
                   el.scrollIntoView({ behavior: "smooth" });
                 }}>
-                حرکات اصلاحی پایین صفحه ↓
+                حرکات اصلاحی پایین صفحه <ArrowDownIcon size={16} />
               </button>
             )}
           </StepList>

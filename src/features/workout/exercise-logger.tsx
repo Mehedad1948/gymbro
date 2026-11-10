@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useId, useState } from "react";
+import { CheckIcon, GraphUpIcon, TransferHorizontalIcon } from "@solar-icons/react/linear";
 import type { PlanExercise } from "@/domain/plan";
 import { expandSets, formatReps, formatRest, type SetTarget } from "@/domain/plan";
 import { suggestNext } from "@/domain/progression/suggest";
@@ -83,7 +84,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
               )}
             </h3>
             {swapped ? (
-              <p className="text-xs text-accent">⇄ به‌جای {faName(planEx)}</p>
+              <p className="flex items-center gap-1 text-xs text-accent"><TransferHorizontalIcon size={14} aria-hidden /> به‌جای {faName(planEx)}</p>
             ) : (
               ex.nameFa && <p dir="ltr" className="text-end text-xs text-muted">{ex.name}</p>
             )}
@@ -103,9 +104,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
                   swapOpen || swapped ? "border-accent/50 bg-accent/10 text-accent" : "border-border text-muted hover:text-foreground",
                 )}
               >
-                <span aria-hidden className={cn("inline-block transition-transform duration-300", swapOpen && "rotate-180")}>
-                  ⇄
-                </span>
+                <TransferHorizontalIcon size={14} className={cn("transition-transform duration-300", swapOpen && "rotate-180")} />
                 جایگزین
               </button>
             )}
@@ -123,8 +122,8 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
         </p>
         {ex.cue && <p dir="auto" className="mt-1 text-xs text-muted">{faText(ex.cue, ex.cueFa)}</p>}
         {suggestion && suggestion.direction !== "none" && (
-          <p className={cn("mt-2 text-xs", suggestion.direction === "up" ? "text-accent" : "text-muted")}>
-            {suggestion.direction === "up" ? "▲ " : "• "}
+          <p className={cn("mt-2 flex items-start gap-1 text-xs", suggestion.direction === "up" ? "text-accent" : "text-muted")}>
+            {suggestion.direction === "up" ? <GraphUpIcon size={14} className="shrink-0" /> : <span aria-hidden>•</span>}
             {suggestion.reason}
           </p>
         )}
@@ -281,11 +280,11 @@ function SetRow({
         aria-label={done ? "لغو ست" : "ثبت ست"}
         onClick={toggle}
         className={cn(
-          "h-10 w-full rounded-lg border text-lg font-bold transition",
+          "grid h-10 w-full place-items-center rounded-lg border transition",
           done ? "border-accent bg-accent text-accent-foreground" : "border-border bg-surface-2 text-muted hover:border-accent",
         )}
       >
-        ✓
+        <CheckIcon size={20} strokeWidth={2.4} />
       </button>
     </>
   );

@@ -6,7 +6,7 @@
 - Small, boring stack; layers that let a future sync backend and multi-user mode be added without rewriting the UI.
 
 ## Stack
-Next.js 16 (App Router, Cache Components, Turbopack) · React 19 · Tailwind v4 · Dexie 4 (IndexedDB) · zod 4 · vitest. No UI kit, no global state library.
+Next.js 16 (App Router, Cache Components, Turbopack) · React 19 · Tailwind v4 · Dexie 4 (IndexedDB) · zod 4 · Solar icons (`@solar-icons/react`: `linear` by default, `bold-duotone` for active states) · vitest. No UI kit, no global state library.
 
 ## Layers and dependency rule
 ```

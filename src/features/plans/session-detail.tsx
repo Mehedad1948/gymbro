@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Empty, LinkButton, PageHeader, Spinner } from "@/shared/ui";
+import { Badge, CheckIcon, Empty, LinkButton, PageHeader, Spinner } from "@/shared/ui";
 import { formatDate } from "@/shared/lib/format";
 import { faName, faTerm, sessionKindFa } from "@/shared/i18n/fa";
 import { StartSessionButton } from "@/features/workout/start-session-button";
@@ -28,7 +28,7 @@ export function SessionDetail({ planId, sessionId }: { planId: string; sessionId
       <div className="mb-4 flex flex-wrap items-center gap-2 text-sm">
         {session.kind !== "training" && <Badge tone={session.kind === "corrective" ? "warn" : "neutral"}>{sessionKindFa[session.kind]}</Badge>}
         {status.active && <Badge tone="warn">در حال انجام</Badge>}
-        {status.done && <Badge tone="accent">✓ انجام شده در این دور</Badge>}
+        {status.done && <Badge tone="accent" className="gap-1"><CheckIcon className="size-3.5" /> انجام شده در این دور</Badge>}
         {status.next && !status.active && <Badge tone="accent">نوبت بعدی</Badge>}
         <span className="text-muted">
           {exerciseCount(session)} حرکت

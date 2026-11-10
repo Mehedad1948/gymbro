@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CopyCheckIcon, CopyIcon } from "@solar-icons/react/linear";
 import { Button } from "./index";
 
 /** Copies `text` to the clipboard and confirms for two seconds. */
@@ -21,7 +22,15 @@ export function CopyButton({ text, label = "کپی", className }: { text: string
         }
       }}
     >
-      {copied ? "کپی شد ✓" : label}
+      {copied ? (
+        <>
+          <CopyCheckIcon size={18} /> کپی شد
+        </>
+      ) : (
+        <>
+          <CopyIcon size={18} /> {label}
+        </>
+      )}
     </Button>
   );
 }
