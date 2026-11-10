@@ -26,22 +26,22 @@ const catalogTerms: Record<string, string> = {
   rope: "طناب",
   "stability ball": "توپ تعادل",
   dumbbell: "دمبل",
-  "ez barbell": "هالتر EZ",
-  kettlebell: "کتل‌بل",
+  "ez barbell": "هالتر خمیده",
+  kettlebell: "وزنه دسته‌دار",
   "olympic barbell": "هالتر المپیکی",
   weighted: "با وزنه",
-  "bosu ball": "توپ بوسو",
+  "bosu ball": "نیم‌توپ تعادل",
   "sled machine": "دستگاه سورتمه",
-  "smith machine": "دستگاه اسمیت",
+  "smith machine": "هالتر ریلی",
   "wheel roller": "چرخ شکم",
   "trap bar": "هالتر شش‌ضلعی",
   band: "کش",
   hammer: "پتک",
   "stationary bike": "دوچرخه ثابت",
-  "upper body ergometer": "ارگومتر دست",
-  "elliptical machine": "الپتیکال",
-  "skierg machine": "اسکی‌ارگ",
-  roller: "فوم رولر",
+  "upper body ergometer": "دوچرخه دستی",
+  "elliptical machine": "دستگاه بیضوی",
+  "skierg machine": "دستگاه اسکی",
+  roller: "غلتک فومی",
   "stepmill machine": "دستگاه پله",
   tire: "لاستیک",
   "resistance band": "کش مقاومتی",
@@ -71,7 +71,7 @@ const catalogTerms: Record<string, string> = {
   "side delts": "سرشانه جانبی",
   "front delts": "سرشانه قدامی",
   "rear delts": "سرشانه خلفی",
-  "rotator cuff": "روتاتور کاف",
+  "rotator cuff": "چرخاننده‌های شانه",
   "serratus anterior": "دندانه‌ای قدامی",
   forearms: "ساعد",
   wrists: "مچ دست",
@@ -96,6 +96,12 @@ const catalogTerms: Record<string, string> = {
   "cardiovascular system": "قلبی‌عروقی",
   "levator scapulae": "بالابرنده کتف",
   sternocleidomastoid: "جناغی‌چنبری‌پستانی",
+  "mid back": "میانهٔ پشت",
+  arms: "بازوها",
+  // posture focus (plan sessions)
+  "anterior pelvic tilt": "چرخش لگن به جلو",
+  "thoracic extension": "باز شدن ستون فقرات سینه‌ای",
+  "scapular control": "کنترل کتف",
 };
 
 /** Body part, equipment or muscle from the catalog, in Persian when known. */
@@ -108,6 +114,11 @@ export function faName(x: { name: string; nameFa?: string }): string {
   return x.nameFa ?? x.name;
 }
 
+/** Plan text with an optional Persian twin (`goal` / `goalFa`, `notes` / `notesFa`, …). */
+export function faText<T>(en: T, fa: T | undefined): T {
+  return fa ?? en;
+}
+
 export const sessionKindFa: Record<string, string> = {
   training: "تمرین",
   corrective: "اصلاحی",
@@ -117,9 +128,9 @@ export const sessionKindFa: Record<string, string> = {
 
 export const blockTypeFa: Record<string, string> = {
   straight: "ساده",
-  superset: "سوپرست",
+  superset: "دوتایی پشت‌سرهم",
   compound: "ست ترکیبی",
-  circuit: "سیرکویت",
+  circuit: "دوره‌ای",
 };
 
 export const planSourceFa: Record<string, string> = {

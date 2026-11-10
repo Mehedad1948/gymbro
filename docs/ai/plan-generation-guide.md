@@ -15,7 +15,7 @@ You are generating the next training block for one athlete. Your output is a sin
 - **`setMultiplier` / `loadMultiplier` are not applied by the app yet** (roadmap #2). Always restate the deload in the week's `instruction` text ("60 % of sets, RIR 3–4").
 - **Sessions**: `kind: "training"` gets a Start button and drives "Up next" (the training session done least recently). `kind: "corrective"` is shown collapsed at the bottom of every running workout. `kind: "menu"` is a pick-list with no Start button.
 - **Grouped blocks** (`superset`, `compound`, `circuit`) own the rest: put `rounds` and `restSec` on the block and omit `restSec` on their exercises. `straight` blocks hold exactly one exercise with its own `restSec`.
-- **UI language is Persian (RTL).** `nameFa` is displayed first and `name` (English, catalog-style) underneath. Free text (`cue`, `notes`, `guidelines`, `rationale`, `warmup`, `cooldown`, week `instruction`) may be English or Persian. Be consistent within one plan; current plans use English.
+- **UI language is Persian (RTL).** `nameFa` is displayed first and `name` (English, catalog-style) underneath. Free text (`cue`, `notes`, `guidelines`, `rationale`, `warmup`, `cooldown`, week `label`/`instruction`, `goal`, `split`) is written in English and given a Persian twin (`cueFa`, `notesFa`, …; see `docs/plan-schema.md`), which the UI shows. Write plain Persian, no transliterated English.
 
 ## 3. Process (in this order; reason briefly, then output only JSON)
 

@@ -64,7 +64,7 @@ export function ExerciseBrowser() {
           ))}
         </ul>
       )}
-      <p className="text-center text-[11px] text-muted">{catalog!.attribution}</p>
+      <p className="text-center text-xs text-muted">{catalog!.attribution}</p>
     </div>
   );
 }

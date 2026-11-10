@@ -6,9 +6,9 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { formatRest } from "@/domain/plan";
 import { db } from "@/infra/db/database";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
-import { Button, Card, Empty, Spinner, StepList } from "@/shared/ui";
+import { Accordion, Badge, Button, Card, Empty, Spinner, StepList } from "@/shared/ui";
 import { formatDuration, LOCALE } from "@/shared/lib/format";
-import { blockTypeFa, faName } from "@/shared/i18n/fa";
+import { blockTypeFa, faName, faText } from "@/shared/i18n/fa";
 import { ExerciseLogger } from "./exercise-logger";
 import { RestTimer } from "./rest-timer";
 import { usePlanSwapDefaults } from "./use-swaps";
@@ -32,10 +32,10 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
     <>
       <header className="mb-4 flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <button className="text-sm text-muted" onClick={() => router.push("/")}>
+          <button className="-ms-2 inline-flex min-h-11 items-center rounded-lg px-2 text-sm text-muted" onClick={() => router.push("/")}>
             → امروز
           </button>
-          <h1 className="truncate text-xl font-semibold">{faName(session)}</h1>
+          <h1 className="text-xl leading-snug font-semibold text-balance">{faName(session)}</h1>
           <p className="text-xs text-muted">
             {faName(plan.doc)} · شروع {new Date(workout.startedAt).toLocaleTimeString(LOCALE, { hour: "2-digit", minute: "2-digit" })}
             {workout.finishedAt && ` · ${formatDuration(workout.finishedAt - workout.startedAt)}`}
@@ -58,7 +58,12 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
         <div className="mb-3">
           <StepList title="گرم کردن" items={session.warmup}>
             {corrective && (
-              <button className="mt-2 text-accent" onClick={() => document.getElementById("corrective")?.scrollIntoView({ behavior: "smooth" })}>
+              <button className="mt-2 text-accent" onClick={() => {
+                  const el = document.getElementById("corrective") as HTMLDetailsElement | null;
+                  if (!el) return;
+                  el.open = true;
+                  el.scrollIntoView({ behavior: "smooth" });
+                }}>
                 حرکات اصلاحی پایین صفحه ↓
               </button>
             )}
@@ -70,11 +75,11 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
         {session.blocks.map((b, bi) => (
           <div key={bi} className={b.type !== "straight" ? "rounded-2xl border border-dashed border-accent/40 p-2" : undefined}>
             {b.type !== "straight" && (
-              <p className="mb-2 px-2 text-[11px] text-accent">
+              <p className="mb-2 px-2 text-xs text-accent">
                 {blockTypeFa[b.type]}
                 {b.rounds ? ` · ${b.rounds} دور` : ""}
                 {b.restSec ? ` · استراحت ${formatRest(b.restSec)} بعد از هر دور` : ""}
-                {b.note ? ` · ${b.note}` : ""}
+                {b.note ? ` · ${faText(b.note, b.noteFa)}` : ""}
               </p>
             )}
             <div className="space-y-2">
@@ -98,9 +103,14 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
       </div>
 
       {corrective && (
-        <details id="corrective" className="mt-6 rounded-2xl border border-border bg-surface p-4">
-          <summary className="cursor-pointer font-semibold">{faName(corrective)}</summary>
-          <div className="mt-3 space-y-2">
+        <Accordion
+          id="corrective"
+          className="mt-6"
+          title={faName(corrective)}
+          subtitle={`${corrective.blocks.reduce((n, b) => n + b.exercises.length, 0)} حرکت`}
+          leading={<Badge tone="warn">اصلاحی</Badge>}
+        >
+          <div className="space-y-2">
             {corrective.blocks.flatMap((b) =>
               b.exercises.map((e) => (
                 <ExerciseLogger
@@ -115,7 +125,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
               )),
             )}
           </div>
-        </details>
+        </Accordion>
       )}
 
       {session.cooldown && (

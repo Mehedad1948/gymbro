@@ -15,7 +15,7 @@ import { db } from "@/infra/db/database";
 import { setLogsRepo } from "@/infra/db/workouts-repo";
 import { Badge } from "@/shared/ui";
 import { cn, kg, titleCase } from "@/shared/lib/format";
-import { faName } from "@/shared/i18n/fa";
+import { faName, faText } from "@/shared/i18n/fa";
 import { ExerciseSwap } from "./exercise-swap";
 
 type Props = {
@@ -94,7 +94,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
                   setSwapOpen((o) => !o);
                 }}
                 className={cn(
-                  "inline-flex h-7 items-center gap-1 rounded-full border px-2.5 text-[11px] font-medium transition-colors duration-200",
+                  "inline-flex h-7 items-center gap-1 rounded-full border px-2.5 text-xs font-medium transition-colors duration-200",
                   swapOpen || swapped ? "border-accent/50 bg-accent/10 text-accent" : "border-border text-muted hover:text-foreground",
                 )}
               >
@@ -114,9 +114,9 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
           {ex.rir !== undefined && <> · <bdi>RIR {Array.isArray(ex.rir) ? ex.rir.join("–") : ex.rir}</bdi></>}
           {restSec ? ` · استراحت ${formatRest(restSec)}` : ""}
           {/* Tempo digits are ordered (eccentric-pause-concentric); keep them left-to-right in RTL. */}
-          {ex.tempo && <> · تمپو <bdi dir="ltr">{ex.tempo}</bdi></>}
+          {ex.tempo && <> · سرعت اجرا <bdi dir="ltr">{ex.tempo}</bdi></>}
         </p>
-        {ex.cue && <p dir="auto" className="mt-1 text-xs text-muted">{ex.cue}</p>}
+        {ex.cue && <p dir="auto" className="mt-1 text-xs text-muted">{faText(ex.cue, ex.cueFa)}</p>}
         {suggestion && suggestion.direction !== "none" && (
           <p className={cn("mt-2 text-xs", suggestion.direction === "up" ? "text-accent" : "text-muted")}>
             {suggestion.direction === "up" ? "▲ " : "• "}
@@ -240,7 +240,7 @@ function SetRow({
   return (
     <>
       <span className="font-mono text-sm text-foreground">{target.index + 1}</span>
-      <span dir="ltr" className="truncate text-end font-mono text-[11px]">
+      <span dir="ltr" className="truncate text-end font-mono text-xs">
         {prev ? `${kg(prev.weightKg)} × ${timeBased ? `${prev.seconds}s` : prev.reps}${prev.rir !== undefined ? ` @${prev.rir}` : ""}` : target.repRange ? `${target.repRange[0]}–${target.repRange[1]}` : "—"}
       </span>
       <input type="number" inputMode="decimal" step="0.5" className={cell} placeholder={placeholderW} value={w} disabled={done} onChange={(e) => setW(e.target.value)} />

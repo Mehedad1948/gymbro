@@ -109,7 +109,7 @@
             { "key": "cable-crunch", "name": "Cable kneeling rope crunch", "nameFa": "کرانچ سیمکش روی زانو با طناب", "exerciseId": "0175", "sets": 3, "reps": 15 },
             { "key": "reverse-crunch", "name": "Reverse crunch with pelvic curl", "nameFa": "کرانچ معکوس با چرخش لگن", "exerciseId": "0242", "sets": 3, "reps": 15 },
             { "key": "suitcase-carry", "name": "Suitcase carry", "nameFa": "حمل چمدان", "exerciseId": "2133", "sets": 3, "seconds": 40 },
-            { "key": "bosu-climber", "name": "Cross-body mountain climber (bosu)", "nameFa": "کوه‌پیمایی کراس بادی بوسوبال", "exerciseId": "2466", "sets": 3, "seconds": 30 },
+            { "key": "bosu-climber", "name": "Cross-body mountain climber (bosu)", "nameFa": "کوهنورد ضربدری روی نیم‌توپ تعادل", "exerciseId": "2466", "sets": 3, "seconds": 30 },
             { "key": "bird-dog", "name": "Bird dog", "nameFa": "سگ پرنده", "sets": 3, "reps": 10, "perSide": true },
             { "key": "bridge-march", "name": "Glute bridge march", "nameFa": "پل باسن حرکتی", "exerciseId": "3561", "sets": 3, "reps": 10, "perSide": true },
             { "key": "superman-swim", "name": "Swimmer superman", "nameFa": "فیله شناگری", "sets": 3, "reps": 15 }

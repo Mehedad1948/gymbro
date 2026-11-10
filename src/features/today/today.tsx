@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useLiveQuery } from "dexie-react-hooks";
-import { useActivePlan } from "@/features/plans/use-plans";
-import { SessionCard } from "@/features/plans/plan-detail";
-import { db } from "@/infra/db/database";
+import { useActivePlan, usePlanProgress } from "@/features/plans/use-plans";
+import { SessionTile, tileStatus } from "@/features/plans/session-view";
+import { StartSessionButton } from "@/features/workout/start-session-button";
 import { Badge, Card, Empty, LinkButton, Spinner } from "@/shared/ui";
 import { formatDate } from "@/shared/lib/format";
-import { faName } from "@/shared/i18n/fa";
+import { faName, faText } from "@/shared/i18n/fa";
 
 /**
  * Home: the active plan, the open workout if any, and the next session to do
@@ -15,26 +14,16 @@ import { faName } from "@/shared/i18n/fa";
  */
 export function Today() {
   const rec = useActivePlan();
-  const recent = useLiveQuery(
-    () => (rec ? db().workouts.where("planId").equals(rec.id).reverse().sortBy("startedAt") : []),
-    [rec?.id],
-  );
+  const progress = usePlanProgress(rec?.doc);
 
-  if (rec === undefined || recent === undefined) return <Spinner />;
+  if (rec === undefined || (rec && progress === undefined)) return <Spinner />;
   if (!rec)
     return <Empty title="برنامه فعالی نداری" hint="یک برنامه انتخاب کن یا وارد کن." action={<LinkButton href="/plans">برنامه‌ها</LinkButton>} />;
 
   const plan = rec.doc;
-  const open = recent.find((w) => w.status === "active");
-  const training = plan.sessions.filter((s) => s.kind === "training");
-  const doneIds = recent.filter((w) => w.status === "done").map((w) => w.sessionId);
-
-  // Next = first training session whose last completion is the oldest (or never).
-  const next = [...training].sort((a, b) => lastDone(a.id) - lastDone(b.id))[0];
-  function lastDone(id: string) {
-    const i = doneIds.indexOf(id);
-    return i === -1 ? -1 : recent!.filter((w) => w.status === "done")[i].startedAt;
-  }
+  const open = progress?.active;
+  const tiles = plan.sessions.filter((s) => s.kind === "training" || s.kind === "conditioning");
+  const next = tiles.find((s) => s.id === progress?.nextId);
 
   const week = weekOf(plan.meta.startDate);
   const weekInfo = week ? plan.weeks?.find((w) => w.week === week) : undefined;
@@ -43,22 +32,22 @@ export function Today() {
     <div className="space-y-4">
       <Card className="bg-gradient-to-br from-surface to-surface-2">
         <div className="flex items-center justify-between gap-2">
-          <Link href={`/plans/${plan.id}`} className="min-w-0">
-            <p className="text-[11px] text-muted">برنامه فعال</p>
-            <h2 className="truncate font-semibold">{faName(plan)}</h2>
+          <Link href={`/plans/${plan.id}`} className="-m-1 min-w-0 rounded-lg p-1">
+            <p className="text-xs text-muted">برنامه فعال</p>
+            <h2 className="leading-snug font-semibold">{faName(plan)}</h2>
           </Link>
           {week && <Badge tone="accent">هفته {week}{plan.meta.durationWeeks ? ` از ${plan.meta.durationWeeks}` : ""}</Badge>}
         </div>
         {weekInfo && (
-          <p className="mt-2 text-sm text-muted">
-            <span className="font-medium text-foreground">{weekInfo.label ?? `هفته ${weekInfo.week}`}:</span> <span dir="auto">{weekInfo.instruction}</span>
+          <p className="mt-3 border-t border-border pt-3 text-sm leading-relaxed text-muted">
+            <span className="font-medium text-foreground">{weekInfo.label ? faText(weekInfo.label, weekInfo.labelFa) : `هفته ${weekInfo.week}`}:</span> <span dir="auto">{faText(weekInfo.instruction, weekInfo.instructionFa)}</span>
           </p>
         )}
       </Card>
 
       {open && (
         <Card className="border-accent/50">
-          <p className="text-[11px] text-accent">در حال انجام</p>
+          <p className="text-xs text-accent">در حال انجام</p>
           <div className="mt-1 flex items-center justify-between gap-3">
             <div>
               <p className="font-semibold">{open.sessionName}</p>
@@ -71,22 +60,32 @@ export function Today() {
         </Card>
       )}
 
-      {next && (
-        <section>
-          <h3 className="mb-2 text-sm font-medium text-muted">جلسه بعدی</h3>
-          <SessionCard plan={plan} session={next} />
+      {next && !open && (
+        <section aria-labelledby="next-h">
+          <h2 id="next-h" className="mb-2 text-sm font-medium text-muted">جلسه بعدی</h2>
+          <SessionTile plan={plan} session={next} index={tiles.indexOf(next) + 1} status={tileStatus(next, progress)} />
+          <StartSessionButton planId={plan.id} session={next} size="lg" className="mt-3 w-full">
+            شروع جلسه
+          </StartSessionButton>
         </section>
       )}
 
-      <section>
-        <h3 className="mb-2 text-sm font-medium text-muted">همه جلسه‌ها</h3>
-        <div className="space-y-2">
-          {plan.sessions
-            .filter((s) => s.id !== next?.id)
-            .map((s) => (
-              <SessionCard key={s.id} plan={plan} session={s} compact />
-            ))}
+      <section aria-labelledby="all-h">
+        <div className="mb-2 flex items-baseline justify-between">
+          <h2 id="all-h" className="text-sm font-medium text-muted">همه جلسه‌ها</h2>
+          <Link href={`/plans/${plan.id}`} className="rounded text-sm text-accent">
+            جزئیات برنامه
+          </Link>
         </div>
+        <ul className="space-y-2">
+          {tiles
+            .filter((s) => open || s.id !== next?.id)
+            .map((s) => (
+              <li key={s.id}>
+                <SessionTile plan={plan} session={s} index={tiles.indexOf(s) + 1} status={tileStatus(s, progress)} />
+              </li>
+            ))}
+        </ul>
       </section>
     </div>
   );

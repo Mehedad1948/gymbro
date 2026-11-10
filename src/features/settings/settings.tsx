@@ -131,7 +131,7 @@ export function Settings() {
       </Card>
 
       {msg && <p className="text-center text-sm text-muted">{msg}</p>}
-      <p className="text-center text-[11px] text-muted">
+      <p className="text-center text-xs text-muted">
         داده حرکات: hasaneyldrm/exercises-dataset (MIT) · media © Gym visual
       </p>
     </div>

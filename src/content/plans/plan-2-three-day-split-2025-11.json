@@ -69,7 +69,7 @@
       "name": "Session 2 · Legs",
       "nameFa": "جلسه ۲",
       "blocks": [
-        { "exercises": [{ "key": "bw-squat", "name": "Bodyweight squat", "nameFa": "اسکوات BW", "exerciseId": "0043", "sets": 4, "reps": 20, "restSec": 60, "progression": { "type": "reps" } }] },
+        { "exercises": [{ "key": "bw-squat", "name": "Bodyweight squat", "nameFa": "اسکوات با وزن بدن", "exerciseId": "0043", "sets": 4, "reps": 20, "restSec": 60, "progression": { "type": "reps" } }] },
         { "exercises": [{ "key": "single-leg-extension", "name": "Single-leg extension", "nameFa": "جلو پا ماشین تک", "exerciseId": "0585", "sets": 4, "reps": 12, "perSide": true, "restSec": 60 }] },
         { "exercises": [{ "key": "stiff-leg-dl", "name": "Standing barbell stiff-leg deadlift", "nameFa": "پشت ران هالتر ایستاده", "exerciseId": "0085", "sets": 3, "reps": 10, "restSec": 60 }] },
         { "exercises": [{ "key": "lying-leg-curl", "name": "Lying leg curl", "nameFa": "پشت پا ماشین خوابیده", "exerciseId": "0586", "sets": 3, "reps": 10, "restSec": 60 }] },
@@ -90,7 +90,7 @@
           "restSec": 60,
           "exercises": [
             { "key": "lat-pulldown", "name": "Lat pulldown", "nameFa": "لت سیمکش از جلو", "exerciseId": "2330", "sets": 3, "reps": 10 },
-            { "key": "reverse-grip-pulldown", "name": "Reverse-grip pulldown", "nameFa": "لت ریورس گریپ", "exerciseId": "0673", "sets": 3, "reps": 10 }
+            { "key": "reverse-grip-pulldown", "name": "Reverse-grip pulldown", "nameFa": "زیربغل سیم‌کش دست برعکس", "exerciseId": "0673", "sets": 3, "reps": 10 }
           ]
         },
         { "exercises": [{ "key": "high-row", "name": "Lever high row (H machine)", "nameFa": "اچ دستگاه", "exerciseId": "0581", "sets": 3, "reps": 15, "restSec": 60 }] },

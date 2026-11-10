@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { Session } from "@/domain/plan";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
 import { Button } from "@/shared/ui";
@@ -11,18 +11,23 @@ export function StartSessionButton({
   planId,
   session,
   size = "md",
+  variant,
   className,
+  children = "شروع",
 }: {
   planId: string;
   session: Session;
   size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary";
   className?: string;
+  children?: ReactNode;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   return (
     <Button
       size={size}
+      variant={variant}
       className={className}
       disabled={busy}
       onClick={async () => {
@@ -38,7 +43,7 @@ export function StartSessionButton({
         router.push(`/workout/${w.id}`);
       }}
     >
-      شروع
+      {children}
     </Button>
   );
 }

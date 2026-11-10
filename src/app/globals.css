@@ -81,6 +81,12 @@ body {
   overscroll-behavior-y: none;
 }
 
+/* One visible keyboard focus style for everything interactive. */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* Numeric inputs: remove spinners, keep them thumb-friendly */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {

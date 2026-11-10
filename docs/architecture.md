@@ -33,6 +33,7 @@ Why `exerciseKey` and not plan-local keys: when the next plan reuses "barbell be
 - **Bootstrap** (`features/bootstrap`): on load, seed bundled plans (idempotent; refreshes untouched copies when the JSON hash changes), set default active plan, apply theme.
 - **Start session** → `workoutsRepo.start` → `/workout/[id]`. One active workout per plan; starting another asks to abandon.
 - **Log a set** → `setLogsRepo.upsertSet` (idempotent on workout+exercise+setIndex). The row shows previous performance (`lastPerformance`) and the suggestion from `domain/progression/suggestNext` (double progression).
+- **Plan → session**: `/plans/[planId]` lists training sessions as tiles (`features/plans/session-view.tsx`); corrective and menu sessions, weeks, guidelines and rationale are `<Accordion>`s. A tile opens `/plans/[planId]/sessions/[sessionId]` with the full prescription and a sticky start button. Check marks, the green "last finished" border and "next" come from `domain/workout/cycle.ts` (`cycleProgress`: a cycle is one pass through all training sessions; tested), shared by Plan detail and Today via `usePlanProgress`.
 - **Rest timer** appears after a completed set using exercise `restSec` or block `restSec`.
 - **Guide**: catalog JSON (856 KB, English only) fetched once and cached by the SW; GIF/JPG loaded from the dataset host on demand and cached (LRU 400).
 

@@ -64,7 +64,7 @@ export function ExercisePreviewSheet({ exercise: ex, title, open, selected, onCl
               <GifPlayer key={ex.id} src={gifUrl(ex)} alt={`انیمیشن ${ex.name}`} controls className="mx-auto aspect-square w-full max-w-sm" />
             )}
           </div>
-          <p className="mt-1.5 text-center text-[11px] text-muted">{MEDIA_ATTRIBUTION}</p>
+          <p className="mt-1.5 text-center text-xs text-muted">{MEDIA_ATTRIBUTION}</p>
 
           {ex.secondaryMuscles.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1.5">

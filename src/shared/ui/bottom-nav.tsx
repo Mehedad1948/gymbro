@@ -29,7 +29,7 @@ export function BottomNav() {
               <Link
                 href={t.href}
                 className={cn(
-                  "flex flex-col items-center gap-0.5 py-2 text-[11px] font-medium",
+                  "flex flex-col items-center gap-0.5 py-2 text-xs font-medium",
                   active ? "text-accent" : "text-muted hover:text-foreground",
                 )}
                 aria-current={active ? "page" : undefined}

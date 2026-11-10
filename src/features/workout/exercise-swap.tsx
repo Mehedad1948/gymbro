@@ -60,7 +60,7 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
     >
       <div className="min-h-0 overflow-hidden">
         <div className="rounded-2xl border border-border bg-surface-2/60 p-2">
-          <p className="px-1 pb-2 text-[11px] text-muted">همان ست و تکرار، با حرکت دیگر. ست‌های ثبت‌شده همین جلسه هم منتقل می‌شوند.</p>
+          <p className="px-1 pb-2 text-xs text-muted">همان ست و تکرار، با حرکت دیگر. ست‌های ثبت‌شده همین جلسه هم منتقل می‌شوند.</p>
           <ul className="space-y-1.5">
             {options.map((o, i) => {
               const selected = o.id === chosenId;
@@ -116,7 +116,7 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
                         <span className="block truncate text-sm font-medium capitalize">
                           <bdi>{o.title}</bdi>
                         </span>
-                        <span className="mt-0.5 flex items-center gap-1.5 truncate text-[11px] text-muted">
+                        <span className="mt-0.5 flex items-center gap-1.5 truncate text-xs text-muted">
                           {o.id === originalId && (
                             <span className="rounded-full border border-border px-1.5 leading-4">برنامه</span>
                           )}
@@ -158,7 +158,7 @@ export function ExerciseSwap({ id, open, everOpened, options, originalId, chosen
             >
               <span className="text-xs">
                 {chosenIsOriginal ? "حرکت اصلی برنامه در جلسه‌های بعد" : "همین حرکت در همه جلسه‌های این برنامه"}
-                <span className="block text-[11px] text-muted">
+                <span className="block text-xs text-muted">
                   {chosenIsOriginal ? "جایگزین پیش‌فرض برداشته می‌شود" : "برای وقتی که باشگاه این دستگاه را ندارد"}
                 </span>
               </span>

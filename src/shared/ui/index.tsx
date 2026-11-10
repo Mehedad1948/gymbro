@@ -44,7 +44,7 @@ export function Badge({ className, tone = "neutral", ...props }: ComponentProps<
   };
   return (
     <span
-      className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium uppercase", tones[tone], className)}
+      className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium", tones[tone], className)}
       {...props}
     />
   );
@@ -83,19 +83,33 @@ export function Select({ className, ...props }: ComponentProps<"select">) {
   );
 }
 
-export function PageHeader({ title, subtitle, action, back }: { title: ReactNode; subtitle?: ReactNode; action?: ReactNode; back?: string }) {
+export function PageHeader({
+  title,
+  subtitle,
+  action,
+  back,
+  backLabel = "بازگشت",
+}: {
+  title: ReactNode;
+  subtitle?: ReactNode;
+  action?: ReactNode;
+  back?: string;
+  backLabel?: string;
+}) {
   return (
-    <header className="mb-5 flex items-start justify-between gap-3">
-      <div className="min-w-0">
-        {back && (
-          <Link href={back} className="mb-1 inline-flex items-center gap-1 text-sm text-muted hover:text-foreground">
-            <span aria-hidden>→</span> بازگشت
-          </Link>
-        )}
-        <h1 className="truncate text-2xl font-semibold tracking-tight">{title}</h1>
-        {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
+    <header className="mb-5">
+      {back && (
+        <Link href={back} className="-ms-2 mb-1 inline-flex min-h-11 items-center gap-1 rounded-lg px-2 text-sm text-muted hover:text-foreground">
+          <span aria-hidden>→</span> {backLabel}
+        </Link>
+      )}
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="text-2xl leading-tight font-semibold tracking-tight text-balance">{title}</h1>
+          {subtitle && <p className="mt-1 text-sm text-muted">{subtitle}</p>}
+        </div>
+        {action}
       </div>
-      {action}
     </header>
   );
 }
@@ -119,12 +133,70 @@ export function Spinner({ label = "در حال بارگذاری…" }: { label?:
   );
 }
 
+/**
+ * Native <details> disclosure: keyboard and screen-reader support for free,
+ * works before hydration. `defaultOpen` only sets the initial state.
+ */
+export function Accordion({
+  title,
+  subtitle,
+  leading,
+  defaultOpen,
+  className,
+  children,
+  id,
+}: {
+  title: ReactNode;
+  subtitle?: ReactNode;
+  leading?: ReactNode;
+  defaultOpen?: boolean;
+  className?: string;
+  children: ReactNode;
+  id?: string;
+}) {
+  return (
+    <details id={id} open={defaultOpen} className={cn("group rounded-2xl border border-border bg-surface", className)}>
+      <summary className="flex min-h-14 cursor-pointer list-none items-center gap-3 rounded-2xl p-4 select-none [&::-webkit-details-marker]:hidden">
+        {leading}
+        <span className="min-w-0 flex-1">
+          <span className="block leading-snug font-semibold">{title}</span>
+          {subtitle && <span className="mt-0.5 block text-sm text-muted">{subtitle}</span>}
+        </span>
+        <Chevron className="shrink-0 text-muted transition-transform duration-200 group-open:rotate-180" />
+      </summary>
+      <div className="border-t border-border p-4">{children}</div>
+    </details>
+  );
+}
+
+export function Chevron({ className, dir = "down" }: { className?: string; dir?: "down" | "back" }) {
+  // "back" points left: the inline end in this RTL app, i.e. the "go into" arrow.
+  return (
+    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden className={cn(dir === "back" && "rotate-90", className)}>
+      <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden className={className}>
+      <path d="M4.5 10.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Small "label: value" pill for prescriptions (sets × reps, RIR, rest). */
+export function Chip({ className, ...props }: ComponentProps<"span">) {
+  return <span className={cn("inline-flex items-center rounded-lg bg-surface-2 px-2 py-0.5 text-xs text-foreground/90", className)} {...props} />;
+}
+
 /** Warmup / cooldown steps, one per line so long mixed-direction text stays readable. */
 export function StepList({ title, items, children }: { title: string; items: string[]; children?: ReactNode }) {
   return (
-    <div className="rounded-xl bg-surface-2 p-3 text-xs">
+    <div className="rounded-xl bg-surface-2 p-3 text-sm">
       <p className="mb-2 font-medium text-foreground">{title}</p>
-      <ol className="space-y-1.5 text-muted">
+      <ol className="space-y-2 text-muted">
         {items.map((t, i) => (
           <li key={i} className="flex items-baseline gap-2 leading-relaxed">
             <span className="shrink-0 tabular-nums text-muted/70">{(i + 1).toLocaleString("fa-IR")}.</span>

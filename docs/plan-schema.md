@@ -71,6 +71,11 @@ For `straight`, put exactly one exercise per block. `rounds`/`restSec` on the bl
 ```
 Defaults: no `progression` ⇒ double progression with 2.5 kg. Rep range convention: an ascending 2-item array is a range, anything else is a ladder.
 
+## Persian text (optional `…Fa` twins)
+Every free-text field may carry a Persian twin that the UI shows instead of the English original (English stays the source and the fallback):
+`meta.splitFa`, `meta.goalFa`, `meta.rationaleFa`, `guidelinesFa`, week `labelFa` / `instructionFa`, session `warmupFa` / `cooldownFa` / `notesFa`, block `noteFa`, exercise `cueFa`.
+Arrays should match the English array item for item. Use plain Persian, not transliterated English (e.g. "دوره‌ای", not "سیرکویت"); common gym names (پرس، اسکوات، ددلیفت) are fine.
+
 ## Validation rules enforced
 - Unique session ids; unique exercise keys per session; `weeklyTemplate` ids must exist (or be `"rest"`).
 - Catalog ids must match `^\d{4}$`; the test suite additionally checks they exist in `public/data/exercises.json` for bundled plans.

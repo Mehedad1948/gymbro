@@ -82,6 +82,7 @@ export const PlanExerciseSchema = z
     /** Starting load hint in kg. The app shows the last logged load anyway. */
     startLoadKg: z.number().nonnegative().optional(),
     cue: z.string().optional(),
+    cueFa: z.string().optional(),
   })
   .refine((e) => e.reps !== undefined || e.seconds !== undefined, {
     message: "an exercise needs reps or seconds",
@@ -100,6 +101,7 @@ export const BlockSchema = z.object({
   rounds: z.number().int().min(1).max(10).optional(),
   restSec: z.number().int().min(0).max(600).optional(),
   note: z.string().optional(),
+  noteFa: z.string().optional(),
   exercises: z.array(PlanExerciseSchema).min(1),
 });
 
@@ -119,16 +121,21 @@ export const SessionSchema = z.object({
   focus: z.array(z.string()).optional(),
   durationMin: z.number().int().positive().optional(),
   warmup: z.array(z.string()).optional(),
+  warmupFa: z.array(z.string()).optional(),
   blocks: z.array(BlockSchema).min(1),
   cooldown: z.array(z.string()).optional(),
+  cooldownFa: z.array(z.string()).optional(),
   notes: z.array(z.string()).optional(),
+  notesFa: z.array(z.string()).optional(),
 });
 
 export const WeekOverrideSchema = z.object({
   week: z.number().int().min(1),
   label: z.string().optional(),
+  labelFa: z.string().optional(),
   /** e.g. "RIR 2" or "deload: half the sets, -10 % load" */
   instruction: z.string(),
+  instructionFa: z.string().optional(),
   rir: RirSchema.optional(),
   setMultiplier: z.number().positive().max(1.5).optional(),
   loadMultiplier: z.number().positive().max(1.5).optional(),
@@ -142,9 +149,12 @@ export const PlanMetaSchema = z.object({
   durationWeeks: z.number().int().min(1).max(52).optional(),
   daysPerWeek: z.number().int().min(1).max(7).optional(),
   split: z.string().optional(),
+  splitFa: z.string().optional(),
   goal: z.string().optional(),
+  goalFa: z.string().optional(),
   /** Why this plan looks the way it does (analysis summary, constraints). */
   rationale: z.array(z.string()).optional(),
+  rationaleFa: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
   /** Where the original came from (PDF name, chat link, …). */
   provenance: z.string().optional(),
@@ -159,6 +169,7 @@ export const PlanSchema = z
     meta: PlanMetaSchema,
     /** General rules shown before every session (warm-up, RIR, etc.). */
     guidelines: z.array(z.string()).optional(),
+    guidelinesFa: z.array(z.string()).optional(),
     /** Suggested weekly order of session ids, "rest" allowed. */
     weeklyTemplate: z.array(z.string()).optional(),
     weeks: z.array(WeekOverrideSchema).optional(),
