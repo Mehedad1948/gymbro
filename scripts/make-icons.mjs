@@ -3,6 +3,7 @@
  * Rasterises public/logo.svg into the PWA icons and the favicon:
  *   public/icons/icon-192.png, icon-512.png   logo on the app background
  *   public/icons/icon-maskable-512.png        logo shrunk into the maskable safe zone
+ *   public/icons/apple-touch-icon.png         180 px for iOS home screens
  *   src/app/favicon.ico                       16/32/48 px, PNG-in-ICO
  *
  * Uses sharp, which Next.js already installs for image optimisation; nothing
@@ -60,9 +61,14 @@ function ico(images) {
 }
 
 mkdirSync("public/icons", { recursive: true });
-for (const s of [192, 512]) writeFileSync(`public/icons/icon-${s}.png`, await render(s, 0.92, BG));
-// Maskable icons may be cropped to a circle of 80% diameter; keep the badge inside it.
-writeFileSync("public/icons/icon-maskable-512.png", await render(512, 0.76, BG));
+// "any" icons: some launchers still put these in a circle or squircle, so leave a margin.
+for (const s of [192, 512]) writeFileSync(`public/icons/icon-${s}.png`, await render(s, 0.84, BG));
+// Maskable: the spec promises an 80% safe circle, but Android adaptive-icon launchers
+// show only ~66% of the canvas (72dp of 108dp) and may mask tighter. 0.62 keeps the
+// whole badge, ring included, visible under every mask shape.
+writeFileSync("public/icons/icon-maskable-512.png", await render(512, 0.62, BG));
+// iOS rounds the corners itself and never uses the manifest icons.
+writeFileSync("public/icons/apple-touch-icon.png", await render(180, 0.84, BG));
 
 // Favicon: the badge's own dark disc carries it, so the corners stay transparent.
 const disc = Buffer.from(

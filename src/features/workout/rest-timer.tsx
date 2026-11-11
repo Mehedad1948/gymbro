@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { StopwatchIcon } from "@solar-icons/react/linear";
 import { chime, unlockAudio } from "@/shared/lib/beep";
 import { cn } from "@/shared/lib/format";
-import { clearRestNotification, requestRestNotifications, showRestDone, showRestRunning } from "@/infra/pwa/rest-notification";
+import { clearRestNotification, onRestAction, requestRestNotifications, showRestDone, showRestRunning } from "@/infra/pwa/rest-notification";
 
 const DEFAULT_SEC = 90;
 
@@ -30,21 +30,21 @@ export function RestTimerFab({ armedSec }: { armedSec?: number }) {
     if (!run) return;
     fired.current = false;
     const remaining = () => Math.max(0, Math.ceil((run.endAt - Date.now()) / 1000));
-    // Notification text can't tick by itself: refresh it quietly while the app is hidden.
+    // Notification text can't tick by itself: re-post it each second while the app is hidden.
     let notifiedAt = Date.now();
-    void showRestRunning(remaining(), run.endAt);
+    void showRestRunning(remaining(), run.total, run.endAt);
     const onHide = () => {
       if (!document.hidden || fired.current) return;
       notifiedAt = Date.now();
-      void showRestRunning(remaining(), run.endAt);
+      void showRestRunning(remaining(), run.total, run.endAt);
     };
     document.addEventListener("visibilitychange", onHide);
     const tick = () => {
       const l = remaining();
       setLeft(l);
-      if (l > 0 && document.hidden && Date.now() - notifiedAt >= 5000) {
+      if (l > 0 && document.hidden && Date.now() - notifiedAt >= 1000) {
         notifiedAt = Date.now();
-        void showRestRunning(l, run.endAt);
+        void showRestRunning(l, run.total, run.endAt);
       }
       if (l === 0 && !fired.current) {
         fired.current = true;
@@ -68,6 +68,20 @@ export function RestTimerFab({ armedSec }: { armedSec?: number }) {
       document.removeEventListener("visibilitychange", onHide);
     };
   }, [run]);
+
+  // "+30 s" / "stop" tapped on the notification itself.
+  useEffect(
+    () =>
+      onRestAction((action) => {
+        if (action === "add30") setRun((r) => r && { endAt: r.endAt + 30_000, total: r.total + 30 });
+        else {
+          setRun(null);
+          setMenu(false);
+          void clearRestNotification();
+        }
+      }),
+    [],
+  );
 
   // Leaving the workout drops the timer, so drop its notification too.
   useEffect(() => () => void clearRestNotification(), []);

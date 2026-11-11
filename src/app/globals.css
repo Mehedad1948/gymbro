@@ -85,14 +85,6 @@
   }
 }
 
-/* Sign for horizontal travel so the nav indicator moves the right way in RTL and LTR. */
-:root {
-  --nav-dir: 1;
-}
-[dir="rtl"] {
-  --nav-dir: -1;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
   .animate-nav-stretch,

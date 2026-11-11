@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   appleWebApp: { capable: true, statusBarStyle: "black-translucent", title: SITE_NAME },
   formatDetection: { telephone: false },
-  icons: { apple: "/icons/icon-192.png" },
+  icons: { apple: "/icons/apple-touch-icon.png" },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

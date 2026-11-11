@@ -8,7 +8,7 @@
  *
  * Bump VERSION to drop old caches after a breaking change.
  */
-const VERSION = "v4";
+const VERSION = "v5";
 const SHELL = `gymbro-shell-${VERSION}`;
 const STATIC = `gymbro-static-${VERSION}`;
 const DATA = `gymbro-data-${VERSION}`;
@@ -105,11 +105,18 @@ async function trim(cache, limit) {
   for (const key of keys.slice(0, keys.length - limit)) await cache.delete(key);
 }
 
-// Tapping the rest-timer notification brings the workout back to the front.
+// Rest-timer notification: action buttons are relayed to the open workout page;
+// tapping the body brings the app back to the front.
 self.addEventListener("notificationclick", (event) => {
-  event.notification.close();
+  const { action } = event;
+  if (action !== "add30" && action !== "stop") event.notification.close();
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      if (action === "add30" || action === "stop") {
+        for (const c of list) c.postMessage({ type: "gymbro-rest-action", action });
+        if (action === "stop") event.notification.close();
+        return;
+      }
       const win = list.find((c) => "focus" in c);
       return win ? win.focus() : self.clients.openWindow("/");
     }),

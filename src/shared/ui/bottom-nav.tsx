@@ -52,13 +52,13 @@ export function BottomNav() {
         <li
           aria-hidden
           className={cn(
-            "pointer-events-none absolute inset-y-0 start-0 w-1/5 transition-[translate,opacity] duration-500 motion-reduce:transition-none",
+            "pointer-events-none absolute inset-y-0 w-1/5 transition-[inset-inline-start,opacity] duration-500 motion-reduce:transition-none",
             EASE,
             activeIndex < 0 && "opacity-0",
           )}
-          style={{ translate: `calc(${Math.max(activeIndex, 0)} * 100% * var(--nav-dir))` }}
+          // A logical offset follows RTL/LTR by itself; calc() with a var() sign broke on some mobile Chromium builds.
+          style={{ insetInlineStart: `${Math.max(activeIndex, 0) * 20}%` }}
         >
-          <span className="absolute top-0 left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-b-full bg-accent shadow-[0_0_12px_2px_var(--accent)]" />
           <span
             key={activeIndex}
             className="animate-nav-stretch absolute top-2 left-1/2 h-8 w-14 -translate-x-1/2 rounded-full bg-accent/15 ring-1 ring-accent/20 ring-inset"
