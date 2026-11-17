@@ -1,26 +1,29 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { ArrowDownIcon, ArrowRightIcon } from "@solar-icons/react/linear";
-import { formatRest } from "@/domain/plan";
+import { formatRest, type Block } from "@/domain/plan";
+import { resolveSwap } from "@/domain/workout/swap";
+import { exerciseKeyOf } from "@/domain/workout/types";
+import { restAfterSet } from "@/domain/workout/rest";
 import { db } from "@/infra/db/database";
 import { workoutsRepo } from "@/infra/db/workouts-repo";
 import { Accordion, Badge, Button, Card, Empty, Spinner, StepList } from "@/shared/ui";
 import { formatDuration, LOCALE } from "@/shared/lib/format";
 import { blockTypeFa, faName, faText } from "@/shared/i18n/fa";
 import { ExerciseLogger } from "./exercise-logger";
-import { RestTimerFab } from "./rest-timer";
+import { RestTimerFab, type RestTimerHandle } from "./rest-timer";
 import { usePlanSwapDefaults } from "./use-swaps";
 
 export function WorkoutRunner({ workoutId }: { workoutId: string }) {
   const router = useRouter();
   const workout = useLiveQuery(() => db().workouts.get(workoutId), [workoutId]);
   const plan = useLiveQuery(() => (workout ? db().plans.get(workout.planId) : undefined), [workout?.planId]);
-  // Rest of the last ticked set; the floating timer starts it on tap.
-  const [restSec, setRestSec] = useState<number>();
+  const restTimer = useRef<RestTimerHandle>(null);
   const swapDefaults = usePlanSwapDefaults(workout?.planId);
+  const logs = useLiveQuery(() => db().setLogs.where("workoutId").equals(workoutId).toArray(), [workoutId]);
 
   if (workout === undefined || plan === undefined) return <Spinner />;
   if (!workout || !plan) return <Empty title="تمرین پیدا نشد" />;
@@ -32,6 +35,19 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
   // The quick-logging hint sits on the first weighted exercise only.
   const firstBlock = session.blocks.findIndex((b) => b.exercises.some((e) => !e.seconds));
   const firstLogged = { block: firstBlock, key: session.blocks[firstBlock]?.exercises.find((e) => !e.seconds)?.key };
+
+  // Straight sets rest after each tick; supersets and circuits after the round's last exercise.
+  function onSetDone(block: Block, exKey: string, setIndex: number) {
+    if (readOnly) return;
+    const performedKey = (key: string) => {
+      const e = block.exercises.find((x) => x.key === key)!;
+      return exerciseKeyOf({ key, exerciseId: resolveSwap(e, workout!.swaps?.[key] ?? swapDefaults[key]) });
+    };
+    const due = restAfterSet(block, exKey, setIndex, (key, i) =>
+      Boolean(logs?.some((l) => l.done && l.setIndex === i && l.exerciseKey === performedKey(key))),
+    );
+    if (due && due.sec !== 0) restTimer.current?.start(due.sec);
+  }
 
   return (
     <>
@@ -96,7 +112,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
                   sessionId={session.id}
                   ex={e}
                   defaultRestSec={b.restSec}
-                  onSetDone={(sec) => !readOnly && sec && setRestSec(sec)}
+                  onSetDone={(i) => onSetDone(b, e.key, i)}
                   chosenId={workout.swaps?.[e.key] ?? swapDefaults[e.key]}
                   defaultId={swapDefaults[e.key]}
                   canSwap={!readOnly}
@@ -163,7 +179,7 @@ export function WorkoutRunner({ workoutId }: { workoutId: string }) {
         </div>
       )}
 
-      {!readOnly && <RestTimerFab armedSec={restSec} />}
+      {!readOnly && <RestTimerFab ref={restTimer} />}
     </>
   );
 }

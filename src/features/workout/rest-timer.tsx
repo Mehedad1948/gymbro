@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
 import { StopwatchIcon } from "@solar-icons/react/linear";
-import { chime, unlockAudio } from "@/shared/lib/beep";
+import { scheduleAlarm, unlockAudio } from "@/shared/lib/beep";
 import { cn } from "@/shared/lib/format";
 import { clearRestNotification, onRestAction, requestRestNotifications, showRestDone, showRestRunning } from "@/infra/pwa/rest-notification";
 
@@ -13,13 +13,17 @@ function clock(sec: number): string {
 }
 
 /**
- * Floating rest timer, bottom right. Ticking a set arms it with that
- * exercise's rest; a tap starts the countdown; at zero it chimes and vibrates.
+ * Floating rest timer, bottom right. The runner calls `start(sec)` through the
+ * ref when a ticked set closes a round; a tap starts it by hand.
+ * At zero it chimes and vibrates.
  * Time is computed from an end timestamp, so it stays right if the tab sleeps.
  * While running it is mirrored as a system notification (see rest-notification).
  */
-export function RestTimerFab({ armedSec }: { armedSec?: number }) {
-  const total = armedSec ?? DEFAULT_SEC;
+export type RestTimerHandle = { start: (sec?: number) => void };
+
+export function RestTimerFab({ ref }: { ref?: Ref<RestTimerHandle> }) {
+  // Last rest asked for; shown while idle and reused by a manual tap.
+  const [total, setTotal] = useState(DEFAULT_SEC);
   const [run, setRun] = useState<{ endAt: number; total: number } | null>(null);
   const [left, setLeft] = useState(total);
   const [finished, setFinished] = useState(false);
@@ -30,29 +34,25 @@ export function RestTimerFab({ armedSec }: { armedSec?: number }) {
     if (!run) return;
     fired.current = false;
     const remaining = () => Math.max(0, Math.ceil((run.endAt - Date.now()) / 1000));
-    // Notification text can't tick by itself: re-post it each second while the app is hidden.
-    let notifiedAt = Date.now();
-    void showRestRunning(remaining(), run.total, run.endAt);
-    const onHide = () => {
-      if (!document.hidden || fired.current) return;
-      notifiedAt = Date.now();
-      void showRestRunning(remaining(), run.total, run.endAt);
-    };
-    document.addEventListener("visibilitychange", onHide);
+    // Booked on the audio clock now, so it rings on time even if JS timers are throttled.
+    const alarm = scheduleAlarm((run.endAt - Date.now()) / 1000);
+    // Notification text can't tick by itself: re-post it whenever the shown second changes,
+    // visible or not (the shade can be pulled down over the open app).
+    let notified = -1;
     const tick = () => {
       const l = remaining();
       setLeft(l);
-      if (l > 0 && document.hidden && Date.now() - notifiedAt >= 1000) {
-        notifiedAt = Date.now();
+      if (l > 0 && l !== notified) {
+        notified = l;
         void showRestRunning(l, run.total, run.endAt);
       }
       if (l === 0 && !fired.current) {
         fired.current = true;
         if (document.hidden) void showRestDone();
         else void clearRestNotification();
-        chime();
+        alarm.ensurePlayed();
         try {
-          navigator.vibrate?.([200, 100, 200]);
+          navigator.vibrate?.([400, 150, 400, 150, 700]);
         } catch {
           /* unsupported */
         }
@@ -63,9 +63,13 @@ export function RestTimerFab({ armedSec }: { armedSec?: number }) {
     };
     tick();
     const id = setInterval(tick, 250);
+    // Waking from a throttled background, catch up at once instead of on the next slot.
+    document.addEventListener("visibilitychange", tick);
     return () => {
       clearInterval(id);
-      document.removeEventListener("visibilitychange", onHide);
+      document.removeEventListener("visibilitychange", tick);
+      // Stop / +30 s / leaving cancel the booked alarm; a finished one rings out.
+      if (!fired.current) alarm.cancel();
     };
   }, [run]);
 
@@ -93,12 +97,16 @@ export function RestTimerFab({ armedSec }: { armedSec?: number }) {
     return () => clearTimeout(id);
   }, [finished]);
 
-  function start() {
+  function start(sec = total) {
     unlockAudio();
     requestRestNotifications();
+    setTotal(sec);
     setFinished(false);
-    setRun({ endAt: Date.now() + total * 1000, total });
+    setMenu(false);
+    setRun({ endAt: Date.now() + sec * 1000, total: sec });
   }
+
+  useImperativeHandle(ref, () => ({ start: (sec) => start(sec ?? DEFAULT_SEC) }));
 
   const running = run !== null;
   const shown = running ? left : total;

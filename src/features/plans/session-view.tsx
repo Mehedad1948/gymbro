@@ -7,6 +7,7 @@ import { Accordion, Badge, CheckIcon, Chevron, Chip, StepList } from "@/shared/u
 import { cn, formatDate } from "@/shared/lib/format";
 import { blockTypeFa, faName, faText, faTerm, sessionKindFa } from "@/shared/i18n/fa";
 import { StartSessionButton } from "@/features/workout/start-session-button";
+import { TempoHint, WebSearchLink } from "@/features/exercises/exercise-meta";
 import type { PlanProgress } from "./use-plans";
 
 export const sessionHref = (planId: string, sessionId: string) => `/plans/${planId}/sessions/${sessionId}`;
@@ -163,14 +164,17 @@ function ExerciseItem({ ex, n }: { ex: PlanExercise; n: number }) {
         {n}
       </span>
       <div className="min-w-0 flex-1">
-        {ex.exerciseId ? (
-          <Link href={`/exercises/${ex.exerciseId}`} className="-mx-1 block rounded-lg px-1 hover:bg-surface-2">
-            {name}
-            <span className="sr-only"> (راهنمای حرکت)</span>
-          </Link>
-        ) : (
-          name
-        )}
+        <div className="flex items-start gap-1">
+          {ex.exerciseId ? (
+            <Link href={`/exercises/${ex.exerciseId}`} className="-mx-1 block min-w-0 flex-1 rounded-lg px-1 hover:bg-surface-2">
+              {name}
+              <span className="sr-only"> (راهنمای حرکت)</span>
+            </Link>
+          ) : (
+            <div className="min-w-0 flex-1">{name}</div>
+          )}
+          <WebSearchLink name={ex.name} />
+        </div>
         <div className="mt-2 flex flex-wrap gap-1.5">
           <Chip>{formatReps(ex)}</Chip>
           {ex.rir !== undefined && (
@@ -180,9 +184,11 @@ function ExerciseItem({ ex, n }: { ex: PlanExercise; n: number }) {
           )}
           {ex.restSec !== undefined && <Chip>استراحت {formatRest(ex.restSec)}</Chip>}
           {ex.tempo && (
-            <Chip>
-              سرعت اجرا <bdi className="ms-1">{ex.tempo}</bdi>
-            </Chip>
+            <TempoHint
+              tempo={ex.tempo}
+              className="inline-flex items-center rounded-lg bg-surface-2 px-2 py-0.5 text-xs text-foreground/90"
+              explainClassName="basis-full"
+            />
           )}
         </div>
         {ex.cue && (

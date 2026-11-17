@@ -15,8 +15,10 @@ import { swapsRepo } from "@/infra/db/swaps-repo";
 import { db } from "@/infra/db/database";
 import { setLogsRepo } from "@/infra/db/workouts-repo";
 import { Badge } from "@/shared/ui";
+import { unlockAudio } from "@/shared/lib/beep";
 import { cn, kg, titleCase } from "@/shared/lib/format";
 import { faName, faText } from "@/shared/i18n/fa";
+import { TempoHint, WebSearchLink } from "@/features/exercises/exercise-meta";
 import { ExerciseSwap } from "./exercise-swap";
 
 type Props = {
@@ -25,7 +27,8 @@ type Props = {
   sessionId: string;
   ex: PlanExercise;
   defaultRestSec?: number;
-  onSetDone: (restSec: number | undefined) => void;
+  /** A set was ticked done; the runner decides whether rest is due. */
+  onSetDone: (setIndex: number) => void;
   /** Alternative chosen for this workout, else the plan default (catalog id). */
   chosenId?: string;
   /** Plan-wide default alternative for this exercise. */
@@ -90,6 +93,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
             )}
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
+            <WebSearchLink name={ex.name} />
             {canSwap && options.length > 1 && (
               <button
                 type="button"
@@ -117,8 +121,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
           {formatReps(ex)}
           {ex.rir !== undefined && <> · <bdi>RIR {Array.isArray(ex.rir) ? ex.rir.join("–") : ex.rir}</bdi></>}
           {restSec ? ` · استراحت ${formatRest(restSec)}` : ""}
-          {/* Tempo digits are ordered (eccentric-pause-concentric); keep them left-to-right in RTL. */}
-          {ex.tempo && <> · سرعت اجرا <bdi dir="ltr">{ex.tempo}</bdi></>}
+          {ex.tempo && <> · <TempoHint tempo={ex.tempo} explainClassName="mt-1" /></>}
         </p>
         {ex.cue && <p dir="auto" className="mt-1 text-xs text-muted">{faText(ex.cue, ex.cueFa)}</p>}
         {suggestion && suggestion.direction !== "none" && (
@@ -163,7 +166,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
         </p>
       )}
 
-      <div className="grid grid-cols-[2rem_1fr_4.5rem_4.5rem_3.5rem_2.75rem] items-center gap-x-2 gap-y-1 text-xs text-muted">
+      <div className="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,4.5rem)_minmax(0,4.5rem)_minmax(0,3.5rem)_2.75rem] items-center gap-x-1.5 gap-y-1 text-xs text-muted">
         <span>ست</span>
         <span>قبلی</span>
         <span className="text-center">کیلو</span>
@@ -189,7 +192,7 @@ export function ExerciseLogger({ workoutId, planId, sessionId, ex: planEx, defau
                 setIndex: t.index,
                 ...patch,
               });
-              if (patch.done) onSetDone(restSec);
+              if (patch.done) onSetDone(t.index);
             }}
           />
         ))}
@@ -241,6 +244,8 @@ function SetRow({
       setRir(rir);
       return onSave({ done: false, weightKg: num(w), reps: timeBased ? undefined : num(r), seconds: timeBased ? num(r) : undefined, rir: num(rir) });
     }
+    // The tap is the user gesture the rest chime needs; the save below is async.
+    unlockAudio();
     const weightKg = num(w) ?? seedWeight ?? prev?.weightKg;
     const repsOrSec = num(r) ?? (timeBased ? target.seconds : targetReps);
     await onSave({
@@ -252,7 +257,7 @@ function SetRow({
     });
   }
 
-  const cell = "h-10 w-full rounded-lg border border-border bg-surface-2 text-center font-mono text-sm text-foreground focus:border-accent focus:outline-none disabled:opacity-60";
+  const cell = "h-10 w-full min-w-0 rounded-lg border border-border bg-surface-2 text-center font-mono text-sm text-foreground focus:border-accent focus:outline-none disabled:opacity-60";
 
   return (
     <>
