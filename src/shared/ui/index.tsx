@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { AltArrowDownIcon, AltArrowLeftIcon, ArrowRightIcon, CheckIcon as SolarCheckIcon } from "@solar-icons/react/linear";
 import { cn } from "@/shared/lib/format";
+import { BackButton } from "./back-button";
 
 /* Small primitives; icons come from Solar. Styling lives in globals.css tokens. */
 
@@ -84,26 +85,36 @@ export function Select({ className, ...props }: ComponentProps<"select">) {
   );
 }
 
+const backClass = "-ms-2 mb-1 inline-flex min-h-11 items-center gap-1 rounded-lg px-2 text-sm text-muted hover:text-foreground";
+
 export function PageHeader({
   title,
   subtitle,
   action,
   back,
   backLabel = "بازگشت",
+  historyBack,
 }: {
   title: ReactNode;
   subtitle?: ReactNode;
   action?: ReactNode;
   back?: string;
   backLabel?: string;
+  /** Back returns to the previous page; `back` is only the fallback when there is none. */
+  historyBack?: boolean;
 }) {
   return (
     <header className="mb-5">
-      {back && (
-        <Link href={back} className="-ms-2 mb-1 inline-flex min-h-11 items-center gap-1 rounded-lg px-2 text-sm text-muted hover:text-foreground">
-          <ArrowRightIcon size={18} /> {backLabel}
-        </Link>
-      )}
+      {back &&
+        (historyBack ? (
+          <BackButton fallback={back} className={backClass}>
+            <ArrowRightIcon size={18} /> {backLabel}
+          </BackButton>
+        ) : (
+          <Link href={back} className={backClass}>
+            <ArrowRightIcon size={18} /> {backLabel}
+          </Link>
+        ))}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h1 className="text-2xl leading-tight font-semibold tracking-tight text-balance">{title}</h1>

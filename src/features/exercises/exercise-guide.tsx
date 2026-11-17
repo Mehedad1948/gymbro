@@ -35,7 +35,7 @@ export function ExerciseGuide({ exerciseId }: { exerciseId: string }) {
 
   return (
     <>
-      <PageHeader back="/exercises" title={<span dir="ltr" className="capitalize">{ex.name}</span>} subtitle={`${faTerm(ex.target)} · ${faTerm(ex.bodyPart)} · ${faTerm(ex.equipment)}`} />
+      <PageHeader back="/exercises" historyBack title={<span dir="ltr" className="capitalize">{ex.name}</span>} subtitle={`${faTerm(ex.target)} · ${faTerm(ex.bodyPart)} · ${faTerm(ex.equipment)}`} />
       <Card className="overflow-hidden p-0">
         <div className="bg-white">
           <GifPlayer key={ex.id} src={gifUrl(ex)} alt={`انیمیشن ${ex.name}`} controls className="mx-auto aspect-square w-full max-w-sm" />
